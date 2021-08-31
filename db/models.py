@@ -27,3 +27,4 @@ class Ecoindex(Base):
     ges = Column(type_=Float)
     water = Column(type_=Float)
     page_type = Column(type_=String)
+    version = Column(type_=Integer)

@@ -10,7 +10,9 @@ from sqlalchemy.sql.expression import and_
 from db.models import Ecoindex
 
 
-def save_ecoindex_result_db(db: Session, ecoindex_result: Result) -> ApiResult:
+def save_ecoindex_result_db(
+    db: Session, ecoindex_result: Result, version: int
+) -> ApiResult:
     db_ecoindex = Ecoindex(
         date=ecoindex_result.date,
         url=ecoindex_result.url,
@@ -25,6 +27,7 @@ def save_ecoindex_result_db(db: Session, ecoindex_result: Result) -> ApiResult:
         ges=ecoindex_result.ges,
         water=ecoindex_result.water,
         page_type=ecoindex_result.page_type,
+        version=version,
     )
     db.add(db_ecoindex)
     db.commit()
@@ -34,9 +37,24 @@ def save_ecoindex_result_db(db: Session, ecoindex_result: Result) -> ApiResult:
 
 
 def get_ecoindex_result_list_db(
-    db: Session, host: Optional[str] = None
+    db: Session,
+    version: int,
+    host: Optional[str] = None,
+    date_from: Optional[date] = None,
+    date_to: Optional[date] = None,
 ) -> List[ApiResult]:
-    return db.query(Ecoindex).order_by(asc("date")).all()
+    db_query = db.query(Ecoindex).filter(Ecoindex.version == version)
+
+    if host:
+        db_query = db_query.filter(Ecoindex.host == host)
+
+    if date_from:
+        db_query = db_query.filter(Ecoindex.date >= date_from)
+
+    if date_to:
+        db_query = db_query.filter(Ecoindex.date <= date_to)
+
+    return db_query.order_by(asc("date")).all()
 
 
 def get_count_daily_request_per_host(db: Session, host: str) -> int:

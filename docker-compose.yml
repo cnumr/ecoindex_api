@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  api:
+    build: .
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8001:8000"
+    environment:
+      DAILY_LIMIT_PER_HOST: 10 # If set to 0 => no LIMIT
+      DATABASE_URL: postgresql://postgres:postgres@db/postgres
+      REMOTE_CHROME_URL: http://browser:3000/webdriver
+    depends_on:
+      - db
+      - browser
+  browser:
+    image: browserless/chrome
+    environment:
+      DEBUG: "-*"
+
+volumes:
+  db:
