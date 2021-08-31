@@ -1,13 +1,6 @@
-from ecoindex import get_page_analysis
-from ecoindex.models import WebPage, WindowSize
-from fastapi import FastAPI, Response, status
-from fastapi.exceptions import HTTPException
-from fastapi.params import Body, Depends
-from fastapi_pagination import Page, add_pagination, paginate
-from selenium.common.exceptions import TimeoutException, WebDriverException
-from sqlalchemy.orm.session import Session
+from datetime import date
+from typing import Optional
 
-from api.models import ApiResult
 from db.crud import (
     get_count_daily_request_per_host,
     get_ecoindex_result_list_db,
@@ -15,7 +8,17 @@ from db.crud import (
 )
 from db.database import SessionLocal, engine
 from db.models import Base
+from ecoindex import get_page_analysis
+from ecoindex.models import WebPage, WindowSize
+from fastapi import FastAPI, Response, status
+from fastapi.exceptions import HTTPException
+from fastapi.params import Body, Depends, Query
+from fastapi_pagination import Page, add_pagination, paginate
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from settings import DAILY_LIMIT_PER_HOST
+from sqlalchemy.orm.session import Session
+
+from api.models import ApiResult
 
 Base.metadata.create_all(bind=engine)
 
@@ -83,29 +86,37 @@ def add_ecoindex_analysis(
             window_size=WindowSize(height=web_page.height, width=web_page.width),
         )
 
-    # TODO: WebDriver exception -> Erreur 400...
     except (TimeoutException, WebDriverException) as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.msg
         )
-    db_result = save_ecoindex_result_db(db=db, ecoindex_result=web_page_result)
+    db_result = save_ecoindex_result_db(
+        db=db, ecoindex_result=web_page_result, version=1
+    )
 
     return db_result
 
 
-# TODO: Filtres: Date ? Limit ? Offset ? Host ?
-# TODO: Top 10 du jour ? pour un host donné ?
 @app.get(
     "/v1/ecoindexes",
     response_model=Page[ApiResult],
     response_description="List of corresponding ecoindex results",
     tags=["ecoindex"],
-    description="This performs ecoindex analysis of a list of given webpages with a defined resolution",
+    description="This returns a list of ecoindex analysis corresponding to query filters. The results are ordered by ascending date",
 )
 def get_ecoindex_analysis_list(
     db: Session = Depends(get_db),
+    date_from: Optional[date] = Query(
+        None, description="Start date of the filter elements", example="2020-01-01"
+    ),
+    date_to: Optional[date] = Query(
+        None, description="End date of the filter elements", example="2020-01-01"
+    ),
+    host: Optional[str] = Query(None, description="Host name you want to filter"),
 ) -> Page[ApiResult]:
-    ecoindexes = get_ecoindex_result_list_db(db=db)
+    ecoindexes = get_ecoindex_result_list_db(
+        db=db, date_from=date_from, date_to=date_to, host=host, version=1
+    )
     return paginate(ecoindexes)
 
 
