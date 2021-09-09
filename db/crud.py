@@ -1,19 +1,20 @@
 from datetime import date
 from typing import List, Optional
+from uuid import uuid4
 
-from api.models import ApiResult
+from api.models import ApiEcoindex
 from ecoindex.models import Result
-from sqlalchemy import asc, func
-from sqlalchemy.orm import Session
-from sqlalchemy.sql.expression import and_
-
-from db.models import Ecoindex
+from sqlalchemy import func
+from sqlalchemy.sql.expression import asc
+from sqlmodel import Session, select
 
 
 def save_ecoindex_result_db(
-    db: Session, ecoindex_result: Result, version: int
-) -> ApiResult:
-    db_ecoindex = Ecoindex(
+    session: Session, ecoindex_result: Result, version: int
+) -> ApiEcoindex:
+
+    db_ecoindex = ApiEcoindex(
+        id=str(uuid4()),
         date=ecoindex_result.date,
         url=ecoindex_result.url,
         host=ecoindex_result.url.host,
@@ -29,37 +30,35 @@ def save_ecoindex_result_db(
         page_type=ecoindex_result.page_type,
         version=version,
     )
-    db.add(db_ecoindex)
-    db.commit()
-    db.refresh(db_ecoindex)
+    session.add(db_ecoindex)
+    session.commit()
 
     return db_ecoindex
 
 
 def get_ecoindex_result_list_db(
-    db: Session,
+    session: Session,
     version: int,
     host: Optional[str] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
-) -> List[ApiResult]:
-    db_query = db.query(Ecoindex).filter(Ecoindex.version == version)
+) -> List[ApiEcoindex]:
+    statement = select(ApiEcoindex).where(ApiEcoindex.version == version)
 
     if host:
-        db_query = db_query.filter(Ecoindex.host == host)
+        statement = statement.where(ApiEcoindex.host == host)
 
     if date_from:
-        db_query = db_query.filter(Ecoindex.date >= date_from)
+        statement = statement.where(ApiEcoindex.date >= date_from)
 
     if date_to:
-        db_query = db_query.filter(Ecoindex.date <= date_to)
+        statement = statement.where(ApiEcoindex.date <= date_to)
 
-    return db_query.order_by(asc("date")).all()
+    return session.exec(statement.order_by(asc("date"))).all()
 
 
-def get_count_daily_request_per_host(db: Session, host: str) -> int:
-    return (
-        db.query(Ecoindex)
-        .filter(and_(func.date(Ecoindex.date) == date.today(), Ecoindex.host == host))
-        .count()
+def get_count_daily_request_per_host(session: Session, host: str) -> int:
+    statement = select(ApiEcoindex).where(
+        func.date(ApiEcoindex.date) == date.today(), ApiEcoindex.host == host
     )
+    return len(session.exec(statement).all())

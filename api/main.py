@@ -6,8 +6,7 @@ from db.crud import (
     get_ecoindex_result_list_db,
     save_ecoindex_result_db,
 )
-from db.database import SessionLocal, engine
-from db.models import Base
+from db.database import create_db_and_tables, get_session
 from ecoindex import get_page_analysis
 from ecoindex.models import WebPage, WindowSize
 from fastapi import FastAPI, Response, status
@@ -16,20 +15,9 @@ from fastapi.params import Body, Depends, Query
 from fastapi_pagination import Page, add_pagination, paginate
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from settings import DAILY_LIMIT_PER_HOST
-from sqlalchemy.orm.session import Session
+from sqlmodel import Session
 
-from api.models import ApiResult
-
-Base.metadata.create_all(bind=engine)
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
+from api.models import ApiEcoindex
 
 app = FastAPI(
     title="Ecoindex API",
@@ -38,9 +26,14 @@ app = FastAPI(
 )
 
 
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
+
+
 @app.post(
     "/v1/ecoindexes",
-    response_model=ApiResult,
+    response_model=ApiEcoindex,
     response_description="Corresponding ecoindex result",
     responses={
         429: {
@@ -60,16 +53,16 @@ app = FastAPI(
 )
 def add_ecoindex_analysis(
     response: Response,
+    session: Session = Depends(get_session),
     web_page: WebPage = Body(
         ...,
         title="Web page to analyze defined by its url and its screen resolution",
         example=WebPage(url="http://www.ecoindex.fr", width=1920, height=1080),
     ),
-    db: Session = Depends(get_db),
-) -> ApiResult:
+) -> ApiEcoindex:
     if DAILY_LIMIT_PER_HOST:
         count_daily_request_per_host = get_count_daily_request_per_host(
-            db=db, host=web_page.url.host
+            session=session, host=web_page.url.host
         )
         response.headers["X-Remaining-Daily-Requests"] = str(
             DAILY_LIMIT_PER_HOST - count_daily_request_per_host - 1
@@ -91,7 +84,7 @@ def add_ecoindex_analysis(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.msg
         )
     db_result = save_ecoindex_result_db(
-        db=db, ecoindex_result=web_page_result, version=1
+        session=session, ecoindex_result=web_page_result, version=1
     )
 
     return db_result
@@ -99,23 +92,23 @@ def add_ecoindex_analysis(
 
 @app.get(
     "/v1/ecoindexes",
-    response_model=Page[ApiResult],
+    response_model=Page[ApiEcoindex],
     response_description="List of corresponding ecoindex results",
     tags=["ecoindex"],
     description="This returns a list of ecoindex analysis corresponding to query filters. The results are ordered by ascending date",
 )
 def get_ecoindex_analysis_list(
-    db: Session = Depends(get_db),
+    session: Session = Depends(get_session),
     date_from: Optional[date] = Query(
-        None, description="Start date of the filter elements", example="2020-01-01"
+        None, description="Start date of the filter elements (example: 2020-01-01)"
     ),
     date_to: Optional[date] = Query(
-        None, description="End date of the filter elements", example="2020-01-01"
+        None, description="End date of the filter elements  (example: 2020-01-01)"
     ),
     host: Optional[str] = Query(None, description="Host name you want to filter"),
-) -> Page[ApiResult]:
+) -> Page[ApiEcoindex]:
     ecoindexes = get_ecoindex_result_list_db(
-        db=db, date_from=date_from, date_to=date_to, host=host, version=1
+        session=session, date_from=date_from, date_to=date_to, host=host, version=1
     )
     return paginate(ecoindexes)
 

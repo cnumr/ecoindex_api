@@ -1,12 +1,14 @@
 from typing import Optional
+from uuid import UUID
 
 from ecoindex.models import Result
-from pydantic.fields import Field
-from pydantic.types import UUID4
+from sqlmodel import Field
 
 
-class ApiResult(Result):
-    id: Optional[UUID4] = Field(default=None, description="Analysis ID")
+class ApiEcoindex(Result, table=True):
+    id: Optional[UUID] = Field(
+        default=None, description="Analysis ID of type `UUID`", primary_key=True
+    )
     host: str = Field(
         default=..., title="Web page host", description="Host name of the web page"
     )
@@ -15,6 +17,3 @@ class ApiResult(Result):
         title="API version",
         description="Version number of the API used to run the test",
     )
-
-    class Config:
-        orm_mode = True
