@@ -15,8 +15,8 @@ app.include_router(ecoindex.router)
 
 
 @app.on_event("startup")
-def on_startup():
-    create_db_and_tables()
+async def on_startup():
+    await create_db_and_tables()
 
 
 app.add_api_route("/health", health([is_database_online]))
