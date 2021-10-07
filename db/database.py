@@ -4,8 +4,7 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlmodel import SQLModel, create_engine
 
-connect_args = {"check_same_thread": False}
-engine = create_async_engine(DATABASE_URL, future=True, connect_args=connect_args)
+engine = create_async_engine(DATABASE_URL, future=True)
 
 
 async def get_session() -> AsyncSession:
