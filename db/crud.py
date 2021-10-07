@@ -6,13 +6,15 @@ from api.models import ApiEcoindex
 from ecoindex.models import Result
 from sqlalchemy import func
 from sqlalchemy.sql.expression import asc
-from sqlmodel import Session, select
+from sqlmodel import select
+from sqlmodel.ext.asyncio.session import AsyncSession
+
+from db.database import engine
 
 
-def save_ecoindex_result_db(
-    session: Session, ecoindex_result: Result, version: int
+async def save_ecoindex_result_db(
+    session: AsyncSession, ecoindex_result: Result, version: int
 ) -> ApiEcoindex:
-
     db_ecoindex = ApiEcoindex(
         id=str(uuid4()),
         date=ecoindex_result.date,
@@ -31,13 +33,14 @@ def save_ecoindex_result_db(
         version=version,
     )
     session.add(db_ecoindex)
-    session.commit()
+    await session.commit()
+    await session.refresh(db_ecoindex)
 
     return db_ecoindex
 
 
-def get_ecoindex_result_list_db(
-    session: Session,
+async def get_ecoindex_result_list_db(
+    session: AsyncSession,
     version: int,
     host: Optional[str] = None,
     date_from: Optional[date] = None,
@@ -54,11 +57,14 @@ def get_ecoindex_result_list_db(
     if date_to:
         statement = statement.where(ApiEcoindex.date <= date_to)
 
-    return session.exec(statement.order_by(asc("date"))).all()
+    ecoindexes = await session.execute(statement.order_by(asc("date")))
+
+    return ecoindexes.scalars().all()
 
 
-def get_count_daily_request_per_host(session: Session, host: str) -> int:
+async def get_count_daily_request_per_host(session: AsyncSession, host: str) -> int:
     statement = select(ApiEcoindex).where(
         func.date(ApiEcoindex.date) == date.today(), ApiEcoindex.host == host
     )
-    return len(session.exec(statement).all())
+    results = await session.execute(statement)
+    return len(results.all())

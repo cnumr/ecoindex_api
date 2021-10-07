@@ -14,7 +14,7 @@ from fastapi.params import Body, Depends, Query
 from fastapi_pagination import Page, paginate
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from settings import DAILY_LIMIT_PER_HOST
-from sqlmodel import Session
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from ecoindex import get_page_analysis
 from ecoindex.models import WebPage, WindowSize
@@ -42,9 +42,9 @@ router = APIRouter()
     description="This performs ecoindex analysis of a given webpage with a defined resolution",
     status_code=status.HTTP_201_CREATED,
 )
-def add_ecoindex_analysis(
+async def add_ecoindex_analysis(
     response: Response,
-    session: Session = Depends(get_session),
+    session: AsyncSession = Depends(get_session),
     web_page: WebPage = Body(
         ...,
         title="Web page to analyze defined by its url and its screen resolution",
@@ -52,7 +52,7 @@ def add_ecoindex_analysis(
     ),
 ) -> ApiEcoindex:
     if DAILY_LIMIT_PER_HOST:
-        count_daily_request_per_host = get_count_daily_request_per_host(
+        count_daily_request_per_host = await get_count_daily_request_per_host(
             session=session, host=web_page.url.host
         )
         response.headers["X-Remaining-Daily-Requests"] = str(
@@ -65,7 +65,7 @@ def add_ecoindex_analysis(
             detail=f"You have already reached the daily limit of {DAILY_LIMIT_PER_HOST} requests for host {web_page.url.host} today",
         )
     try:
-        web_page_result = get_page_analysis(
+        web_page_result = await get_page_analysis(
             url=web_page.url,
             window_size=WindowSize(height=web_page.height, width=web_page.width),
         )
@@ -74,7 +74,7 @@ def add_ecoindex_analysis(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.msg
         )
-    db_result = save_ecoindex_result_db(
+    db_result = await save_ecoindex_result_db(
         session=session, ecoindex_result=web_page_result, version=1
     )
 
@@ -88,8 +88,8 @@ def add_ecoindex_analysis(
     tags=["ecoindex"],
     description="This returns a list of ecoindex analysis corresponding to query filters. The results are ordered by ascending date",
 )
-def get_ecoindex_analysis_list(
-    session: Session = Depends(get_session),
+async def get_ecoindex_analysis_list(
+    session: AsyncSession = Depends(get_session),
     date_from: Optional[date] = Query(
         None, description="Start date of the filter elements (example: 2020-01-01)"
     ),
@@ -98,7 +98,8 @@ def get_ecoindex_analysis_list(
     ),
     host: Optional[str] = Query(None, description="Host name you want to filter"),
 ) -> Page[ApiEcoindex]:
-    ecoindexes = get_ecoindex_result_list_db(
+    ecoindexes = await get_ecoindex_result_list_db(
         session=session, date_from=date_from, date_to=date_to, host=host, version=1
     )
+
     return paginate(ecoindexes)

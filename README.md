@@ -29,7 +29,7 @@ With this docker setup you get 3 services running that are enough to make it all
 docker-compose build && docker-compose up -d
 ```
 
-Then you v=can go to http://localhost:8001/docs to access to the swagger
+Then you can go to http://localhost:8001/docs to access to the swagger
 
 ### Daily limit per day
 
