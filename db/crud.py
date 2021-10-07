@@ -59,7 +59,7 @@ async def get_ecoindex_result_list_db(
 
     ecoindexes = await session.execute(statement.order_by(asc("date")))
 
-    return ecoindexes.all()
+    return ecoindexes.scalars().all()
 
 
 async def get_count_daily_request_per_host(session: AsyncSession, host: str) -> int:

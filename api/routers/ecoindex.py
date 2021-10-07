@@ -101,4 +101,5 @@ async def get_ecoindex_analysis_list(
     ecoindexes = await get_ecoindex_result_list_db(
         session=session, date_from=date_from, date_to=date_to, host=host, version=1
     )
+
     return paginate(ecoindexes)

@@ -2,7 +2,6 @@ from fastapi.param_functions import Depends
 from settings import DATABASE_URL
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio.session import AsyncSession
-from sqlalchemy.orm.session import sessionmaker
 from sqlmodel import SQLModel, create_engine
 
 connect_args = {"check_same_thread": False}
@@ -10,8 +9,7 @@ engine = create_async_engine(DATABASE_URL, future=True, connect_args=connect_arg
 
 
 async def get_session() -> AsyncSession:
-    async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
-    async with async_session() as session:
+    async with AsyncSession(engine) as session:
         yield session
 
 
