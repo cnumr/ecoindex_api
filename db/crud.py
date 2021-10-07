@@ -6,13 +6,15 @@ from api.models import ApiEcoindex
 from ecoindex.models import Result
 from sqlalchemy import func
 from sqlalchemy.sql.expression import asc
-from sqlmodel import Session, select
+from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from db.database import engine
 
 
-async def save_ecoindex_result_db(ecoindex_result: Result, version: int) -> ApiEcoindex:
+async def save_ecoindex_result_db(
+    session: AsyncSession, ecoindex_result: Result, version: int
+) -> ApiEcoindex:
     db_ecoindex = ApiEcoindex(
         id=str(uuid4()),
         date=ecoindex_result.date,
@@ -30,40 +32,39 @@ async def save_ecoindex_result_db(ecoindex_result: Result, version: int) -> ApiE
         page_type=ecoindex_result.page_type,
         version=version,
     )
-    with AsyncSession(engine) as session:
-        session.add(db_ecoindex)
-        session.commit()
+    session.add(db_ecoindex)
+    await session.commit()
+    await session.refresh(db_ecoindex)
 
     return db_ecoindex
 
 
 async def get_ecoindex_result_list_db(
+    session: AsyncSession,
     version: int,
     host: Optional[str] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
 ) -> List[ApiEcoindex]:
-    async with AsyncSession(engine) as session:
-        statement = select(ApiEcoindex).where(ApiEcoindex.version == version)
+    statement = select(ApiEcoindex).where(ApiEcoindex.version == version)
 
-        if host:
-            statement = statement.where(ApiEcoindex.host == host)
+    if host:
+        statement = statement.where(ApiEcoindex.host == host)
 
-        if date_from:
-            statement = statement.where(ApiEcoindex.date >= date_from)
+    if date_from:
+        statement = statement.where(ApiEcoindex.date >= date_from)
 
-        if date_to:
-            statement = statement.where(ApiEcoindex.date <= date_to)
+    if date_to:
+        statement = statement.where(ApiEcoindex.date <= date_to)
 
-        ecoindexes = await session.exec(statement.order_by(asc("date")))
+    ecoindexes = await session.execute(statement.order_by(asc("date")))
 
-        return ecoindexes.all()
+    return ecoindexes.all()
 
 
-async def get_count_daily_request_per_host(host: str) -> int:
+async def get_count_daily_request_per_host(session: AsyncSession, host: str) -> int:
     statement = select(ApiEcoindex).where(
         func.date(ApiEcoindex.date) == date.today(), ApiEcoindex.host == host
     )
-    with AsyncSession(engine) as session:
-        results = await session.exec(statement)
-        return len(results.all())
+    results = await session.execute(statement)
+    return len(results.all())

@@ -14,7 +14,7 @@ from fastapi.params import Body, Depends, Query
 from fastapi_pagination import Page, paginate
 from selenium.common.exceptions import TimeoutException, WebDriverException
 from settings import DAILY_LIMIT_PER_HOST
-from sqlmodel import Session
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from ecoindex import get_page_analysis
 from ecoindex.models import WebPage, WindowSize
@@ -44,7 +44,7 @@ router = APIRouter()
 )
 async def add_ecoindex_analysis(
     response: Response,
-    session: Session = Depends(get_session),
+    session: AsyncSession = Depends(get_session),
     web_page: WebPage = Body(
         ...,
         title="Web page to analyze defined by its url and its screen resolution",
@@ -53,7 +53,7 @@ async def add_ecoindex_analysis(
 ) -> ApiEcoindex:
     if DAILY_LIMIT_PER_HOST:
         count_daily_request_per_host = await get_count_daily_request_per_host(
-            host=web_page.url.host
+            session=session, host=web_page.url.host
         )
         response.headers["X-Remaining-Daily-Requests"] = str(
             DAILY_LIMIT_PER_HOST - count_daily_request_per_host - 1
@@ -89,6 +89,7 @@ async def add_ecoindex_analysis(
     description="This returns a list of ecoindex analysis corresponding to query filters. The results are ordered by ascending date",
 )
 async def get_ecoindex_analysis_list(
+    session: AsyncSession = Depends(get_session),
     date_from: Optional[date] = Query(
         None, description="Start date of the filter elements (example: 2020-01-01)"
     ),
@@ -98,6 +99,6 @@ async def get_ecoindex_analysis_list(
     host: Optional[str] = Query(None, description="Host name you want to filter"),
 ) -> Page[ApiEcoindex]:
     ecoindexes = await get_ecoindex_result_list_db(
-        date_from=date_from, date_to=date_to, host=host, version=1
+        session=session, date_from=date_from, date_to=date_to, host=host, version=1
     )
     return paginate(ecoindexes)
