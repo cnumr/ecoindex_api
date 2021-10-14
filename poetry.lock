@@ -106,14 +106,14 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "ecoindex"
-version = "1.8.0"
+version = "2.0.0"
 description = "Ecoindex module provides a simple way to measure the Ecoindex score based on the 3 parameters: The DOM elements of the page, the size of the page and the number of external requests of the page"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-chromedriver-binary = ">=94,<95"
+chromedriver-binary = ">=94,<96"
 selenium = ">=3.141.0,<4.0.0"
 sqlmodel = ">=0.0.4,<0.0.5"
 
@@ -393,7 +393,7 @@ standard = ["websockets (>=9.1)", "httptools (>=0.2.0,<0.3.0)", "watchgod (>=0.6
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "6aaec93f8ba23488e4ecf4875f6092f3792934deb2a6c4e229295b88ebb851e9"
+content-hash = "1cf75abb78f3f720129771403b49febb22a419f4b7eee089dccabd919c91382f"
 
 [metadata.files]
 aiosqlite = [
@@ -439,8 +439,8 @@ colorama = [
     {file = "colorama-0.4.4.tar.gz", hash = "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"},
 ]
 ecoindex = [
-    {file = "ecoindex-1.8.0-py3-none-any.whl", hash = "sha256:71b3a91dfe50463dc5b4ff028a8f2946c26ef448bb4294e5c1b79674b58dc57d"},
-    {file = "ecoindex-1.8.0.tar.gz", hash = "sha256:88f5f700ca9c4f09aa3dfa19ca7514ab844d4df30a72986fcfcd64b372a87942"},
+    {file = "ecoindex-2.0.0-py3-none-any.whl", hash = "sha256:d7e08b367b40e7a633bf970ad6b39a171557c1899ad1547610049d47f5fabe2e"},
+    {file = "ecoindex-2.0.0.tar.gz", hash = "sha256:758d547a429f47acff7538ec8467db218010de30ce5516acb8994d2d5af2692f"},
 ]
 fastapi = [
     {file = "fastapi-0.70.0-py3-none-any.whl", hash = "sha256:a36d5f2fad931aa3575c07a3472c784e81f3e664e3bb5c8b9c88d0ec1104f59c"},
