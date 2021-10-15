@@ -1,9 +1,12 @@
+FROM python:3.8 as requirements-stage
+WORKDIR /tmp
+RUN pip install poetry
+COPY ./pyproject.toml ./poetry.lock /tmp/
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
+
 FROM python:3.8
-RUN mkdir /code
 WORKDIR /code
-COPY requirements.txt /code/
-RUN pip install -r requirements.txt
+COPY --from=requirements-stage /tmp/requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 RUN pip install psycopg2
-COPY . /code/
-RUN ls /code
-EXPOSE 8000
+COPY ./ /code/
