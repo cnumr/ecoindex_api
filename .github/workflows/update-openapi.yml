@@ -1,7 +1,5 @@
 name: Update OpenAPI spec
-on:
-  pull_request:
-    types: [opened]
+on: [pull_request]
 
 jobs:
   generate-openapi:
