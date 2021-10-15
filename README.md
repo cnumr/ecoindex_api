@@ -10,7 +10,9 @@ This tool provides an easy way to analyze websites with [Ecoindex](http://www.ec
 
 This API is built on top of [ecoindex-python](https://pypi.org/project/ecoindex/) with [FastAPI](https://fastapi.tiangolo.com/)
 
-> **Current limitation:** This does not work well with SPA.
+## OpenAPI specification
+
+The API specification can be found in the [documentation](docs/openapi.json). You can also access it with [Redoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/cnumr/ecoindex_api/main/docs/openapi.json).
 
 ## Requirements
 
