@@ -28,5 +28,3 @@ jobs:
         contents: |
           echo "${{ env.OPENAPI }}"
         write-mode: overwrite
-    
-    
