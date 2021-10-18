@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Optional
 
-from api.models import ApiEcoindex
+from api.models import ApiEcoindex, example_daily_limit_response
 from db.crud import (
     get_count_daily_request_per_host,
     get_ecoindex_result_list_db,
@@ -26,19 +26,8 @@ router = APIRouter()
     "/v1/ecoindexes",
     response_model=ApiEcoindex,
     response_description="Corresponding ecoindex result",
-    responses={
-        429: {
-            "description": "You have reached the daily limit",
-            "content": {
-                "application/json": {
-                    "example": {
-                        "detail": "You have already reached the daily limit of 5 requests for host www.ecoindex.fr today"
-                    }
-                }
-            },
-        }
-    },
-    tags=["ecoindex"],
+    responses={429: example_daily_limit_response},
+    tags=["Ecoindex"],
     description="This performs ecoindex analysis of a given webpage with a defined resolution",
     status_code=status.HTTP_201_CREATED,
 )
@@ -85,7 +74,7 @@ async def add_ecoindex_analysis(
     "/v1/ecoindexes",
     response_model=Page[ApiEcoindex],
     response_description="List of corresponding ecoindex results",
-    tags=["ecoindex"],
+    tags=["Ecoindex"],
     description="This returns a list of ecoindex analysis corresponding to query filters. The results are ordered by ascending date",
 )
 async def get_ecoindex_analysis_list(
