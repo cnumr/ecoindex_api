@@ -2,5 +2,6 @@
 !api
 !db
 !settings.py
-!requirements.txt
 !.env
+!pyproject.toml
+!poetry.lock
