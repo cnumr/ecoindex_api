@@ -21,11 +21,10 @@ The API specification can be found in the [documentation](docs/openapi.json). Yo
 
 ### Run docker
 
-With this docker setup you get 3 services running that are enough to make it all work:
+With this docker setup you get 2 services running that are enough to make it all work:
 
 - `db`: A PostgreSQL instance
-- `api`: The API instance running FastAPI application
-- `browser`: The headless Chrome browser instance to use Selenium
+- `api`: The API instance running FastAPI application with [undetected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver)
 
 ```bash
 docker-compose build && docker-compose up -d
