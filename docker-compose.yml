@@ -17,14 +17,8 @@ services:
     environment:
       DAILY_LIMIT_PER_HOST: 10 # If set to 0 => no LIMIT
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@db/postgres
-      REMOTE_CHROME_URL: http://browser:3000/webdriver
     depends_on:
       - db
-      - browser
-  browser:
-    image: browserless/chrome
-    environment:
-      DEBUG: "-*"
 
 volumes:
   db:
