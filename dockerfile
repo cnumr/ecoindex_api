@@ -11,7 +11,6 @@ RUN apt update \
     && apt install -y ./google-chrome-stable_current_amd64.deb \
     && rm google-chrome-stable_current_amd64.deb
 COPY --from=requirements-stage /tmp/requirements.txt /code/requirements.txt
-RUN pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 RUN pip install psycopg2
 COPY ./ /code/
