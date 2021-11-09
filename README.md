@@ -27,6 +27,7 @@ With this docker setup you get 2 services running that are enough to make it all
 - `api`: The API instance running FastAPI application with [undetected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver)
 
 ```bash
+cp docker-compose.yml.dist docker-compose.yml
 docker-compose build && docker-compose up -d
 ```
 
