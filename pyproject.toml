@@ -16,7 +16,7 @@ fastapi-health = "^0.4.0"
 asyncpg = "^0.25.0"
 
 [tool.poetry.dev-dependencies]
-black = "^21.10b0"
+black = "^21.11b1"
 aiosqlite = "^0.17.0"
 
 [build-system]
