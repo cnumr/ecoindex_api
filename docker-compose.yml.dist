@@ -9,6 +9,7 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    restart: always
   api:
     build: .
     command: uvicorn api.main:app --host 0.0.0.0 --port 8000
@@ -19,6 +20,7 @@ services:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@db/postgres
     depends_on:
       - db
+    restart: always
   db-backup:
     container_name: db-backup
     image: tiredofit/db-backup
@@ -27,17 +29,17 @@ services:
     volumes:
       - ./dbbackup:/backup
     environment:
-      - CONTAINER_NAME=db-backup
-      - DB_HOST=db
-      - DB_TYPE=pgsql
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASS=postgres
-      - DB_DUMP_FREQ=1440
-      - DB_DUMP_BEGIN=0000
-      - DB_CLEANUP_TIME=8640
-      - COMPRESSION=BZ
-      - MD5=TRUE
+      CONTAINER_NAME: db-backup
+      DB_HOST: db
+      DB_TYPE: pgsql
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASS: postgres
+      DB_DUMP_FREQ: 1440
+      DB_DUMP_BEGIN: 0000
+      DB_CLEANUP_TIME: 8640
+      COMPRESSION: BZ
+      MD5: TRUE
     restart: always
 
 volumes:
