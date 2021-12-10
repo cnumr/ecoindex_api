@@ -23,6 +23,12 @@
             "labels": [
                 "chore"
             ]
+        },
+        {
+            "title": "## 📖 Documentation",
+            "labels": [
+                "doc"
+            ]
         }
     ],
     "sort": "ASC",

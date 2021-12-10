@@ -2,3 +2,4 @@ __pycache__
 .env.*
 *.db
 docker-compose.yml
+dbbackup
