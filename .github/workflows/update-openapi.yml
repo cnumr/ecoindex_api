@@ -20,12 +20,7 @@ jobs:
         poetry run python openapi.py >> $GITHUB_ENV
         echo 'EOF' >> $GITHUB_ENV
     - name: "Write openapi.json file"
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: docs/openapi.json
-        contents: |
-          echo "${{ env.OPENAPI }}"
-        write-mode: overwrite
+      run: echo "${{ env.OPENAPI }}" > docs/openapi.json
     - name: Update PR with new openapi version
       uses: gr2m/create-or-update-pull-request-action@v1
       env:
