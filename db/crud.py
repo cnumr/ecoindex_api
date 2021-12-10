@@ -1,6 +1,6 @@
 from datetime import date
 from typing import List, Optional
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 from api.models import ApiEcoindex
 from ecoindex.models import Result
@@ -60,6 +60,19 @@ async def get_ecoindex_result_list_db(
     ecoindexes = await session.execute(statement.order_by(asc("date")))
 
     return ecoindexes.scalars().all()
+
+
+async def get_ecoindex_result_by_id(
+    session: AsyncSession, id: UUID, version: int
+) -> ApiEcoindex:
+    statement = (
+        select(ApiEcoindex)
+        .where(ApiEcoindex.id == id)
+        .where(ApiEcoindex.version == version)
+    )
+    ecoindex = await session.execute(statement)
+
+    return ecoindex.scalar_one_or_none()
 
 
 async def get_count_daily_request_per_host(session: AsyncSession, host: str) -> int:

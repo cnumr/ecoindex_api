@@ -1,15 +1,18 @@
 from datetime import date
 from typing import Optional
+from uuid import UUID
 
 from api.models import ApiEcoindex, example_daily_limit_response
 from db.crud import (
     get_count_daily_request_per_host,
+    get_ecoindex_result_by_id,
     get_ecoindex_result_list_db,
     save_ecoindex_result_db,
 )
 from db.database import get_session
 from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
+from fastapi.param_functions import Path
 from fastapi.params import Body, Depends, Query
 from fastapi_pagination import Page, paginate
 from selenium.common.exceptions import TimeoutException, WebDriverException
@@ -23,7 +26,7 @@ router = APIRouter()
 
 
 @router.post(
-    "/v1/ecoindexes",
+    path="/v1/ecoindexes",
     response_model=ApiEcoindex,
     response_description="Corresponding ecoindex result",
     responses={429: example_daily_limit_response},
@@ -71,7 +74,7 @@ async def add_ecoindex_analysis(
 
 
 @router.get(
-    "/v1/ecoindexes",
+    path="/v1/ecoindexes",
     response_model=Page[ApiEcoindex],
     response_description="List of corresponding ecoindex results",
     tags=["Ecoindex"],
@@ -92,3 +95,23 @@ async def get_ecoindex_analysis_list(
     )
 
     return paginate(ecoindexes)
+
+
+@router.get(
+    path="/v1/ecoindexes/{id}",
+    response_model=ApiEcoindex,
+    response_description="Get one ecoindex result by its id",
+    tags=["Ecoindex"],
+    description="This returns an ecoindex given by its unique identifier",
+)
+async def get_ecoindex_analysis_by_id(
+    session: AsyncSession = Depends(get_session),
+    id: UUID = Path(..., title="Unique identifier of the ecoindex analysis"),
+) -> ApiEcoindex:
+    ecoindex = await get_ecoindex_result_by_id(session=session, id=id, version=1)
+    if not ecoindex:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Analysis {id} not found",
+        )
+    return ecoindex
