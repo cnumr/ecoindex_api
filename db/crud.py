@@ -2,7 +2,7 @@ from datetime import date
 from typing import List, Optional
 from uuid import UUID, uuid4
 
-from api.models import ApiEcoindex
+from api.models import ApiEcoindex, ApiHost
 from ecoindex.models import Result
 from sqlalchemy import func
 from sqlalchemy.sql.expression import asc
@@ -13,7 +13,7 @@ from db.database import engine
 
 
 async def save_ecoindex_result_db(
-    session: AsyncSession, ecoindex_result: Result, version: int
+    session: AsyncSession, ecoindex_result: Result, version: Optional[int] = 1
 ) -> ApiEcoindex:
     db_ecoindex = ApiEcoindex(
         id=str(uuid4()),
@@ -41,7 +41,7 @@ async def save_ecoindex_result_db(
 
 async def get_ecoindex_result_list_db(
     session: AsyncSession,
-    version: int,
+    version: Optional[int] = 1,
     host: Optional[str] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
@@ -62,9 +62,22 @@ async def get_ecoindex_result_list_db(
     return ecoindexes.scalars().all()
 
 
-async def get_ecoindex_result_by_id(
-    session: AsyncSession, id: UUID, version: int
+async def get_ecoindex_result_by_id_db(
+    session: AsyncSession, id: UUID, version: Optional[int] = 1
 ) -> ApiEcoindex:
+    statement = (
+        select(ApiEcoindex)
+        .where(ApiEcoindex.id == id)
+        .where(ApiEcoindex.version == version)
+    )
+    ecoindex = await session.execute(statement)
+
+    return ecoindex.scalar_one_or_none()
+
+
+async def get_host_list_db(
+    session: AsyncSession, version: Optional[int] = 1
+) -> List[ApiHost]:
     statement = (
         select(ApiEcoindex)
         .where(ApiEcoindex.id == id)

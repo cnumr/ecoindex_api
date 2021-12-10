@@ -4,7 +4,7 @@ from fastapi_health import health
 from fastapi_pagination.api import add_pagination
 
 from api.models import ApiHealth
-from api.routers import ecoindex
+from api.routers import ecoindex, host
 
 app = FastAPI(
     title="Ecoindex API",
@@ -13,6 +13,7 @@ app = FastAPI(
 )
 
 app.include_router(ecoindex.router)
+app.include_router(host.router)
 
 
 @app.on_event("startup")

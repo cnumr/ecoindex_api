@@ -2,7 +2,7 @@ from typing import Optional
 from uuid import UUID
 
 from ecoindex.models import Result
-from sqlalchemy.sql.expression import table
+from pydantic.main import BaseModel
 from sqlmodel import Field, SQLModel
 
 
@@ -17,6 +17,17 @@ class ApiEcoindex(Result, table=True):
         default=1,
         title="API version",
         description="Version number of the API used to run the test",
+    )
+
+
+class ApiHost(BaseModel):
+    host: str = Field(
+        default=..., title="Web page host", description="Host name of the web page"
+    )
+    analysis_count: int = Field(
+        default=...,
+        title="Analysis count",
+        description="Count of analysis that were made for this host",
     )
 
 
