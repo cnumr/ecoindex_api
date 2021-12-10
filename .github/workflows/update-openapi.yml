@@ -15,13 +15,13 @@ jobs:
         python -m pip install poetry
         poetry install
     - name: "Export openapi specs from app"
-      run: |
-        echo 'OPENAPI<<EOF' >> $GITHUB_ENV
-        poetry run python openapi.py >> $GITHUB_ENV
-        echo 'EOF' >> $GITHUB_ENV
-    - name: "Write openapi.json file"
-      run: echo "${{ env.OPENAPI }}" > docs/openapi.json
+      run: poetry run python openapi.py > docs/openapi.json
     - name: Update PR with new openapi version
       uses: gr2m/create-or-update-pull-request-action@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        title: "OpenAPI documentation update"
+        branch: "doc/openapi-spec"
+        path: "docs/"
+        commit-message: "doc(openapi): Update OpenAPI specs"
