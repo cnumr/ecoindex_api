@@ -1,6 +1,8 @@
 name: Update OpenAPI spec
-on: [pull_request]
-
+on:
+  schedule:
+    # https://crontab.guru/every-night-at-midnight
+    - cron: "0 0 * * *"
 jobs:
   generate-openapi:
     runs-on: ubuntu-latest
@@ -15,14 +17,13 @@ jobs:
         python -m pip install poetry
         poetry install
     - name: "Export openapi specs from app"
-      run: |
-        echo 'OPENAPI<<EOF' >> $GITHUB_ENV
-        poetry run python openapi.py >> $GITHUB_ENV
-        echo 'EOF' >> $GITHUB_ENV
-    - name: "Write openapi.json file"
-      uses: DamianReeves/write-file-action@v1.0
+      run: poetry run python openapi.py > docs/openapi.json
+    - name: Update PR with new openapi version
+      uses: gr2m/create-or-update-pull-request-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        path: docs/openapi.json
-        contents: |
-          echo "${{ env.OPENAPI }}"
-        write-mode: overwrite
+        title: "OpenAPI documentation update"
+        branch: "doc/openapi-spec"
+        path: "docs/"
+        commit-message: "doc(openapi): Update OpenAPI specs"
