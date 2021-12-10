@@ -1,6 +1,8 @@
 name: Update OpenAPI spec
-on: [pull_request]
-
+on:
+  schedule:
+    # https://crontab.guru/every-night-at-midnight
+    - cron: "0 0 * * *"
 jobs:
   generate-openapi:
     runs-on: ubuntu-latest
