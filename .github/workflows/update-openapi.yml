@@ -27,3 +27,5 @@ jobs:
         branch: "doc/openapi-spec"
         path: "docs/"
         commit-message: "doc(openapi): Update OpenAPI specs"
+        auto-merge: squash
+        body: "Update OpenAPI specifications based on auto-generated doc by fastapi"
