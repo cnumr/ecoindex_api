@@ -8,6 +8,7 @@ from sqlalchemy import func
 from sqlalchemy.sql.expression import asc
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlmodel.sql.expression import SelectOfScalar
 
 from db.database import engine
 
@@ -50,12 +51,7 @@ async def get_ecoindex_result_list_db(
 
     if host:
         statement = statement.where(ApiEcoindex.host == host)
-
-    if date_from:
-        statement = statement.where(ApiEcoindex.date >= date_from)
-
-    if date_to:
-        statement = statement.where(ApiEcoindex.date <= date_to)
+    statement = date_filter(statement=statement, date_from=date_from, date_to=date_to)
 
     ecoindexes = await session.execute(statement.order_by(asc("date")))
 
@@ -76,12 +72,18 @@ async def get_ecoindex_result_by_id_db(
 
 
 async def get_host_list_db(
-    session: AsyncSession, version: Optional[int] = 1, q: Optional[str] = None
+    session: AsyncSession,
+    version: Optional[int] = 1,
+    q: Optional[str] = None,
+    date_from: Optional[date] = None,
+    date_to: Optional[date] = None,
 ) -> List[str]:
     statement = select(ApiEcoindex.host).where(ApiEcoindex.version == version)
 
     if q:
         statement = statement.filter(ApiEcoindex.host.like(f"%{q}%"))
+
+    statement = date_filter(statement=statement, date_from=date_from, date_to=date_to)
 
     statement = statement.group_by(ApiEcoindex.host).order_by(ApiEcoindex.host)
 
@@ -96,3 +98,17 @@ async def get_count_daily_request_per_host(session: AsyncSession, host: str) -> 
     )
     results = await session.execute(statement)
     return len(results.all())
+
+
+def date_filter(
+    statement: SelectOfScalar,
+    date_from: Optional[date] = None,
+    date_to: Optional[date] = None,
+) -> SelectOfScalar:
+    if date_from:
+        statement = statement.where(ApiEcoindex.date >= date_from)
+
+    if date_to:
+        statement = statement.where(ApiEcoindex.date <= date_to)
+
+    return statement
