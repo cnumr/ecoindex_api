@@ -2,7 +2,7 @@ from datetime import date
 from typing import List, Optional
 from uuid import UUID, uuid4
 
-from api.models import ApiEcoindex, ApiHost
+from api.models import ApiEcoindex
 from ecoindex.models import Result
 from sqlalchemy import func
 from sqlalchemy.sql.expression import asc
@@ -76,16 +76,18 @@ async def get_ecoindex_result_by_id_db(
 
 
 async def get_host_list_db(
-    session: AsyncSession, version: Optional[int] = 1
-) -> List[ApiHost]:
-    statement = (
-        select(ApiEcoindex)
-        .where(ApiEcoindex.id == id)
-        .where(ApiEcoindex.version == version)
-    )
-    ecoindex = await session.execute(statement)
+    session: AsyncSession, version: Optional[int] = 1, q: Optional[str] = None
+) -> List[str]:
+    statement = select(ApiEcoindex.host).where(ApiEcoindex.version == version)
 
-    return ecoindex.scalar_one_or_none()
+    if q:
+        statement = statement.filter(ApiEcoindex.host.like(f"%{q}%"))
+
+    statement = statement.group_by(ApiEcoindex.host).order_by(ApiEcoindex.host)
+
+    hosts = await session.execute(statement)
+
+    return hosts.scalars().all()
 
 
 async def get_count_daily_request_per_host(session: AsyncSession, host: str) -> int:

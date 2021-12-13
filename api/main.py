@@ -12,8 +12,8 @@ app = FastAPI(
     description="Ecoindex API enables you to perform ecoindex analysis of given web pages",
 )
 
-app.include_router(ecoindex.router)
-app.include_router(host.router)
+app.include_router(router=ecoindex.router)
+app.include_router(router=host.router)
 
 
 @app.on_event("startup")
