@@ -13,7 +13,7 @@ from db.database import engine
 
 
 async def save_ecoindex_result_db(
-    session: AsyncSession, ecoindex_result: Result, version: int
+    session: AsyncSession, ecoindex_result: Result, version: Optional[int] = 1
 ) -> ApiEcoindex:
     db_ecoindex = ApiEcoindex(
         id=str(uuid4()),
@@ -41,7 +41,7 @@ async def save_ecoindex_result_db(
 
 async def get_ecoindex_result_list_db(
     session: AsyncSession,
-    version: int,
+    version: Optional[int] = 1,
     host: Optional[str] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
@@ -62,8 +62,8 @@ async def get_ecoindex_result_list_db(
     return ecoindexes.scalars().all()
 
 
-async def get_ecoindex_result_by_id(
-    session: AsyncSession, id: UUID, version: int
+async def get_ecoindex_result_by_id_db(
+    session: AsyncSession, id: UUID, version: Optional[int] = 1
 ) -> ApiEcoindex:
     statement = (
         select(ApiEcoindex)
@@ -73,6 +73,21 @@ async def get_ecoindex_result_by_id(
     ecoindex = await session.execute(statement)
 
     return ecoindex.scalar_one_or_none()
+
+
+async def get_host_list_db(
+    session: AsyncSession, version: Optional[int] = 1, q: Optional[str] = None
+) -> List[str]:
+    statement = select(ApiEcoindex.host).where(ApiEcoindex.version == version)
+
+    if q:
+        statement = statement.filter(ApiEcoindex.host.like(f"%{q}%"))
+
+    statement = statement.group_by(ApiEcoindex.host).order_by(ApiEcoindex.host)
+
+    hosts = await session.execute(statement)
+
+    return hosts.scalars().all()
 
 
 async def get_count_daily_request_per_host(session: AsyncSession, host: str) -> int:

@@ -5,7 +5,7 @@ from uuid import UUID
 from api.models import ApiEcoindex, example_daily_limit_response
 from db.crud import (
     get_count_daily_request_per_host,
-    get_ecoindex_result_by_id,
+    get_ecoindex_result_by_id_db,
     get_ecoindex_result_list_db,
     save_ecoindex_result_db,
 )
@@ -38,7 +38,7 @@ async def add_ecoindex_analysis(
     response: Response,
     session: AsyncSession = Depends(get_session),
     web_page: WebPage = Body(
-        ...,
+        default=...,
         title="Web page to analyze defined by its url and its screen resolution",
         example=WebPage(url="http://www.ecoindex.fr", width=1920, height=1080),
     ),
@@ -67,7 +67,7 @@ async def add_ecoindex_analysis(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.msg
         )
     db_result = await save_ecoindex_result_db(
-        session=session, ecoindex_result=web_page_result, version=1
+        session=session, ecoindex_result=web_page_result
     )
 
     return db_result
@@ -91,7 +91,7 @@ async def get_ecoindex_analysis_list(
     host: Optional[str] = Query(None, description="Host name you want to filter"),
 ) -> Page[ApiEcoindex]:
     ecoindexes = await get_ecoindex_result_list_db(
-        session=session, date_from=date_from, date_to=date_to, host=host, version=1
+        session=session, date_from=date_from, date_to=date_to, host=host
     )
 
     return paginate(ecoindexes)
@@ -106,9 +106,9 @@ async def get_ecoindex_analysis_list(
 )
 async def get_ecoindex_analysis_by_id(
     session: AsyncSession = Depends(get_session),
-    id: UUID = Path(..., title="Unique identifier of the ecoindex analysis"),
+    id: UUID = Path(default=..., title="Unique identifier of the ecoindex analysis"),
 ) -> ApiEcoindex:
-    ecoindex = await get_ecoindex_result_by_id(session=session, id=id, version=1)
+    ecoindex = await get_ecoindex_result_by_id_db(session=session, id=id)
     if not ecoindex:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

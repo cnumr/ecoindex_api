@@ -2,7 +2,6 @@ from typing import Optional
 from uuid import UUID
 
 from ecoindex.models import Result
-from sqlalchemy.sql.expression import table
 from sqlmodel import Field, SQLModel
 
 
