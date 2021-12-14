@@ -17,5 +17,5 @@ jobs:
       with:
         rapidapi-api-key: ${{ secrets.RAPIDAPI_API_KEY }}
         rapidapi-api-id: ${{ secrets.RAPIDAPI_API_ID }}
-        default-url-server: ${{ secrets.PROD_DEFAULT_SERVER }}
+        default-server-url: ${{ secrets.PROD_DEFAULT_SERVER }}
         openapi-file: docs/openapi.json
