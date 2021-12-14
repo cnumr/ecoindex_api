@@ -1,10 +1,8 @@
 name: Update OpenAPI RapidAPI documentation
 on:
-  schedule:
-    # https://crontab.guru/every-night-at-midnight
-    - cron: "0 0 * * *"
-  workflow_dispatch:
-  pull_request:
+  push:
+    branches:
+      - main
     
 
 jobs:
