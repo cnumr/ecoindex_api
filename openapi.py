@@ -1,3 +1,7 @@
+from json import dumps
+
 from api.main import app
 
-print(app.openapi())
+openapi = app.openapi()
+
+print(dumps(openapi, indent=2))
