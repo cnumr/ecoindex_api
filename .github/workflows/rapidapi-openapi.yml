@@ -2,7 +2,7 @@ name: Update OpenAPI RapidAPI documentation
 on:
   push:
     branches:
-      - main
+      - "main"
     
 
 jobs:
