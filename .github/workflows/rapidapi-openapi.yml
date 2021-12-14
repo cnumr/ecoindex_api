@@ -1,0 +1,17 @@
+name: Update OpenAPI RapidAPI documentation
+on:
+  schedule:
+    # https://crontab.guru/every-night-at-midnight
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-rapidapi-openapi:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: RapidAPI OpenAPI
+      uses: vvatelot/rapidapi-openapi-github-action@0.0.1
+      with:
+        default-url-server: ${{ secrets.PROD_DEFAULT_SERVER }}
+        openapi-file: docs/openapi.json
