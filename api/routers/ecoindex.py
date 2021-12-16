@@ -15,7 +15,6 @@ from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
 from fastapi.params import Body, Depends, Query
 from fastapi_pagination import Page, paginate
-from selenium.common.exceptions import TimeoutException, WebDriverException
 from settings import DAILY_LIMIT_PER_HOST
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -56,16 +55,12 @@ async def add_ecoindex_analysis(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
             detail=f"You have already reached the daily limit of {DAILY_LIMIT_PER_HOST} requests for host {web_page.url.host} today",
         )
-    try:
-        web_page_result = await get_page_analysis(
-            url=web_page.url,
-            window_size=WindowSize(height=web_page.height, width=web_page.width),
-        )
 
-    except (TimeoutException, WebDriverException) as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.msg
-        )
+    web_page_result = await get_page_analysis(
+        url=web_page.url,
+        window_size=WindowSize(height=web_page.height, width=web_page.width),
+    )
+
     db_result = await save_ecoindex_result_db(
         session=session, ecoindex_result=web_page_result
     )
