@@ -1,0 +1,25 @@
+version: 1
+formatters:
+  default:
+    format: "%(asctime)s|%(levelname)s|%(name)s|%(message)s"
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: default
+    level: ERROR
+    filters: []
+    stream: ext://sys.stdout
+  file:
+    class: logging.handlers.RotatingFileHandler
+    formatter: default
+    filename: logs/log_file.log
+    maxBytes: 1024
+    level: DEBUG
+loggers:
+  uvicorn:
+    error:
+      propagate: true
+root:
+  level: INFO
+  handlers: [console, file]
+  propagate: true
