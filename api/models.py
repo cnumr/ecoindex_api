@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import Any, List, Optional
 from uuid import UUID
 
 from ecoindex.models import Result
+from pydantic.main import BaseModel
 from sqlmodel import Field, SQLModel
 
 
@@ -29,6 +30,34 @@ example_daily_limit_response = {
         "application/json": {
             "example": {
                 "detail": "You have already reached the daily limit of 5 requests for host www.ecoindex.fr today"
+            }
+        }
+    },
+}
+
+
+class ExceptionResponse(BaseModel):
+    args: List[Any]
+    exception: str
+    message: Optional[str]
+
+
+example_exception_response = {
+    "description": "My bad! :( => Server exception",
+    "content": {
+        "application/json": {
+            "example": {
+                "detail": {
+                    "args": [
+                        "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)",
+                        [
+                            "#0 0x55ffa3dd7ee3 <unknown>",
+                            "#1 0x55ffa38a5608 <unknown>",
+                        ],
+                    ],
+                    "exception": "WebDriverException",
+                    "message": "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)",
+                }
             }
         }
     },
