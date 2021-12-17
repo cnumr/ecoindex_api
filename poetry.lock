@@ -168,17 +168,16 @@ test = ["pytest (>=6.2.0)", "pytest-cov", "pytest-subtests", "pytest-xdist", "pr
 
 [[package]]
 name = "ecoindex"
-version = "2.5.1"
+version = "2.6.0"
 description = "Ecoindex module provides a simple way to measure the Ecoindex score based on the 3 parameters: The DOM elements of the page, the size of the page and the number of external requests of the page"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-nest-asyncio = ">=1.5.4,<2.0.0"
 selenium = ">=3.141,<5.0"
 sqlmodel = ">=0.0.4,<0.0.6"
-undetected-chromedriver = ">=3.0.3,<4.0.0"
+undetected-chromedriver = "3.0.3"
 
 [[package]]
 name = "fastapi"
@@ -223,12 +222,12 @@ pydantic = ">=1.7.2"
 
 [package.extras]
 gino = ["gino[starlette] (>=1.0.1)", "SQLAlchemy (>=1.3.20)"]
-all = ["gino[starlette] (>=1.0.1)", "SQLAlchemy (>=1.3.20)", "databases[mysql,postgresql,sqlite] (>=0.4.0)", "orm (>=0.1.5)", "tortoise-orm[asyncpg,aiomysql,aiosqlite] (>=0.16.18,<0.18.0)", "asyncpg (>=0.24.0)", "ormar (>=0.10.5)", "Django (<3.3.0)", "piccolo (>=0.29,<0.35)", "motor (>=2.5.1,<3.0.0)"]
+all = ["gino[starlette] (>=1.0.1)", "SQLAlchemy (>=1.3.20)", "databases[mysql,sqlite,postgresql] (>=0.4.0)", "orm (>=0.1.5)", "tortoise-orm[asyncpg,aiomysql,aiosqlite] (>=0.16.18,<0.18.0)", "asyncpg (>=0.24.0)", "ormar (>=0.10.5)", "Django (<3.3.0)", "piccolo (>=0.29,<0.35)", "motor (>=2.5.1,<3.0.0)"]
 sqlalchemy = ["SQLAlchemy (>=1.3.20)"]
 asyncpg = ["SQLAlchemy (>=1.3.20)", "asyncpg (>=0.24.0)"]
-databases = ["databases[mysql,postgresql,sqlite] (>=0.4.0)"]
-orm = ["databases[mysql,postgresql,sqlite] (>=0.4.0)", "orm (>=0.1.5)", "typesystem (>=0.2.0,<0.3.0)"]
-django = ["databases[mysql,postgresql,sqlite] (>=0.4.0)", "Django (<3.3.0)"]
+databases = ["databases[mysql,sqlite,postgresql] (>=0.4.0)"]
+orm = ["databases[mysql,sqlite,postgresql] (>=0.4.0)", "orm (>=0.1.5)", "typesystem (>=0.2.0,<0.3.0)"]
+django = ["databases[mysql,sqlite,postgresql] (>=0.4.0)", "Django (<3.3.0)"]
 tortoise = ["tortoise-orm[asyncpg,aiomysql,aiosqlite] (>=0.16.18,<0.18.0)"]
 ormar = ["ormar (>=0.10.5)"]
 piccolo = ["piccolo (>=0.29,<0.35)"]
@@ -268,14 +267,6 @@ description = "Experimental type system extensions for programs checked with the
 category = "dev"
 optional = false
 python-versions = "*"
-
-[[package]]
-name = "nest-asyncio"
-version = "1.5.4"
-description = "Patch asyncio to allow nested event loops"
-category = "main"
-optional = false
-python-versions = ">=3.5"
 
 [[package]]
 name = "outcome"
@@ -375,7 +366,7 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<5)"]
 
 [[package]]
 name = "selenium"
-version = "4.1.0"
+version = "4.0.0.b4"
 description = ""
 category = "main"
 optional = false
@@ -528,7 +519,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "undetected-chromedriver"
-version = "3.0.6"
+version = "3.0.3"
 description = "selenium.webdriver.Chrome replacement wiht compatiblity for Brave, and other Chromium baed browsers.     not triggered by CloudFlare/Imperva/hCaptcha and such.          NOTE: results may vary due to many factors. No guarantees are given, except for ongoing efforts in understanding detection algorithms."
 category = "main"
 optional = false
@@ -536,7 +527,7 @@ python-versions = "*"
 
 [package.dependencies]
 requests = "*"
-selenium = "*"
+selenium = "4.0.0b4"
 websockets = "*"
 
 [[package]]
@@ -596,7 +587,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "0b5cd5595820f7ee7d499443e52f6c07c62b0d3e3bc05a3f55246bf86015752e"
+content-hash = "13e67093a124dc514cca8f4efe1cf16e9efc687fb4c4b2a0e1ebc73c09a86ec5"
 
 [metadata.files]
 aiosqlite = [
@@ -742,8 +733,8 @@ cryptography = [
     {file = "cryptography-36.0.1.tar.gz", hash = "sha256:53e5c1dc3d7a953de055d77bef2ff607ceef7a2aac0353b5d630ab67f7423638"},
 ]
 ecoindex = [
-    {file = "ecoindex-2.5.1-py3-none-any.whl", hash = "sha256:b33052b95d84b25658559763aa60dc9ac6350a395304628f71cedf49173be63e"},
-    {file = "ecoindex-2.5.1.tar.gz", hash = "sha256:65a1650844a0ec27256e91d21f4b4d86a2b71aabacdce59a02571372e5e90055"},
+    {file = "ecoindex-2.6.0-py3-none-any.whl", hash = "sha256:1d7d71631593f61700118e7745fba36dc7733f905c986083eac9a976bcbfd818"},
+    {file = "ecoindex-2.6.0.tar.gz", hash = "sha256:dcd145cb918c3915ff429c6f81f7495f6e5ed2816e43460267385c666ac3339b"},
 ]
 fastapi = [
     {file = "fastapi-0.70.1-py3-none-any.whl", hash = "sha256:5367226c7bcd7bfb2e17edaf225fd9a983095b1372281e9a3eb661336fb93748"},
@@ -821,10 +812,6 @@ mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},
 ]
-nest-asyncio = [
-    {file = "nest_asyncio-1.5.4-py3-none-any.whl", hash = "sha256:3fdd0d6061a2bb16f21fe8a9c6a7945be83521d81a0d15cff52e9edee50101d6"},
-    {file = "nest_asyncio-1.5.4.tar.gz", hash = "sha256:f969f6013a16fadb4adcf09d11a68a4f617c6049d7af7ac2c676110169a63abd"},
-]
 outcome = [
     {file = "outcome-1.1.0-py2.py3-none-any.whl", hash = "sha256:c7dd9375cfd3c12db9801d080a3b63d4b0a261aa996c4c13152380587288d958"},
     {file = "outcome-1.1.0.tar.gz", hash = "sha256:e862f01d4e626e63e8f92c38d1f8d5546d3f9cce989263c521b2e7990d186967"},
@@ -877,7 +864,7 @@ requests = [
     {file = "requests-2.26.0.tar.gz", hash = "sha256:b8aa58f8cf793ffd8782d3d8cb19e66ef36f7aba4353eec859e74678b01b07a7"},
 ]
 selenium = [
-    {file = "selenium-4.1.0-py3-none-any.whl", hash = "sha256:27e7b64df961d609f3d57237caa0df123abbbe22d038f2ec9e332fb90ec1a939"},
+    {file = "selenium-4.0.0.b4-py3-none-any.whl", hash = "sha256:a939ef1ba6e422252baa35a8541b87b7155f57491d97059bfe56b3dc3aa7ae0d"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
@@ -957,7 +944,8 @@ typing-extensions = [
     {file = "typing_extensions-4.0.1.tar.gz", hash = "sha256:4ca091dea149f945ec56afb48dae714f21e8692ef22a395223bcd328961b6a0e"},
 ]
 undetected-chromedriver = [
-    {file = "undetected-chromedriver-3.0.6.tar.gz", hash = "sha256:5a6908552f275f6b0e5f406582dd2fa3a874965b7b1d3924f3bce94a4a330b4c"},
+    {file = "undetected-chromedriver-3.0.3.tar.gz", hash = "sha256:bcc3880daa1d621d848ef1c99252ea7e14ed7f4555ea87a36ed30d9b4dc8e878"},
+    {file = "undetected_chromedriver-3.0.3-py3.9.egg", hash = "sha256:21ceeffc5c7cc1bdaa468082e7786c749203ab548c59fdec9828ec1a4e361c22"},
 ]
 urllib3 = [
     {file = "urllib3-1.26.7-py2.py3-none-any.whl", hash = "sha256:c4fdf4019605b6e5423637e01bc9fe4daef873709a7973e195ceba0a62bbc844"},

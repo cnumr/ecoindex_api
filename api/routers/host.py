@@ -1,6 +1,7 @@
 from datetime import date
-from typing import List, Optional
+from typing import Optional
 
+from api.models import example_exception_response
 from db.crud import get_host_list_db
 from db.database import get_session
 from fastapi.param_functions import Query
@@ -16,8 +17,12 @@ router = APIRouter()
     path="/v1/hosts",
     response_model=Page[str],
     response_description="List ecoindex hosts",
+    responses={500: example_exception_response},
     tags=["Host"],
-    description="This returns a list of hosts that ran an ecoindex analysis order by most request made",
+    description=(
+        "This returns a list of hosts that "
+        "ran an ecoindex analysis order by most request made"
+    ),
 )
 async def get_host_list(
     session: AsyncSession = Depends(get_session),

@@ -2,7 +2,11 @@ from datetime import date
 from typing import Optional
 from uuid import UUID
 
-from api.models import ApiEcoindex, example_daily_limit_response
+from api.models import (
+    ApiEcoindex,
+    example_daily_limit_response,
+    example_exception_response,
+)
 from db.crud import (
     get_count_daily_request_per_host,
     get_ecoindex_result_by_id_db,
@@ -15,7 +19,6 @@ from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
 from fastapi.params import Body, Depends, Query
 from fastapi_pagination import Page, paginate
-from selenium.common.exceptions import TimeoutException, WebDriverException
 from settings import DAILY_LIMIT_PER_HOST
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -29,7 +32,7 @@ router = APIRouter()
     path="/v1/ecoindexes",
     response_model=ApiEcoindex,
     response_description="Corresponding ecoindex result",
-    responses={429: example_daily_limit_response},
+    responses={429: example_daily_limit_response, 500: example_exception_response},
     tags=["Ecoindex"],
     description="This performs ecoindex analysis of a given webpage with a defined resolution",
     status_code=status.HTTP_201_CREATED,
@@ -54,18 +57,19 @@ async def add_ecoindex_analysis(
     if DAILY_LIMIT_PER_HOST and count_daily_request_per_host >= DAILY_LIMIT_PER_HOST:
         raise HTTPException(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            detail=f"You have already reached the daily limit of {DAILY_LIMIT_PER_HOST} requests for host {web_page.url.host} today",
-        )
-    try:
-        web_page_result = await get_page_analysis(
-            url=web_page.url,
-            window_size=WindowSize(height=web_page.height, width=web_page.width),
+            detail=(
+                f"You have already reached the daily limit of "
+                f"{DAILY_LIMIT_PER_HOST} requests for host {web_page.url.host} today"
+            ),
         )
 
-    except (TimeoutException, WebDriverException) as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.msg
-        )
+    web_page_result = await get_page_analysis(
+        url=web_page.url,
+        window_size=WindowSize(height=web_page.height, width=web_page.width),
+        wait_before_scroll=3,
+        wait_after_scroll=3,
+    )
+
     db_result = await save_ecoindex_result_db(
         session=session, ecoindex_result=web_page_result
     )
@@ -77,8 +81,13 @@ async def add_ecoindex_analysis(
     path="/v1/ecoindexes",
     response_model=Page[ApiEcoindex],
     response_description="List of corresponding ecoindex results",
+    responses={500: example_exception_response},
     tags=["Ecoindex"],
-    description="This returns a list of ecoindex analysis corresponding to query filters. The results are ordered by ascending date",
+    description=(
+        "This returns a list of ecoindex analysis "
+        "corresponding to query filters. "
+        "The results are ordered by ascending date"
+    ),
 )
 async def get_ecoindex_analysis_list(
     session: AsyncSession = Depends(get_session),
@@ -101,6 +110,7 @@ async def get_ecoindex_analysis_list(
     path="/v1/ecoindexes/{id}",
     response_model=ApiEcoindex,
     response_description="Get one ecoindex result by its id",
+    responses={500: example_exception_response},
     tags=["Ecoindex"],
     description="This returns an ecoindex given by its unique identifier",
 )
