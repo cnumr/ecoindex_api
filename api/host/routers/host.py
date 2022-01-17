@@ -1,9 +1,11 @@
 from datetime import date
 from typing import Optional
 
-from api.models import example_exception_response
-from db.crud import get_host_list_db
-from db.database import get_session
+from api.host.db.host import get_host_list_db
+from api.models.enums import Version
+from api.models.examples import example_exception_response
+from db.engine import get_session
+from fastapi import Path
 from fastapi.param_functions import Query
 from fastapi.params import Depends
 from fastapi.routing import APIRouter
@@ -14,7 +16,7 @@ router = APIRouter()
 
 
 @router.get(
-    path="/v1/hosts",
+    path="/{version}/hosts",
     response_model=Page[str],
     response_description="List ecoindex hosts",
     responses={500: example_exception_response},
@@ -26,6 +28,9 @@ router = APIRouter()
 )
 async def get_host_list(
     session: AsyncSession = Depends(get_session),
+    version: Version = Path(
+        default=..., title="Engine version used to run the analysis"
+    ),
     date_from: Optional[date] = Query(
         None, description="Start date of the filter elements (example: 2020-01-01)"
     ),
@@ -35,6 +40,6 @@ async def get_host_list(
     q: str = Query(default=None, description="Filter by partial host name"),
 ) -> Page[str]:
     hosts = await get_host_list_db(
-        session=session, date_from=date_from, date_to=date_to, q=q
+        session=session, date_from=date_from, date_to=date_to, q=q, version=version
     )
     return paginate(hosts)

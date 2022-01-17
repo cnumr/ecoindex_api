@@ -5,3 +5,4 @@
 !.env
 !pyproject.toml
 !poetry.lock
+!docker

@@ -2,18 +2,17 @@ from datetime import date
 from typing import Optional
 from uuid import UUID
 
-from api.models import (
-    ApiEcoindex,
-    example_daily_limit_response,
-    example_exception_response,
-)
-from db.crud import (
+from api.ecoindex.db.ecoindex import (
     get_count_daily_request_per_host,
     get_ecoindex_result_by_id_db,
     get_ecoindex_result_list_db,
     save_ecoindex_result_db,
 )
-from db.database import get_session
+from api.ecoindex.models.examples import example_daily_limit_response
+from api.ecoindex.models.responses import ApiEcoindex
+from api.models.enums import Version
+from api.models.examples import example_exception_response
+from db.engine import get_session
 from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
@@ -78,19 +77,22 @@ async def add_ecoindex_analysis(
 
 
 @router.get(
-    path="/v1/ecoindexes",
+    path="/{version}/ecoindexes",
     response_model=Page[ApiEcoindex],
     response_description="List of corresponding ecoindex results",
     responses={500: example_exception_response},
     tags=["Ecoindex"],
     description=(
         "This returns a list of ecoindex analysis "
-        "corresponding to query filters. "
+        "corresponding to query filters and the given version engine. "
         "The results are ordered by ascending date"
     ),
 )
 async def get_ecoindex_analysis_list(
     session: AsyncSession = Depends(get_session),
+    version: Version = Path(
+        default=..., title="Engine version used to run the analysis"
+    ),
     date_from: Optional[date] = Query(
         None, description="Start date of the filter elements (example: 2020-01-01)"
     ),
@@ -100,14 +102,18 @@ async def get_ecoindex_analysis_list(
     host: Optional[str] = Query(None, description="Host name you want to filter"),
 ) -> Page[ApiEcoindex]:
     ecoindexes = await get_ecoindex_result_list_db(
-        session=session, date_from=date_from, date_to=date_to, host=host
+        session=session,
+        date_from=date_from,
+        date_to=date_to,
+        host=host,
+        version=version,
     )
 
     return paginate(ecoindexes)
 
 
 @router.get(
-    path="/v1/ecoindexes/{id}",
+    path="/{version}/ecoindexes/{id}",
     response_model=ApiEcoindex,
     response_description="Get one ecoindex result by its id",
     responses={500: example_exception_response},
@@ -116,12 +122,17 @@ async def get_ecoindex_analysis_list(
 )
 async def get_ecoindex_analysis_by_id(
     session: AsyncSession = Depends(get_session),
+    version: Version = Path(
+        default=..., title="Engine version used to run the analysis"
+    ),
     id: UUID = Path(default=..., title="Unique identifier of the ecoindex analysis"),
 ) -> ApiEcoindex:
-    ecoindex = await get_ecoindex_result_by_id_db(session=session, id=id)
+    ecoindex = await get_ecoindex_result_by_id_db(
+        session=session, id=id, version=version
+    )
     if not ecoindex:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Analysis {id} not found",
+            detail=f"Analysis {id} not found for version {version.value}",
         )
     return ecoindex
