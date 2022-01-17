@@ -2,19 +2,21 @@ from datetime import date
 from typing import List, Optional
 from uuid import UUID, uuid4
 
-from api.models import ApiEcoindex
-from ecoindex.models import Result
+from api.ecoindex.models.responses import ApiEcoindex
+from api.models.enums import Version
 from sqlalchemy import func
+from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.sql.expression import asc
 from sqlmodel import select
-from sqlmodel.ext.asyncio.session import AsyncSession
-from sqlmodel.sql.expression import SelectOfScalar
 
-from db.database import engine
+from db.helper import date_filter
+from ecoindex.models import Result
 
 
 async def save_ecoindex_result_db(
-    session: AsyncSession, ecoindex_result: Result, version: Optional[int] = 1
+    session: AsyncSession,
+    ecoindex_result: Result,
+    version: Optional[Version] = Version.v1,
 ) -> ApiEcoindex:
     db_ecoindex = ApiEcoindex(
         id=str(uuid4()),
@@ -31,7 +33,7 @@ async def save_ecoindex_result_db(
         ges=ecoindex_result.ges,
         water=ecoindex_result.water,
         page_type=ecoindex_result.page_type,
-        version=version,
+        version=version.get_version_number(),
     )
     session.add(db_ecoindex)
     await session.commit()
@@ -42,12 +44,14 @@ async def save_ecoindex_result_db(
 
 async def get_ecoindex_result_list_db(
     session: AsyncSession,
-    version: Optional[int] = 1,
+    version: Optional[Version] = Version.v1,
     host: Optional[str] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
 ) -> List[ApiEcoindex]:
-    statement = select(ApiEcoindex).where(ApiEcoindex.version == version)
+    statement = select(ApiEcoindex).where(
+        ApiEcoindex.version == version.get_version_number()
+    )
 
     if host:
         statement = statement.where(ApiEcoindex.host == host)
@@ -59,37 +63,16 @@ async def get_ecoindex_result_list_db(
 
 
 async def get_ecoindex_result_by_id_db(
-    session: AsyncSession, id: UUID, version: Optional[int] = 1
+    session: AsyncSession, id: UUID, version: Optional[Version] = Version.v1
 ) -> ApiEcoindex:
     statement = (
         select(ApiEcoindex)
         .where(ApiEcoindex.id == id)
-        .where(ApiEcoindex.version == version)
+        .where(ApiEcoindex.version == version.get_version_number())
     )
     ecoindex = await session.execute(statement)
 
     return ecoindex.scalar_one_or_none()
-
-
-async def get_host_list_db(
-    session: AsyncSession,
-    version: Optional[int] = 1,
-    q: Optional[str] = None,
-    date_from: Optional[date] = None,
-    date_to: Optional[date] = None,
-) -> List[str]:
-    statement = select(ApiEcoindex.host).where(ApiEcoindex.version == version)
-
-    if q:
-        statement = statement.filter(ApiEcoindex.host.like(f"%{q}%"))
-
-    statement = date_filter(statement=statement, date_from=date_from, date_to=date_to)
-
-    statement = statement.group_by(ApiEcoindex.host).order_by(ApiEcoindex.host)
-
-    hosts = await session.execute(statement)
-
-    return hosts.scalars().all()
 
 
 async def get_count_daily_request_per_host(session: AsyncSession, host: str) -> int:
@@ -98,17 +81,3 @@ async def get_count_daily_request_per_host(session: AsyncSession, host: str) -> 
     )
     results = await session.execute(statement)
     return len(results.all())
-
-
-def date_filter(
-    statement: SelectOfScalar,
-    date_from: Optional[date] = None,
-    date_to: Optional[date] = None,
-) -> SelectOfScalar:
-    if date_from:
-        statement = statement.where(ApiEcoindex.date >= date_from)
-
-    if date_to:
-        statement = statement.where(ApiEcoindex.date <= date_to)
-
-    return statement

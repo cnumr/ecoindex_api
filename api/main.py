@@ -1,4 +1,4 @@
-from db.database import create_db_and_tables, is_database_online
+from db.engine import create_db_and_tables, is_database_online
 from fastapi.applications import FastAPI
 from fastapi_health import health
 from fastapi_pagination.api import add_pagination
@@ -6,9 +6,10 @@ from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
+from api.ecoindex.routers import ecoindex
 from api.helper import format_exception_response
-from api.models import ApiHealth
-from api.routers import ecoindex, host
+from api.host.routers import host
+from api.models.responses import ApiHealth
 
 app = FastAPI(
     title="Ecoindex API",
@@ -26,7 +27,7 @@ async def on_startup():
 
 
 @app.exception_handler(Exception)
-async def validation_exception_handler(request: Request, exc: Exception):
+async def validation_exception_handler(_: Request, exc: Exception):
     exception_response = format_exception_response(exception=exc)
     return JSONResponse(
         content={"detail": exception_response.dict()},

@@ -1,4 +1,4 @@
-from api.models import ExceptionResponse
+from api.models.responses import ExceptionResponse
 
 
 def format_exception_response(exception: Exception) -> ExceptionResponse:
