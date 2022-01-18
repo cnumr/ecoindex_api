@@ -11,7 +11,7 @@ ecoindex = {version = "^2.6.0", allow-prereleases = true}
 python-environ = "^0.4.54"
 uvicorn = "^0.16.0"
 fastapi-pagination = "^0.9.1"
-sqlmodel = "^0.0.4"
+sqlmodel = "^0.0.6"
 fastapi-health = "^0.4.0"
 asyncpg = "^0.25.0"
 
