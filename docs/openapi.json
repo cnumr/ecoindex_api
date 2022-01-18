@@ -7,14 +7,109 @@
   },
   "paths": {
     "/v1/ecoindexes": {
+      "post": {
+        "tags": [
+          "Ecoindex"
+        ],
+        "summary": "Add Ecoindex Analysis",
+        "description": "This performs ecoindex analysis of a given webpage with a defined resolution",
+        "operationId": "add_ecoindex_analysis_v1_ecoindexes_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Web page to analyze defined by its url and its screen resolution",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/WebPage"
+                  }
+                ]
+              },
+              "example": {
+                "width": 1920,
+                "height": 1080,
+                "url": "http://www.ecoindex.fr"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Corresponding ecoindex result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiEcoindex"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "You have reached the daily limit",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "You have already reached the daily limit of 5 requests for host www.ecoindex.fr today"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "My bad! :( => Server exception",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": {
+                    "args": [
+                      "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)",
+                      [
+                        "#0 0x55ffa3dd7ee3 <unknown>",
+                        "#1 0x55ffa38a5608 <unknown>"
+                      ]
+                    ],
+                    "exception": "WebDriverException",
+                    "message": "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{version}/ecoindexes": {
       "get": {
         "tags": [
           "Ecoindex"
         ],
         "summary": "Get Ecoindex Analysis List",
-        "description": "This returns a list of ecoindex analysis corresponding to query filters. The results are ordered by ascending date",
-        "operationId": "get_ecoindex_analysis_list_v1_ecoindexes_get",
+        "description": "This returns a list of ecoindex analysis corresponding to query filters and the given version engine. The results are ordered by ascending date",
+        "operationId": "get_ecoindex_analysis_list__version__ecoindexes_get",
         "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Engine version used to run the analysis",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Version"
+                }
+              ]
+            },
+            "name": "version",
+            "in": "path"
+          },
           {
             "description": "Start date of the filter elements (example: 2020-01-01)",
             "required": false,
@@ -116,97 +211,30 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "Ecoindex"
-        ],
-        "summary": "Add Ecoindex Analysis",
-        "description": "This performs ecoindex analysis of a given webpage with a defined resolution",
-        "operationId": "add_ecoindex_analysis_v1_ecoindexes_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "title": "Web page to analyze defined by its url and its screen resolution",
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/WebPage"
-                  }
-                ]
-              },
-              "example": {
-                "width": 1920,
-                "height": 1080,
-                "url": "http://www.ecoindex.fr"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Corresponding ecoindex result",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiEcoindex"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "You have reached the daily limit",
-            "content": {
-              "application/json": {
-                "example": {
-                  "detail": "You have already reached the daily limit of 5 requests for host www.ecoindex.fr today"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "My bad! :( => Server exception",
-            "content": {
-              "application/json": {
-                "example": {
-                  "detail": {
-                    "args": [
-                      "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)",
-                      [
-                        "#0 0x55ffa3dd7ee3 <unknown>",
-                        "#1 0x55ffa38a5608 <unknown>"
-                      ]
-                    ],
-                    "exception": "WebDriverException",
-                    "message": "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)"
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
       }
     },
-    "/v1/ecoindexes/{id}": {
+    "/{version}/ecoindexes/{id}": {
       "get": {
         "tags": [
           "Ecoindex"
         ],
         "summary": "Get Ecoindex Analysis By Id",
         "description": "This returns an ecoindex given by its unique identifier",
-        "operationId": "get_ecoindex_analysis_by_id_v1_ecoindexes__id__get",
+        "operationId": "get_ecoindex_analysis_by_id__version__ecoindexes__id__get",
         "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Engine version used to run the analysis",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Version"
+                }
+              ]
+            },
+            "name": "version",
+            "in": "path"
+          },
           {
             "required": true,
             "schema": {
@@ -262,15 +290,28 @@
         }
       }
     },
-    "/v1/hosts": {
+    "/{version}/hosts": {
       "get": {
         "tags": [
           "Host"
         ],
         "summary": "Get Host List",
         "description": "This returns a list of hosts that ran an ecoindex analysis order by most request made",
-        "operationId": "get_host_list_v1_hosts_get",
+        "operationId": "get_host_list__version__hosts_get",
         "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Engine version used to run the analysis",
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Version"
+                }
+              ]
+            },
+            "name": "version",
+            "in": "path"
+          },
           {
             "description": "Start date of the filter elements (example: 2020-01-01)",
             "required": false,
@@ -618,6 +659,14 @@
             "type": "string"
           }
         }
+      },
+      "Version": {
+        "title": "Version",
+        "enum": [
+          "v0",
+          "v1"
+        ],
+        "description": "An enumeration."
       },
       "WebPage": {
         "title": "WebPage",
