@@ -19,7 +19,6 @@ The API specification can be found in the [documentation](docs/openapi.json). Yo
 - [Docker](https://www.docker.com/)
 - [Docker-compose](https://docs.docker.com/compose/)
 
-### Run docker
 
 With this docker setup you get 2 services running that are enough to make it all work:
 
@@ -32,6 +31,21 @@ docker-compose build && docker-compose up -d
 ```
 
 Then you can go to http://localhost:8001/docs to access to the swagger
+
+## Configuration
+
+### CORS
+
+You can configure CORS to secure your API server. By default, all methods, origins and headers are authorized.
+
+You have to set the environment variables `CORS_ALLOWED_HEADERS`, `CORS_ALLOWED_METHODS`, `CORS_ALLOWED_ORIGINS` and `CORS_ALLOWED_CREDENTIALS`. For example:
+
+```env
+CORS_ALLOWED_CREDENTIALS=True
+CORS_ALLOWED_HEADERS=my-custom-header,other-custom-header
+CORS_ALLOWED_METHODS=GET,POST,UPDATE
+CORS_ALLOWED_ORIGINS=my.host.com,backup-host.com
+```
 
 ### Daily limit per day
 
