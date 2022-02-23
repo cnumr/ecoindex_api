@@ -18,6 +18,8 @@ asyncpg = "^0.25.0"
 [tool.poetry.dev-dependencies]
 black = "^22.1"
 aiosqlite = "^0.17.0"
+Faker = "^12.3.3"
+faker-enum = "^0.0.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
