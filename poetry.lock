@@ -818,10 +818,6 @@ fastapi-health = [
     {file = "fastapi-health-0.4.0.tar.gz", hash = "sha256:a0781b2359732d50cddda1195784f78950265c6b3689d7a1e6e65a21aed4d6a5"},
     {file = "fastapi_health-0.4.0-py3-none-any.whl", hash = "sha256:d6c1795f7596009cffa7a84d5a67a6b66bbf9d6ce79b040fd50601ed5392089f"},
 ]
-fastapi-pagination = [
-    {file = "fastapi-pagination-0.9.1.tar.gz", hash = "sha256:401b0fdbc0e12e7b178c7f37709918a93df44827d3de75fb7d85d6c4465e77b0"},
-    {file = "fastapi_pagination-0.9.1-py3-none-any.whl", hash = "sha256:ef84b01f364e5eb4dec0c59068c02e83c4a04319659354297680122592c9b884"},
-]
 greenlet = [
     {file = "greenlet-1.1.2-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:58df5c2a0e293bf665a51f8a100d3e9956febfbf1d9aaf8c0677cf70218910c6"},
     {file = "greenlet-1.1.2-cp27-cp27m-manylinux1_x86_64.whl", hash = "sha256:aec52725173bd3a7b56fe91bc56eccb26fbdff1386ef123abb63c84c5b43b63a"},

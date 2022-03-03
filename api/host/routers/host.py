@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import List, Optional
 
 from api.host.db.host import get_host_list_db
 from api.models.enums import Version
@@ -9,7 +9,6 @@ from fastapi import Path
 from fastapi.param_functions import Query
 from fastapi.params import Depends
 from fastapi.routing import APIRouter
-from fastapi_pagination import Page, paginate
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 router = APIRouter()
@@ -17,7 +16,7 @@ router = APIRouter()
 
 @router.get(
     path="/{version}/hosts",
-    response_model=Page[str],
+    response_model=List[str],
     response_description="List ecoindex hosts",
     responses={500: example_exception_response},
     tags=["Host"],
@@ -38,8 +37,8 @@ async def get_host_list(
         None, description="End date of the filter elements  (example: 2020-01-01)"
     ),
     q: str = Query(default=None, description="Filter by partial host name"),
-) -> Page[str]:
+) -> List[str]:
     hosts = await get_host_list_db(
         session=session, date_from=date_from, date_to=date_to, q=q, version=version
     )
-    return paginate(hosts)
+    return hosts

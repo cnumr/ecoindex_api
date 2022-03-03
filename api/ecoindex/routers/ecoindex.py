@@ -9,7 +9,7 @@ from api.ecoindex.db.ecoindex import (
     save_ecoindex_result_db,
 )
 from api.ecoindex.models.examples import example_daily_limit_response
-from api.ecoindex.models.responses import ApiEcoindex
+from api.ecoindex.models.responses import ApiEcoindex, PageApiEcoindexes
 from api.models.enums import Version
 from api.models.examples import example_exception_response
 from db.engine import get_session
@@ -17,7 +17,6 @@ from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
 from fastapi.params import Body, Depends, Query
-from fastapi_pagination import Page, paginate
 from settings import DAILY_LIMIT_PER_HOST
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -78,7 +77,7 @@ async def add_ecoindex_analysis(
 
 @router.get(
     path="/{version}/ecoindexes",
-    response_model=Page[ApiEcoindex],
+    response_model=PageApiEcoindexes,
     response_description="List of corresponding ecoindex results",
     responses={500: example_exception_response},
     tags=["Ecoindex"],
@@ -100,7 +99,7 @@ async def get_ecoindex_analysis_list(
         None, description="End date of the filter elements  (example: 2020-01-01)"
     ),
     host: Optional[str] = Query(None, description="Host name you want to filter"),
-) -> Page[ApiEcoindex]:
+) -> PageApiEcoindexes:
     ecoindexes = await get_ecoindex_result_list_db(
         session=session,
         date_from=date_from,
@@ -109,7 +108,7 @@ async def get_ecoindex_analysis_list(
         version=version,
     )
 
-    return paginate(ecoindexes)
+    return ecoindexes
 
 
 @router.get(

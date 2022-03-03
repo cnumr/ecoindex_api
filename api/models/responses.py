@@ -1,5 +1,4 @@
 from typing import Any, List, Optional
-from uuid import UUID
 
 from pydantic import BaseModel
 from sqlmodel import Field, SQLModel
