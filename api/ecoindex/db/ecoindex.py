@@ -1,6 +1,6 @@
 from datetime import date
 from typing import List, Optional
-from uuid import UUID, uuid4
+from uuid import UUID, uuid1
 
 from api.ecoindex.models.responses import ApiEcoindex
 from api.models.enums import Version
@@ -19,7 +19,7 @@ async def save_ecoindex_result_db(
     version: Optional[Version] = Version.v1,
 ) -> ApiEcoindex:
     db_ecoindex = ApiEcoindex(
-        id=str(uuid4()),
+        id=str(uuid1()),
         date=ecoindex_result.date,
         url=ecoindex_result.url,
         host=ecoindex_result.url.host,

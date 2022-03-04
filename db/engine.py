@@ -2,7 +2,7 @@ from fastapi.param_functions import Depends
 from settings import DATABASE_URL
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio.session import AsyncSession
-from sqlmodel import SQLModel, create_engine
+from sqlmodel import SQLModel
 
 engine = create_async_engine(DATABASE_URL, future=True)
 
