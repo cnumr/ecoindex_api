@@ -19,7 +19,7 @@ typer = "^0.4.0"
 [tool.poetry.dev-dependencies]
 black = "^22.1"
 aiosqlite = "^0.17.0"
-Faker = "^12.3.3"
+Faker = "^13.3.0"
 faker-enum = "^0.0.2"
 
 [build-system]
