@@ -15,9 +15,14 @@ async def get_host_list_db(
     q: Optional[str] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
+    page: Optional[int] = 1,
+    size: Optional[int] = 50,
 ) -> List[str]:
-    statement = select(ApiEcoindex.host).where(
-        ApiEcoindex.version == version.get_version_number()
+    statement = (
+        select(ApiEcoindex.host)
+        .where(ApiEcoindex.version == version.get_version_number())
+        .offset(size * (page - 1))
+        .limit(size)
     )
 
     if q:
