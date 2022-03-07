@@ -3,6 +3,7 @@ from typing import Optional
 from uuid import UUID
 
 from api.ecoindex.db.ecoindex import (
+    get_count_analysis_db,
     get_count_daily_request_per_host,
     get_ecoindex_result_by_id_db,
     get_ecoindex_result_list_db,
@@ -99,6 +100,8 @@ async def get_ecoindex_analysis_list(
         None, description="End date of the filter elements  (example: 2020-01-01)"
     ),
     host: Optional[str] = Query(None, description="Host name you want to filter"),
+    page: Optional[int] = Query(1, description="Page number", gt=1),
+    size: Optional[int] = Query(50, description="Page size", gt=1, lt=100),
 ) -> PageApiEcoindexes:
     ecoindexes = await get_ecoindex_result_list_db(
         session=session,
@@ -106,9 +109,17 @@ async def get_ecoindex_analysis_list(
         date_to=date_to,
         host=host,
         version=version,
+        page=page,
+        size=size,
+    )
+    total_results = await get_count_analysis_db(
+        session=session,
+        version=version,
     )
 
-    return ecoindexes
+    return PageApiEcoindexes(
+        items=ecoindexes, total=total_results, page=page, size=size
+    )
 
 
 @router.get(

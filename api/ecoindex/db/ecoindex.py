@@ -42,15 +42,30 @@ async def save_ecoindex_result_db(
     return db_ecoindex
 
 
+async def get_count_analysis_db(
+    session: AsyncSession, version: Optional[Version] = Version.v1
+) -> int:
+    result = await session.execute(
+        f"SELECT count(*) FROM apiecoindex WHERE version = {version.get_version_number()}"
+    )
+
+    return result.scalar()
+
+
 async def get_ecoindex_result_list_db(
     session: AsyncSession,
     version: Optional[Version] = Version.v1,
     host: Optional[str] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
+    page: int = 1,
+    size: int = 50,
 ) -> List[ApiEcoindex]:
-    statement = select(ApiEcoindex).where(
-        ApiEcoindex.version == version.get_version_number()
+    statement = (
+        select(ApiEcoindex)
+        .where(ApiEcoindex.version == version.get_version_number())
+        .offset((page - 1) * size)
+        .limit(size)
     )
 
     if host:

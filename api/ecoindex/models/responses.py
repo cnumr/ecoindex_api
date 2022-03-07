@@ -25,7 +25,3 @@ class PageApiEcoindexes(BaseModel):
     total: int
     page: int
     size: int
-    next_page: int
-    first_page: int
-    previous_page: int
-    last_page: int
