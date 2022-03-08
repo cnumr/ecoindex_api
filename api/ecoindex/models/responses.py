@@ -3,6 +3,7 @@ from uuid import UUID
 
 from ecoindex.models import Result
 from pydantic import BaseModel
+from sqlalchemy import table
 from sqlmodel import Field
 
 
@@ -17,6 +18,22 @@ class ApiEcoindex(Result, table=True):
         default=1,
         title="API version",
         description="Version number of the API used to run the test",
+    )
+    initial_ranking: Optional[int] = Field(
+        default=...,
+        title="Analysis rank",
+        description=(
+            "This is the initial rank of the analysis. "
+            "This is an indicator of the ranking at the time of the analysis."
+        ),
+    )
+    initial_total_results: Optional[int] = Field(
+        default=...,
+        title="Total number of analysis",
+        description=(
+            "This is the initial total number of analysis. "
+            "This is an indicator of the total number of analysis at the time of the analysis."
+        ),
     )
 
 
