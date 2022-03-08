@@ -21,6 +21,8 @@ async def create_data(count: int = 10):
                 id = new_uuid()
                 base_url = faker.url()
                 url = f"{base_url}{id}"
+                initial_ranking = faker.pyint(min_value=0, max_value=100)
+
                 session.add(
                     ApiEcoindex(
                         id=id,
@@ -38,6 +40,8 @@ async def create_data(count: int = 10):
                         ges=faker.pyfloat(min_value=0),
                         water=faker.pyfloat(min_value=0),
                         url=url,
+                        initial_ranking=initial_ranking,
+                        initial_total_results=faker.pyint(min_value=initial_ranking),
                     )
                 )
                 await session.commit()
