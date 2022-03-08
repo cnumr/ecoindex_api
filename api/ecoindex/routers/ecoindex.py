@@ -14,6 +14,7 @@ from api.ecoindex.models.examples import (
     example_ecoindex_not_found,
 )
 from api.ecoindex.models.responses import ApiEcoindex, PageApiEcoindexes
+from api.helper import get_status_code
 from api.models.enums import Version
 from api.models.examples import example_exception_response
 from db.engine import get_session
@@ -98,6 +99,7 @@ async def add_ecoindex_analysis(
     ),
 )
 async def get_ecoindex_analysis_list(
+    response: Response,
     session: AsyncSession = Depends(get_session),
     version: Version = Path(
         default=..., title="Engine version used to run the analysis"
@@ -130,6 +132,8 @@ async def get_ecoindex_analysis_list(
         date_to=date_to,
         host=host,
     )
+
+    response.status = get_status_code(items=ecoindexes, total_items=total_results)
 
     return PageApiEcoindexes(
         items=ecoindexes, total=total_results, page=page, size=size
