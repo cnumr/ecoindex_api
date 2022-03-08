@@ -133,7 +133,7 @@ async def get_ecoindex_analysis_list(
         host=host,
     )
 
-    response.status = get_status_code(items=ecoindexes, total_items=total_results)
+    response.status = get_status_code(items=ecoindexes, total=total_results)
 
     return PageApiEcoindexes(
         items=ecoindexes, total=total_results, page=page, size=size
