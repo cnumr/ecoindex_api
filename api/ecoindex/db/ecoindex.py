@@ -19,6 +19,10 @@ async def save_ecoindex_result_db(
     ecoindex_result: Result,
     version: Optional[Version] = Version.v1,
 ) -> ApiEcoindex:
+    ranking = await get_rank_analysis_db(
+        ecoindex=ecoindex_result, session=session, version=version
+    )
+    total_results = await get_count_analysis_db(session=session, version=version)
     db_ecoindex = ApiEcoindex(
         id=new_uuid(),
         date=ecoindex_result.date,
@@ -35,6 +39,8 @@ async def save_ecoindex_result_db(
         water=ecoindex_result.water,
         page_type=ecoindex_result.page_type,
         version=version.get_version_number(),
+        initial_ranking=ranking if ranking else total_results + 1,
+        initial_total_results=total_results + 1,
     )
     session.add(db_ecoindex)
     await session.commit()
@@ -62,6 +68,24 @@ async def get_count_analysis_db(
         statement += f" AND date <= '{date_to}'"
 
     result = await session.execute(statement=statement)
+
+    return result.scalar()
+
+
+async def get_rank_analysis_db(
+    ecoindex: Result, session: AsyncSession, version: Optional[Version] = Version.v1
+) -> Optional[int]:
+    result = await session.execute(
+        (
+            "SELECT ranking FROM ("
+            "SELECT *, ROW_NUMBER() OVER (ORDER BY score DESC) ranking "
+            "FROM apiecoindex "
+            f"WHERE version={version.get_version_number()} "
+            "ORDER BY score DESC) "
+            f"WHERE score <= {ecoindex.score} "
+            "LIMIT 1;"
+        )
+    )
 
     return result.scalar()
 
