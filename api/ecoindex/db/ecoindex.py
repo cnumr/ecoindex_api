@@ -44,11 +44,24 @@ async def save_ecoindex_result_db(
 
 
 async def get_count_analysis_db(
-    session: AsyncSession, version: Optional[Version] = Version.v1
+    session: AsyncSession,
+    version: Optional[Version] = Version.v1,
+    host: Optional[str] = None,
+    date_from: Optional[date] = None,
+    date_to: Optional[date] = None,
 ) -> int:
-    result = await session.execute(
-        f"SELECT count(*) FROM apiecoindex WHERE version = {version.get_version_number()}"
-    )
+    statement = f"SELECT count(*) FROM apiecoindex WHERE version = {version.get_version_number()}"
+
+    if host:
+        statement += f" AND host = '{host}'"
+
+    if date_from:
+        statement += f" AND date >= '{date_from}'"
+
+    if date_to:
+        statement += f" AND date <= '{date_to}'"
+
+    result = await session.execute(statement=statement)
 
     return result.scalar()
 
@@ -59,8 +72,8 @@ async def get_ecoindex_result_list_db(
     host: Optional[str] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
-    page: int = 1,
-    size: int = 50,
+    page: Optional[int] = 1,
+    size: Optional[int] = 50,
 ) -> List[ApiEcoindex]:
     statement = (
         select(ApiEcoindex)

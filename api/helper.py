@@ -1,4 +1,7 @@
+from typing import List
 from uuid import UUID, uuid4
+
+from fastapi import status
 
 from api.models.responses import ExceptionResponse
 
@@ -16,3 +19,13 @@ def new_uuid() -> UUID:
     while val.hex[0] == "0":
         val = uuid4()
     return val
+
+
+def get_status_code(items: List, total: int) -> int:
+    if not items:
+        return status.HTTP_404_NOT_FOUND
+
+    if total > len(items):
+        return status.HTTP_206_PARTIAL_CONTENT
+
+    return status.HTTP_200_OK

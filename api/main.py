@@ -32,7 +32,7 @@ app.add_middleware(
 )
 
 app.include_router(router=ecoindex.router)
-# app.include_router(router=host.router)
+app.include_router(router=host.router)
 
 
 @app.on_event("startup")

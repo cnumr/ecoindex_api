@@ -9,7 +9,10 @@ from api.ecoindex.db.ecoindex import (
     get_ecoindex_result_list_db,
     save_ecoindex_result_db,
 )
-from api.ecoindex.models.examples import example_daily_limit_response
+from api.ecoindex.models.examples import (
+    example_daily_limit_response,
+    example_ecoindex_not_found,
+)
 from api.ecoindex.models.responses import ApiEcoindex, PageApiEcoindexes
 from api.models.enums import Version
 from api.models.examples import example_exception_response
@@ -31,7 +34,10 @@ router = APIRouter()
     path="/v1/ecoindexes",
     response_model=ApiEcoindex,
     response_description="Corresponding ecoindex result",
-    responses={429: example_daily_limit_response, 500: example_exception_response},
+    responses={
+        status.HTTP_429_TOO_MANY_REQUESTS: example_daily_limit_response,
+        status.HTTP_500_INTERNAL_SERVER_ERROR: example_exception_response,
+    },
     tags=["Ecoindex"],
     description="This performs ecoindex analysis of a given webpage with a defined resolution",
     status_code=status.HTTP_201_CREATED,
@@ -80,7 +86,10 @@ async def add_ecoindex_analysis(
     path="/{version}/ecoindexes",
     response_model=PageApiEcoindexes,
     response_description="List of corresponding ecoindex results",
-    responses={500: example_exception_response},
+    responses={
+        status.HTTP_206_PARTIAL_CONTENT: {"model": PageApiEcoindexes},
+        status.HTTP_404_NOT_FOUND: {"model": PageApiEcoindexes},
+    },
     tags=["Ecoindex"],
     description=(
         "This returns a list of ecoindex analysis "
@@ -117,6 +126,9 @@ async def get_ecoindex_analysis_list(
     total_results = await get_count_analysis_db(
         session=session,
         version=version,
+        date_from=date_from,
+        date_to=date_to,
+        host=host,
     )
 
     return PageApiEcoindexes(
@@ -128,7 +140,7 @@ async def get_ecoindex_analysis_list(
     path="/{version}/ecoindexes/{id}",
     response_model=ApiEcoindex,
     response_description="Get one ecoindex result by its id",
-    responses={500: example_exception_response},
+    responses={status.HTTP_404_NOT_FOUND: example_ecoindex_not_found},
     tags=["Ecoindex"],
     description="This returns an ecoindex given by its unique identifier",
 )
