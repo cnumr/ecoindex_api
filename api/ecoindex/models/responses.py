@@ -3,7 +3,6 @@ from uuid import UUID
 
 from ecoindex.models import Result
 from pydantic import BaseModel
-from sqlalchemy import table
 from sqlmodel import Field
 
 
@@ -24,7 +23,7 @@ class ApiEcoindex(Result, table=True):
         title="Analysis rank",
         description=(
             "This is the initial rank of the analysis. "
-            "This is an indicator of the ranking at the time of the analysis."
+            "This is an indicator of the ranking at the time of the analysis for a given version."
         ),
     )
     initial_total_results: Optional[int] = Field(
@@ -32,7 +31,7 @@ class ApiEcoindex(Result, table=True):
         title="Total number of analysis",
         description=(
             "This is the initial total number of analysis. "
-            "This is an indicator of the total number of analysis at the time of the analysis."
+            "This is an indicator of the total number of analysis at the time of the analysis for a given version."
         ),
     )
 
