@@ -3,13 +3,18 @@ from typing import Optional
 from uuid import UUID
 
 from api.ecoindex.db.ecoindex import (
+    get_count_analysis_db,
     get_count_daily_request_per_host,
     get_ecoindex_result_by_id_db,
     get_ecoindex_result_list_db,
     save_ecoindex_result_db,
 )
-from api.ecoindex.models.examples import example_daily_limit_response
-from api.ecoindex.models.responses import ApiEcoindex
+from api.ecoindex.models.examples import (
+    example_daily_limit_response,
+    example_ecoindex_not_found,
+)
+from api.ecoindex.models.responses import ApiEcoindex, PageApiEcoindexes
+from api.helper import get_status_code
 from api.models.enums import Version
 from api.models.examples import example_exception_response
 from db.engine import get_session
@@ -17,7 +22,6 @@ from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
 from fastapi.params import Body, Depends, Query
-from fastapi_pagination import Page, paginate
 from settings import DAILY_LIMIT_PER_HOST
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -31,7 +35,10 @@ router = APIRouter()
     path="/v1/ecoindexes",
     response_model=ApiEcoindex,
     response_description="Corresponding ecoindex result",
-    responses={429: example_daily_limit_response, 500: example_exception_response},
+    responses={
+        status.HTTP_429_TOO_MANY_REQUESTS: example_daily_limit_response,
+        status.HTTP_500_INTERNAL_SERVER_ERROR: example_exception_response,
+    },
     tags=["Ecoindex"],
     description="This performs ecoindex analysis of a given webpage with a defined resolution",
     status_code=status.HTTP_201_CREATED,
@@ -78,9 +85,12 @@ async def add_ecoindex_analysis(
 
 @router.get(
     path="/{version}/ecoindexes",
-    response_model=Page[ApiEcoindex],
+    response_model=PageApiEcoindexes,
     response_description="List of corresponding ecoindex results",
-    responses={500: example_exception_response},
+    responses={
+        status.HTTP_206_PARTIAL_CONTENT: {"model": PageApiEcoindexes},
+        status.HTTP_404_NOT_FOUND: {"model": PageApiEcoindexes},
+    },
     tags=["Ecoindex"],
     description=(
         "This returns a list of ecoindex analysis "
@@ -89,6 +99,7 @@ async def add_ecoindex_analysis(
     ),
 )
 async def get_ecoindex_analysis_list(
+    response: Response,
     session: AsyncSession = Depends(get_session),
     version: Version = Path(
         default=..., title="Engine version used to run the analysis"
@@ -100,23 +111,40 @@ async def get_ecoindex_analysis_list(
         None, description="End date of the filter elements  (example: 2020-01-01)"
     ),
     host: Optional[str] = Query(None, description="Host name you want to filter"),
-) -> Page[ApiEcoindex]:
+    page: Optional[int] = Query(1, description="Page number", gte=1),
+    size: Optional[int] = Query(
+        50, description="Number of elements per page", gte=1, lte=100
+    ),
+) -> PageApiEcoindexes:
     ecoindexes = await get_ecoindex_result_list_db(
         session=session,
         date_from=date_from,
         date_to=date_to,
         host=host,
         version=version,
+        page=page,
+        size=size,
+    )
+    total_results = await get_count_analysis_db(
+        session=session,
+        version=version,
+        date_from=date_from,
+        date_to=date_to,
+        host=host,
     )
 
-    return paginate(ecoindexes)
+    response.status = get_status_code(items=ecoindexes, total_items=total_results)
+
+    return PageApiEcoindexes(
+        items=ecoindexes, total=total_results, page=page, size=size
+    )
 
 
 @router.get(
     path="/{version}/ecoindexes/{id}",
     response_model=ApiEcoindex,
     response_description="Get one ecoindex result by its id",
-    responses={500: example_exception_response},
+    responses={status.HTTP_404_NOT_FOUND: example_ecoindex_not_found},
     tags=["Ecoindex"],
     description="This returns an ecoindex given by its unique identifier",
 )

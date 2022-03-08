@@ -1,8 +1,9 @@
 from datetime import date
 from typing import List, Optional
-from uuid import UUID, uuid1
+from uuid import UUID
 
 from api.ecoindex.models.responses import ApiEcoindex
+from api.helper import new_uuid
 from api.models.enums import Version
 from sqlalchemy import func
 from sqlalchemy.ext.asyncio.session import AsyncSession
@@ -19,7 +20,7 @@ async def save_ecoindex_result_db(
     version: Optional[Version] = Version.v1,
 ) -> ApiEcoindex:
     db_ecoindex = ApiEcoindex(
-        id=str(uuid1()),
+        id=new_uuid(),
         date=ecoindex_result.date,
         url=ecoindex_result.url,
         host=ecoindex_result.url.host,
@@ -42,15 +43,43 @@ async def save_ecoindex_result_db(
     return db_ecoindex
 
 
+async def get_count_analysis_db(
+    session: AsyncSession,
+    version: Optional[Version] = Version.v1,
+    host: Optional[str] = None,
+    date_from: Optional[date] = None,
+    date_to: Optional[date] = None,
+) -> int:
+    statement = f"SELECT count(*) FROM apiecoindex WHERE version = {version.get_version_number()}"
+
+    if host:
+        statement += f" AND host = '{host}'"
+
+    if date_from:
+        statement += f" AND date >= '{date_from}'"
+
+    if date_to:
+        statement += f" AND date <= '{date_to}'"
+
+    result = await session.execute(statement=statement)
+
+    return result.scalar()
+
+
 async def get_ecoindex_result_list_db(
     session: AsyncSession,
     version: Optional[Version] = Version.v1,
     host: Optional[str] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
+    page: Optional[int] = 1,
+    size: Optional[int] = 50,
 ) -> List[ApiEcoindex]:
-    statement = select(ApiEcoindex).where(
-        ApiEcoindex.version == version.get_version_number()
+    statement = (
+        select(ApiEcoindex)
+        .where(ApiEcoindex.version == version.get_version_number())
+        .offset((page - 1) * size)
+        .limit(size)
     )
 
     if host:

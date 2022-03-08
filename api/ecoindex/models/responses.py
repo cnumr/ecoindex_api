@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import List, Optional
 from uuid import UUID
 
 from ecoindex.models import Result
+from pydantic import BaseModel
 from sqlmodel import Field
 
 
@@ -17,3 +18,10 @@ class ApiEcoindex(Result, table=True):
         title="API version",
         description="Version number of the API used to run the test",
     )
+
+
+class PageApiEcoindexes(BaseModel):
+    items: List[ApiEcoindex]
+    total: int
+    page: int
+    size: int

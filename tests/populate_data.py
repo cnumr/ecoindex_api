@@ -1,6 +1,5 @@
-import uuid
-
 from api.ecoindex.models.responses import ApiEcoindex
+from api.helper import new_uuid
 from api.models.enums import Version
 from faker import Faker
 from faker_enum import EnumProvider
@@ -19,7 +18,7 @@ async def create_data(count: int = 10):
     async with AsyncSession(engine) as session:
         with progressbar(range(count)) as progress:
             for _ in progress:
-                id = uuid.uuid1()
+                id = new_uuid()
                 base_url = faker.url()
                 url = f"{base_url}{id}"
                 session.add(

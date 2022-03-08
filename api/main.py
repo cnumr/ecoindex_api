@@ -2,7 +2,6 @@ from db.engine import create_db_and_tables, is_database_online
 from fastapi.applications import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_health import health
-from fastapi_pagination.api import add_pagination
 from settings import (
     CORS_ALLOWED_CREDENTIALS,
     CORS_ALLOWED_HEADERS,
@@ -58,6 +57,3 @@ app.add_api_route(
     description="Check health status of components of the API (database...)",
     response_model=ApiHealth,
 )
-
-
-add_pagination(app)
