@@ -58,7 +58,7 @@ async def get_count_hosts_db(
 
     sub_statement += " GROUP BY host"
 
-    statement = f"SELECT count(*) FROM ({sub_statement})"
+    statement = f"SELECT count(*) FROM ({sub_statement}) t"
     result = await session.execute(statement=statement)
 
     return result.scalar()

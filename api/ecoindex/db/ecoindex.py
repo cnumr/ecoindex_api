@@ -81,7 +81,7 @@ async def get_rank_analysis_db(
             "SELECT *, ROW_NUMBER() OVER (ORDER BY score DESC) ranking "
             "FROM apiecoindex "
             f"WHERE version={version.get_version_number()} "
-            "ORDER BY score DESC) "
+            "ORDER BY score DESC) t "
             f"WHERE score <= {ecoindex.score} "
             "LIMIT 1;"
         )
