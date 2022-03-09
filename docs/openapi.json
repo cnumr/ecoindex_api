@@ -146,24 +146,28 @@
             "in": "query"
           },
           {
+            "description": "Page number",
             "required": false,
             "schema": {
               "title": "Page",
-              "minimum": 1.0,
               "type": "integer",
-              "default": 1
+              "description": "Page number",
+              "default": 1,
+              "gte": 1
             },
             "name": "page",
             "in": "query"
           },
           {
+            "description": "Number of elements per page",
             "required": false,
             "schema": {
               "title": "Size",
-              "maximum": 100.0,
-              "minimum": 1.0,
               "type": "integer",
-              "default": 50
+              "description": "Number of elements per page",
+              "default": 50,
+              "lte": 100,
+              "gte": 1
             },
             "name": "size",
             "in": "query"
@@ -175,27 +179,27 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Page_ApiEcoindex_"
+                  "$ref": "#/components/schemas/PageApiEcoindexes"
                 }
               }
             }
           },
-          "500": {
-            "description": "My bad! :( => Server exception",
+          "206": {
+            "description": "Partial Content",
             "content": {
               "application/json": {
-                "example": {
-                  "detail": {
-                    "args": [
-                      "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)",
-                      [
-                        "#0 0x55ffa3dd7ee3 <unknown>",
-                        "#1 0x55ffa38a5608 <unknown>"
-                      ]
-                    ],
-                    "exception": "WebDriverException",
-                    "message": "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)"
-                  }
+                "schema": {
+                  "$ref": "#/components/schemas/PageApiEcoindexes"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageApiEcoindexes"
                 }
               }
             }
@@ -257,22 +261,12 @@
               }
             }
           },
-          "500": {
-            "description": "My bad! :( => Server exception",
+          "404": {
+            "description": "Not found",
             "content": {
               "application/json": {
                 "example": {
-                  "detail": {
-                    "args": [
-                      "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)",
-                      [
-                        "#0 0x55ffa3dd7ee3 <unknown>",
-                        "#1 0x55ffa38a5608 <unknown>"
-                      ]
-                    ],
-                    "exception": "WebDriverException",
-                    "message": "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)"
-                  }
+                  "detail": "Analysis e9a4d5ea-b9c5-4440-a74a-cac229f7d672 not found for version v1"
                 }
               }
             }
@@ -348,24 +342,28 @@
             "in": "query"
           },
           {
+            "description": "Page number",
             "required": false,
             "schema": {
               "title": "Page",
-              "minimum": 1.0,
               "type": "integer",
-              "default": 1
+              "description": "Page number",
+              "default": 1,
+              "gte": 1
             },
             "name": "page",
             "in": "query"
           },
           {
+            "description": "Number of elements per page",
             "required": false,
             "schema": {
               "title": "Size",
-              "maximum": 100.0,
-              "minimum": 1.0,
               "type": "integer",
-              "default": 50
+              "description": "Number of elements per page",
+              "default": 50,
+              "lte": 100,
+              "gte": 1
             },
             "name": "size",
             "in": "query"
@@ -377,27 +375,27 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Page_str_"
+                  "$ref": "#/components/schemas/PageHosts"
                 }
               }
             }
           },
-          "500": {
-            "description": "My bad! :( => Server exception",
+          "206": {
+            "description": "Partial Content",
             "content": {
               "application/json": {
-                "example": {
-                  "detail": {
-                    "args": [
-                      "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)",
-                      [
-                        "#0 0x55ffa3dd7ee3 <unknown>",
-                        "#1 0x55ffa38a5608 <unknown>"
-                      ]
-                    ],
-                    "exception": "WebDriverException",
-                    "message": "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)"
-                  }
+                "schema": {
+                  "$ref": "#/components/schemas/PageHosts"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageHosts"
                 }
               }
             }
@@ -446,7 +444,9 @@
           "size",
           "nodes",
           "requests",
-          "host"
+          "host",
+          "initial_ranking",
+          "initial_total_results"
         ],
         "type": "object",
         "properties": {
@@ -537,6 +537,16 @@
             "type": "integer",
             "description": "Version number of the API used to run the test",
             "default": 1
+          },
+          "initial_ranking": {
+            "title": "Analysis rank",
+            "type": "integer",
+            "description": "This is the initial rank of the analysis. This is an indicator of the ranking at the time of the analysis for a given version."
+          },
+          "initial_total_results": {
+            "title": "Total number of analysis",
+            "type": "integer",
+            "description": "This is the initial total number of analysis. This is an indicator of the total number of analysis at the time of the analysis for a given version."
           }
         }
       },
@@ -566,8 +576,8 @@
           }
         }
       },
-      "Page_ApiEcoindex_": {
-        "title": "Page[ApiEcoindex]",
+      "PageApiEcoindexes": {
+        "title": "PageApiEcoindexes",
         "required": [
           "items",
           "total",
@@ -585,23 +595,20 @@
           },
           "total": {
             "title": "Total",
-            "minimum": 0.0,
             "type": "integer"
           },
           "page": {
             "title": "Page",
-            "minimum": 1.0,
             "type": "integer"
           },
           "size": {
             "title": "Size",
-            "minimum": 1.0,
             "type": "integer"
           }
         }
       },
-      "Page_str_": {
-        "title": "Page[str]",
+      "PageHosts": {
+        "title": "PageHosts",
         "required": [
           "items",
           "total",
@@ -619,17 +626,14 @@
           },
           "total": {
             "title": "Total",
-            "minimum": 0.0,
             "type": "integer"
           },
           "page": {
             "title": "Page",
-            "minimum": 1.0,
             "type": "integer"
           },
           "size": {
             "title": "Size",
-            "minimum": 1.0,
             "type": "integer"
           }
         }
