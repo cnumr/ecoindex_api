@@ -9,7 +9,7 @@ python = "^3.8"
 fastapi = "^0.75.0"
 ecoindex = {version = "^2.10.0", allow-prereleases = true}
 python-environ = "^0.4.54"
-uvicorn = "^0.17.5"
+uvicorn = "^0.17.6"
 sqlmodel = "^0.0.6"
 fastapi-health = "^0.4.0"
 asyncpg = "^0.25.0"
