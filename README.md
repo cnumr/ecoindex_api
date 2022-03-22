@@ -22,7 +22,7 @@ The API specification can be found in the [documentation](docs/openapi.json). Yo
 
 With this docker setup you get 2 services running that are enough to make it all work:
 
-- `db`: A PostgreSQL instance
+- `db`: A MySQL instance
 - `api`: The API instance running FastAPI application with [undetected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver)
 
 ```bash
