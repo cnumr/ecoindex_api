@@ -9,7 +9,7 @@ WORKDIR /code
 COPY --from=requirements-stage /tmp/requirements.txt /code/requirements.txt
 RUN apt-get update && apt-get -y install libpq-dev gcc wget
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-RUN pip install psycopg2
+RUN pip install aiomysql
 COPY ./ /code/
 COPY ./docker/entrypoint.sh /usr/bin/entrypoint
 RUN chmod +x /usr/bin/entrypoint
