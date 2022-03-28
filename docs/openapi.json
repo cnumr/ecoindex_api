@@ -166,8 +166,8 @@
               "type": "integer",
               "description": "Number of elements per page",
               "default": 50,
-              "gte": 1,
-              "lte": 100
+              "lte": 100,
+              "gte": 1
             },
             "name": "size",
             "in": "query"
@@ -362,8 +362,8 @@
               "type": "integer",
               "description": "Number of elements per page",
               "default": 50,
-              "gte": 1,
-              "lte": 100
+              "lte": 100,
+              "gte": 1
             },
             "name": "size",
             "in": "query"
