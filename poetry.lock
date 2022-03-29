@@ -164,7 +164,7 @@ undetected-chromedriver = "3.0.3"
 
 [[package]]
 name = "faker"
-version = "13.3.3"
+version = "13.3.4"
 description = "Faker is a Python package that generates fake data for you."
 category = "dev"
 optional = false
@@ -594,7 +594,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "0e7526c47a3b956a28c351b968628ca448853ffa20b55c4104954c75e6bc7b6a"
+content-hash = "9b95111122b3984225281bb36e8246ff084fa5693387bae4ca6f2c918445704b"
 
 [metadata.files]
 aiosqlite = [
@@ -737,8 +737,8 @@ ecoindex = [
     {file = "ecoindex-2.10.0.tar.gz", hash = "sha256:851c672e2104a9f2042fe2ffb57714bd538fafa0db74a818d727be740eba7ed7"},
 ]
 faker = [
-    {file = "Faker-13.3.3-py3-none-any.whl", hash = "sha256:85ed0cb379e3b7414bdb6b484994beaf9bddc74472c8c35f743c16cf5fc0c314"},
-    {file = "Faker-13.3.3.tar.gz", hash = "sha256:5536ceb63380f0d598c026b7c330c17d719a19d1a495e9397ee8f5259420a696"},
+    {file = "Faker-13.3.4-py3-none-any.whl", hash = "sha256:7758ece2593ce603db117db3d27393c31f4af03f783e176f3f0e14839a4f3426"},
+    {file = "Faker-13.3.4.tar.gz", hash = "sha256:188961065fb5c78ea639f42176f55100f72c90c3a3179ac6c955c4bd712b0511"},
 ]
 faker-enum = [
     {file = "faker_enum-0.0.2-py2.py3-none-any.whl", hash = "sha256:1af0b79c1c84b4df17854abf491a571281a1f931aa024bb27f9d8bef290ff362"},
