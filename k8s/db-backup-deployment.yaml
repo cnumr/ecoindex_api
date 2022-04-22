@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -o k8s
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db-backup
+  name: db-backup
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: db-backup
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -o k8s
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: db-backup
+    spec:
+      containers:
+        - env:
+            - name: COMPRESSION
+              value: BZ
+            - name: CONTAINER_NAME
+              value: db-backup
+            - name: DB_CLEANUP_TIME
+              value: "8640"
+            - name: DB_DUMP_BEGIN
+              value: "0000"
+            - name: DB_DUMP_FREQ
+              value: "1440"
+            - name: DB_HOST
+              value: db
+            - name: DB_NAME
+              value: postgres
+            - name: DB_PASS
+              value: postgres
+            - name: DB_TYPE
+              value: pgsql
+            - name: DB_USER
+              value: postgres
+            - name: MD5
+              value: "TRUE"
+          image: tiredofit/db-backup
+          name: db-backup
+          resources: {}
+          volumeMounts:
+            - mountPath: /backup
+              name: dbbackup
+      restartPolicy: Always
+      volumes:
+        - name: dbbackup
+          persistentVolumeClaim:
+            claimName: dbbackup
+status: {}
