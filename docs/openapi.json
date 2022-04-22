@@ -11,9 +11,9 @@
         "tags": [
           "Ecoindex"
         ],
-        "summary": "Add Ecoindex Analysis",
+        "summary": "New Ecoindex Analysis",
         "description": "This performs ecoindex analysis of a given webpage with a defined resolution",
-        "operationId": "add_ecoindex_analysis_v1_ecoindexes_post",
+        "operationId": "New_ecoindex_analysis_v1_ecoindexes_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -56,7 +56,7 @@
             }
           },
           "500": {
-            "description": "My bad! :( => Server exception",
+            "description": "My bad! \ud83d\ude15 => Server exception",
             "content": {
               "application/json": {
                 "example": {
@@ -71,6 +71,26 @@
                     "exception": "WebDriverException",
                     "message": "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)"
                   }
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "This url seems not OK... \ud83d\ude44",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "This host is unreachable. Are you really sure of this url? \ud83e\udd14"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Timeout reached when requesting this url. This is probably a temporary issue. \ud83d\ude25",
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "Timeout reached when requesting this url. This is probably a temporary issue. \ud83d\ude25"
                 }
               }
             }
@@ -95,18 +115,21 @@
         ],
         "summary": "Get Ecoindex Analysis List",
         "description": "This returns a list of ecoindex analysis corresponding to query filters and the given version engine. The results are ordered by ascending date",
-        "operationId": "get_ecoindex_analysis_list__version__ecoindexes_get",
+        "operationId": "Get_ecoindex_analysis_list__version__ecoindexes_get",
         "parameters": [
           {
+            "description": "Engine version used to run the analysis (v0 or v1)",
             "required": true,
             "schema": {
-              "title": "Engine version used to run the analysis",
+              "title": "Engine version",
               "allOf": [
                 {
                   "$ref": "#/components/schemas/Version"
                 }
-              ]
+              ],
+              "description": "Engine version used to run the analysis (v0 or v1)"
             },
+            "example": "v1",
             "name": "version",
             "in": "path"
           },
@@ -224,18 +247,21 @@
         ],
         "summary": "Get Ecoindex Analysis By Id",
         "description": "This returns an ecoindex given by its unique identifier",
-        "operationId": "get_ecoindex_analysis_by_id__version__ecoindexes__id__get",
+        "operationId": "Get_ecoindex_analysis_by_id__version__ecoindexes__id__get",
         "parameters": [
           {
+            "description": "Engine version used to run the analysis (v0 or v1)",
             "required": true,
             "schema": {
-              "title": "Engine version used to run the analysis",
+              "title": "Engine version",
               "allOf": [
                 {
                   "$ref": "#/components/schemas/Version"
                 }
-              ]
+              ],
+              "description": "Engine version used to run the analysis (v0 or v1)"
             },
+            "example": "v1",
             "name": "version",
             "in": "path"
           },
@@ -291,7 +317,7 @@
         ],
         "summary": "Get Host List",
         "description": "This returns a list of hosts that ran an ecoindex analysis order by most request made",
-        "operationId": "get_host_list__version__hosts_get",
+        "operationId": "Get_host_list__version__hosts_get",
         "parameters": [
           {
             "required": true,
@@ -677,6 +703,7 @@
           "v0",
           "v1"
         ],
+        "type": "string",
         "description": "An enumeration."
       },
       "WebPage": {

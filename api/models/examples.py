@@ -1,5 +1,5 @@
 example_exception_response = {
-    "description": "My bad! :( => Server exception",
+    "description": "My bad! 😕 => Server exception",
     "content": {
         "application/json": {
             "example": {
@@ -14,6 +14,28 @@ example_exception_response = {
                     "exception": "WebDriverException",
                     "message": "unknown error: net::ERR_NAME_NOT_RESOLVED\n  (Session info: headless chrome=96.0.4664.110)",
                 }
+            }
+        }
+    },
+}
+
+example_exception_ERR_NAME_NOT_RESOLVED_response = {
+    "description": "This url seems not OK... 🙄",
+    "content": {
+        "application/json": {
+            "example": {
+                "detail": "This host is unreachable. Are you really sure of this url? 🤔"
+            }
+        }
+    },
+}
+
+example_exception_ERR_CONNECTION_TIMED_OUT_response = {
+    "description": "Timeout reached when requesting this url. This is probably a temporary issue. 😥",
+    "content": {
+        "application/json": {
+            "example": {
+                "detail": "Timeout reached when requesting this url. This is probably a temporary issue. 😥"
             }
         }
     },

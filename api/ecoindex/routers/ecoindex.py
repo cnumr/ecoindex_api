@@ -16,7 +16,11 @@ from api.ecoindex.models.examples import (
 from api.ecoindex.models.responses import ApiEcoindex, PageApiEcoindexes
 from api.helper import get_status_code
 from api.models.enums import Version
-from api.models.examples import example_exception_response
+from api.models.examples import (
+    example_exception_ERR_CONNECTION_TIMED_OUT_response,
+    example_exception_ERR_NAME_NOT_RESOLVED_response,
+    example_exception_response,
+)
 from db.engine import get_session
 from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
@@ -32,12 +36,15 @@ router = APIRouter()
 
 
 @router.post(
+    name="New ecoindex analysis",
     path="/v1/ecoindexes",
     response_model=ApiEcoindex,
     response_description="Corresponding ecoindex result",
     responses={
         status.HTTP_429_TOO_MANY_REQUESTS: example_daily_limit_response,
         status.HTTP_500_INTERNAL_SERVER_ERROR: example_exception_response,
+        status.HTTP_502_BAD_GATEWAY: example_exception_ERR_NAME_NOT_RESOLVED_response,
+        status.HTTP_504_GATEWAY_TIMEOUT: example_exception_ERR_CONNECTION_TIMED_OUT_response,
     },
     tags=["Ecoindex"],
     description="This performs ecoindex analysis of a given webpage with a defined resolution",
@@ -84,6 +91,7 @@ async def add_ecoindex_analysis(
 
 
 @router.get(
+    name="Get ecoindex analysis list",
     path="/{version}/ecoindexes",
     response_model=PageApiEcoindexes,
     response_description="List of corresponding ecoindex results",
@@ -102,7 +110,10 @@ async def get_ecoindex_analysis_list(
     response: Response,
     session: AsyncSession = Depends(get_session),
     version: Version = Path(
-        default=..., title="Engine version used to run the analysis"
+        default=...,
+        title="Engine version",
+        description="Engine version used to run the analysis (v0 or v1)",
+        example=Version.v1.value,
     ),
     date_from: Optional[date] = Query(
         None, description="Start date of the filter elements (example: 2020-01-01)"
@@ -141,6 +152,7 @@ async def get_ecoindex_analysis_list(
 
 
 @router.get(
+    name="Get ecoindex analysis by id",
     path="/{version}/ecoindexes/{id}",
     response_model=ApiEcoindex,
     response_description="Get one ecoindex result by its id",
@@ -151,7 +163,10 @@ async def get_ecoindex_analysis_list(
 async def get_ecoindex_analysis_by_id(
     session: AsyncSession = Depends(get_session),
     version: Version = Path(
-        default=..., title="Engine version used to run the analysis"
+        default=...,
+        title="Engine version",
+        description="Engine version used to run the analysis (v0 or v1)",
+        example=Version.v1.value,
     ),
     id: UUID = Path(default=..., title="Unique identifier of the ecoindex analysis"),
 ) -> ApiEcoindex:

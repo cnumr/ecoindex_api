@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Version(Enum):
+class Version(str, Enum):
     v0 = "v0"
     v1 = "v1"
 
