@@ -2,6 +2,7 @@ from db.engine import create_db_and_tables, is_database_online
 from fastapi.applications import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_health import health
+from selenium.common.exceptions import WebDriverException
 from settings import (
     CORS_ALLOWED_CREDENTIALS,
     CORS_ALLOWED_HEADERS,
@@ -38,6 +39,31 @@ app.include_router(router=host.router)
 @app.on_event("startup")
 async def on_startup():
     await create_db_and_tables()
+
+
+@app.exception_handler(WebDriverException)
+async def handle_webdriver_exception(_: Request, exc: WebDriverException):
+    if "ERR_NAME_NOT_RESOLVED" in exc.msg:
+        return JSONResponse(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            content={
+                "detail": "This host is unreachable. Are you really sure of this url? 🤔"
+            },
+        )
+
+    if "ERR_CONNECTION_TIMED_OUT" in exc.msg:
+        return JSONResponse(
+            status_code=status.HTTP_504_GATEWAY_TIMEOUT,
+            content={
+                "detail": "Timeout reached when requesting this url. This is probably a temporary issue. 😥"
+            },
+        )
+
+    exception_response = format_exception_response(exception=exc)
+    return JSONResponse(
+        content={"detail": exception_response.dict()},
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    )
 
 
 @app.exception_handler(Exception)

@@ -18,6 +18,7 @@ router = APIRouter()
 
 
 @router.get(
+    name="Get host list",
     path="/{version}/hosts",
     response_model=PageHosts,
     response_description="List ecoindex hosts",
