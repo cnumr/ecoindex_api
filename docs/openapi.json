@@ -1,34 +1,322 @@
 {
-  "openapi": "3.0.2",
+  "components": {
+    "schemas": {
+      "ApiEcoindex": {
+        "properties": {
+          "date": {
+            "description": "Date of the analysis",
+            "format": "date-time",
+            "title": "Analysis datetime",
+            "type": "string"
+          },
+          "ges": {
+            "description": "Is the equivalent of greenhouse gases emission (in `gCO2e`) of the page",
+            "minimum": 0.0,
+            "title": "Ecoindex GES equivalent",
+            "type": "number"
+          },
+          "grade": {
+            "description": "Is the corresponding ecoindex grade of the page (from A to G)",
+            "title": "Ecoindex grade",
+            "type": "string"
+          },
+          "height": {
+            "description": "Height of the simulated window in pixel",
+            "title": "Page Height",
+            "type": "integer"
+          },
+          "host": {
+            "description": "Host name of the web page",
+            "title": "Web page host",
+            "type": "string"
+          },
+          "id": {
+            "description": "Analysis ID of type `UUID`",
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "initial_ranking": {
+            "description": "This is the initial rank of the analysis. This is an indicator of the ranking at the time of the analysis for a given version.",
+            "title": "Analysis rank",
+            "type": "integer"
+          },
+          "initial_total_results": {
+            "description": "This is the initial total number of analysis. This is an indicator of the total number of analysis at the time of the analysis for a given version.",
+            "title": "Total number of analysis",
+            "type": "integer"
+          },
+          "nodes": {
+            "description": "Is the number of the DOM elements in the page",
+            "minimum": 0.0,
+            "title": "Page nodes",
+            "type": "integer"
+          },
+          "page_type": {
+            "description": "Is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types)",
+            "title": "Page type",
+            "type": "string"
+          },
+          "requests": {
+            "description": "Is the number of external requests made by the page",
+            "minimum": 0.0,
+            "title": "Page requests",
+            "type": "integer"
+          },
+          "score": {
+            "description": "Is the corresponding ecoindex score of the page (0 to 100)",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Ecoindex score",
+            "type": "number"
+          },
+          "size": {
+            "description": "Is the size of the page and of the downloaded elements of the page in KB",
+            "minimum": 0.0,
+            "title": "Page size",
+            "type": "number"
+          },
+          "url": {
+            "description": "Url of the analysed page",
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "Page url",
+            "type": "string"
+          },
+          "version": {
+            "default": 1,
+            "description": "Version number of the API used to run the test",
+            "title": "API version",
+            "type": "integer"
+          },
+          "water": {
+            "description": "Is the equivalent water consumption (in `cl`) of the page",
+            "minimum": 0.0,
+            "title": "Ecoindex Water equivalent",
+            "type": "number"
+          },
+          "width": {
+            "description": "Width of the simulated window in pixel",
+            "title": "Page Width",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "size",
+          "nodes",
+          "requests",
+          "host",
+          "initial_ranking",
+          "initial_total_results"
+        ],
+        "title": "ApiEcoindex",
+        "type": "object"
+      },
+      "ApiHealth": {
+        "properties": {
+          "database": {
+            "title": "Status of database",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "database"
+        ],
+        "title": "ApiHealth",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "PageApiEcoindexes": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ApiEcoindex"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "PageApiEcoindexes",
+        "type": "object"
+      },
+      "PageHosts": {
+        "properties": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "size": {
+            "title": "Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "size"
+        ],
+        "title": "PageHosts",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "Version": {
+        "description": "An enumeration.",
+        "enum": [
+          "v0",
+          "v1"
+        ],
+        "title": "Version",
+        "type": "string"
+      },
+      "WebPage": {
+        "properties": {
+          "height": {
+            "description": "Height of the simulated window in pixel",
+            "title": "Page Height",
+            "type": "integer"
+          },
+          "url": {
+            "description": "Url of the analysed page",
+            "format": "uri",
+            "maxLength": 2083,
+            "minLength": 1,
+            "title": "Page url",
+            "type": "string"
+          },
+          "width": {
+            "description": "Width of the simulated window in pixel",
+            "title": "Page Width",
+            "type": "integer"
+          }
+        },
+        "title": "WebPage",
+        "type": "object"
+      }
+    }
+  },
   "info": {
-    "title": "Ecoindex API",
     "description": "Ecoindex API enables you to perform ecoindex analysis of given web pages",
+    "title": "Ecoindex API",
     "version": "1.0.0"
   },
+  "openapi": "3.0.2",
   "paths": {
+    "/health": {
+      "get": {
+        "description": "Check health status of components of the API (database...)",
+        "operationId": "Get_healthcheck_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiHealth"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Healthcheck",
+        "tags": [
+          "Infra"
+        ]
+      }
+    },
     "/v1/ecoindexes": {
       "post": {
-        "tags": [
-          "Ecoindex"
-        ],
-        "summary": "New Ecoindex Analysis",
         "description": "This performs ecoindex analysis of a given webpage with a defined resolution",
         "operationId": "New_ecoindex_analysis_v1_ecoindexes_post",
         "requestBody": {
           "content": {
             "application/json": {
+              "example": {
+                "height": 1080,
+                "url": "http://www.ecoindex.fr",
+                "width": 1920
+              },
               "schema": {
-                "title": "Web page to analyze defined by its url and its screen resolution",
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/WebPage"
                   }
-                ]
-              },
-              "example": {
-                "width": 1920,
-                "height": 1080,
-                "url": "http://www.ecoindex.fr"
+                ],
+                "title": "Web page to analyze defined by its url and its screen resolution"
               }
             }
           },
@@ -36,27 +324,36 @@
         },
         "responses": {
           "201": {
-            "description": "Corresponding ecoindex result",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiEcoindex"
                 }
               }
-            }
+            },
+            "description": "Corresponding ecoindex result"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           },
           "429": {
-            "description": "You have reached the daily limit",
             "content": {
               "application/json": {
                 "example": {
                   "detail": "You have already reached the daily limit of 5 requests for host www.ecoindex.fr today"
                 }
               }
-            }
+            },
+            "description": "You have reached the daily limit"
           },
           "500": {
-            "description": "My bad! \ud83d\ude15 => Server exception",
             "content": {
               "application/json": {
                 "example": {
@@ -73,662 +370,365 @@
                   }
                 }
               }
-            }
+            },
+            "description": "My bad! \ud83d\ude15 => Server exception"
           },
           "502": {
-            "description": "This url seems not OK... \ud83d\ude44",
             "content": {
               "application/json": {
                 "example": {
                   "detail": "This host is unreachable. Are you really sure of this url? \ud83e\udd14"
                 }
               }
-            }
+            },
+            "description": "This url seems not OK... \ud83d\ude44"
           },
           "504": {
-            "description": "Timeout reached when requesting this url. This is probably a temporary issue. \ud83d\ude25",
             "content": {
               "application/json": {
                 "example": {
                   "detail": "Timeout reached when requesting this url. This is probably a temporary issue. \ud83d\ude25"
                 }
               }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
+            },
+            "description": "Timeout reached when requesting this url. This is probably a temporary issue. \ud83d\ude25"
           }
-        }
+        },
+        "summary": "New Ecoindex Analysis",
+        "tags": [
+          "Ecoindex"
+        ]
       }
     },
     "/{version}/ecoindexes": {
       "get": {
-        "tags": [
-          "Ecoindex"
-        ],
-        "summary": "Get Ecoindex Analysis List",
         "description": "This returns a list of ecoindex analysis corresponding to query filters and the given version engine. The results are ordered by ascending date",
         "operationId": "Get_ecoindex_analysis_list__version__ecoindexes_get",
         "parameters": [
           {
             "description": "Engine version used to run the analysis (v0 or v1)",
+            "example": "v1",
+            "in": "path",
+            "name": "version",
             "required": true,
             "schema": {
-              "title": "Engine version",
               "allOf": [
                 {
                   "$ref": "#/components/schemas/Version"
                 }
               ],
-              "description": "Engine version used to run the analysis (v0 or v1)"
-            },
-            "example": "v1",
-            "name": "version",
-            "in": "path"
+              "description": "Engine version used to run the analysis (v0 or v1)",
+              "title": "Engine version"
+            }
           },
           {
             "description": "Start date of the filter elements (example: 2020-01-01)",
+            "in": "query",
+            "name": "date_from",
             "required": false,
             "schema": {
-              "title": "Date From",
-              "type": "string",
               "description": "Start date of the filter elements (example: 2020-01-01)",
-              "format": "date"
-            },
-            "name": "date_from",
-            "in": "query"
+              "format": "date",
+              "title": "Date From",
+              "type": "string"
+            }
           },
           {
             "description": "End date of the filter elements  (example: 2020-01-01)",
+            "in": "query",
+            "name": "date_to",
             "required": false,
             "schema": {
-              "title": "Date To",
-              "type": "string",
               "description": "End date of the filter elements  (example: 2020-01-01)",
-              "format": "date"
-            },
-            "name": "date_to",
-            "in": "query"
+              "format": "date",
+              "title": "Date To",
+              "type": "string"
+            }
           },
           {
             "description": "Host name you want to filter",
+            "in": "query",
+            "name": "host",
             "required": false,
             "schema": {
+              "description": "Host name you want to filter",
               "title": "Host",
-              "type": "string",
-              "description": "Host name you want to filter"
-            },
-            "name": "host",
-            "in": "query"
+              "type": "string"
+            }
           },
           {
             "description": "Page number",
+            "in": "query",
+            "name": "page",
             "required": false,
             "schema": {
-              "title": "Page",
-              "type": "integer",
-              "description": "Page number",
               "default": 1,
-              "gte": 1
-            },
-            "name": "page",
-            "in": "query"
+              "description": "Page number",
+              "gte": 1,
+              "title": "Page",
+              "type": "integer"
+            }
           },
           {
             "description": "Number of elements per page",
+            "in": "query",
+            "name": "size",
             "required": false,
             "schema": {
-              "title": "Size",
-              "type": "integer",
-              "description": "Number of elements per page",
               "default": 50,
+              "description": "Number of elements per page",
               "gte": 1,
-              "lte": 100
-            },
-            "name": "size",
-            "in": "query"
+              "lte": 100,
+              "title": "Size",
+              "type": "integer"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "List of corresponding ecoindex results",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PageApiEcoindexes"
                 }
               }
-            }
+            },
+            "description": "List of corresponding ecoindex results"
           },
           "206": {
-            "description": "Partial Content",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PageApiEcoindexes"
                 }
               }
-            }
+            },
+            "description": "Partial Content"
           },
           "404": {
-            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PageApiEcoindexes"
                 }
               }
-            }
+            },
+            "description": "Not Found"
           },
           "422": {
-            "description": "Validation Error",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
-            }
+            },
+            "description": "Validation Error"
           }
-        }
+        },
+        "summary": "Get Ecoindex Analysis List",
+        "tags": [
+          "Ecoindex"
+        ]
       }
     },
     "/{version}/ecoindexes/{id}": {
       "get": {
-        "tags": [
-          "Ecoindex"
-        ],
-        "summary": "Get Ecoindex Analysis By Id",
         "description": "This returns an ecoindex given by its unique identifier",
         "operationId": "Get_ecoindex_analysis_by_id__version__ecoindexes__id__get",
         "parameters": [
           {
             "description": "Engine version used to run the analysis (v0 or v1)",
+            "example": "v1",
+            "in": "path",
+            "name": "version",
             "required": true,
             "schema": {
-              "title": "Engine version",
               "allOf": [
                 {
                   "$ref": "#/components/schemas/Version"
                 }
               ],
-              "description": "Engine version used to run the analysis (v0 or v1)"
-            },
-            "example": "v1",
-            "name": "version",
-            "in": "path"
+              "description": "Engine version used to run the analysis (v0 or v1)",
+              "title": "Engine version"
+            }
           },
           {
+            "in": "path",
+            "name": "id",
             "required": true,
             "schema": {
+              "format": "uuid",
               "title": "Unique identifier of the ecoindex analysis",
-              "type": "string",
-              "format": "uuid"
-            },
-            "name": "id",
-            "in": "path"
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Get one ecoindex result by its id",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiEcoindex"
                 }
               }
-            }
+            },
+            "description": "Get one ecoindex result by its id"
           },
           "404": {
-            "description": "Not found",
             "content": {
               "application/json": {
                 "example": {
                   "detail": "Analysis e9a4d5ea-b9c5-4440-a74a-cac229f7d672 not found for version v1"
                 }
               }
-            }
+            },
+            "description": "Not found"
           },
           "422": {
-            "description": "Validation Error",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
-            }
+            },
+            "description": "Validation Error"
           }
-        }
+        },
+        "summary": "Get Ecoindex Analysis By Id",
+        "tags": [
+          "Ecoindex"
+        ]
       }
     },
     "/{version}/hosts": {
       "get": {
-        "tags": [
-          "Host"
-        ],
-        "summary": "Get Host List",
         "description": "This returns a list of hosts that ran an ecoindex analysis order by most request made",
         "operationId": "Get_host_list__version__hosts_get",
         "parameters": [
           {
+            "in": "path",
+            "name": "version",
             "required": true,
             "schema": {
-              "title": "Engine version used to run the analysis",
               "allOf": [
                 {
                   "$ref": "#/components/schemas/Version"
                 }
-              ]
-            },
-            "name": "version",
-            "in": "path"
+              ],
+              "title": "Engine version used to run the analysis"
+            }
           },
           {
             "description": "Start date of the filter elements (example: 2020-01-01)",
+            "in": "query",
+            "name": "date_from",
             "required": false,
             "schema": {
-              "title": "Date From",
-              "type": "string",
               "description": "Start date of the filter elements (example: 2020-01-01)",
-              "format": "date"
-            },
-            "name": "date_from",
-            "in": "query"
+              "format": "date",
+              "title": "Date From",
+              "type": "string"
+            }
           },
           {
             "description": "End date of the filter elements  (example: 2020-01-01)",
+            "in": "query",
+            "name": "date_to",
             "required": false,
             "schema": {
-              "title": "Date To",
-              "type": "string",
               "description": "End date of the filter elements  (example: 2020-01-01)",
-              "format": "date"
-            },
-            "name": "date_to",
-            "in": "query"
+              "format": "date",
+              "title": "Date To",
+              "type": "string"
+            }
           },
           {
             "description": "Filter by partial host name",
+            "in": "query",
+            "name": "q",
             "required": false,
             "schema": {
+              "description": "Filter by partial host name",
               "title": "Q",
-              "type": "string",
-              "description": "Filter by partial host name"
-            },
-            "name": "q",
-            "in": "query"
+              "type": "string"
+            }
           },
           {
             "description": "Page number",
+            "in": "query",
+            "name": "page",
             "required": false,
             "schema": {
-              "title": "Page",
-              "type": "integer",
-              "description": "Page number",
               "default": 1,
-              "gte": 1
-            },
-            "name": "page",
-            "in": "query"
+              "description": "Page number",
+              "gte": 1,
+              "title": "Page",
+              "type": "integer"
+            }
           },
           {
             "description": "Number of elements per page",
+            "in": "query",
+            "name": "size",
             "required": false,
             "schema": {
-              "title": "Size",
-              "type": "integer",
-              "description": "Number of elements per page",
               "default": 50,
+              "description": "Number of elements per page",
               "gte": 1,
-              "lte": 100
-            },
-            "name": "size",
-            "in": "query"
+              "lte": 100,
+              "title": "Size",
+              "type": "integer"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "List ecoindex hosts",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PageHosts"
                 }
               }
-            }
+            },
+            "description": "List ecoindex hosts"
           },
           "206": {
-            "description": "Partial Content",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PageHosts"
                 }
               }
-            }
+            },
+            "description": "Partial Content"
           },
           "404": {
-            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PageHosts"
                 }
               }
-            }
+            },
+            "description": "Not Found"
           },
           "422": {
-            "description": "Validation Error",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
-            }
+            },
+            "description": "Validation Error"
           }
-        }
-      }
-    },
-    "/health": {
-      "get": {
+        },
+        "summary": "Get Host List",
         "tags": [
-          "Infra"
-        ],
-        "summary": "Get Healthcheck",
-        "description": "Check health status of components of the API (database...)",
-        "operationId": "Get_healthcheck_health_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiHealth"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "ApiEcoindex": {
-        "title": "ApiEcoindex",
-        "required": [
-          "size",
-          "nodes",
-          "requests",
-          "host",
-          "initial_ranking",
-          "initial_total_results"
-        ],
-        "type": "object",
-        "properties": {
-          "width": {
-            "title": "Page Width",
-            "type": "integer",
-            "description": "Width of the simulated window in pixel"
-          },
-          "height": {
-            "title": "Page Height",
-            "type": "integer",
-            "description": "Height of the simulated window in pixel"
-          },
-          "url": {
-            "title": "Page url",
-            "maxLength": 2083,
-            "minLength": 1,
-            "type": "string",
-            "description": "Url of the analysed page",
-            "format": "uri"
-          },
-          "size": {
-            "title": "Page size",
-            "minimum": 0.0,
-            "type": "number",
-            "description": "Is the size of the page and of the downloaded elements of the page in KB"
-          },
-          "nodes": {
-            "title": "Page nodes",
-            "minimum": 0.0,
-            "type": "integer",
-            "description": "Is the number of the DOM elements in the page"
-          },
-          "requests": {
-            "title": "Page requests",
-            "minimum": 0.0,
-            "type": "integer",
-            "description": "Is the number of external requests made by the page"
-          },
-          "grade": {
-            "title": "Ecoindex grade",
-            "type": "string",
-            "description": "Is the corresponding ecoindex grade of the page (from A to G)"
-          },
-          "score": {
-            "title": "Ecoindex score",
-            "maximum": 100.0,
-            "minimum": 0.0,
-            "type": "number",
-            "description": "Is the corresponding ecoindex score of the page (0 to 100)"
-          },
-          "ges": {
-            "title": "Ecoindex GES equivalent",
-            "minimum": 0.0,
-            "type": "number",
-            "description": "Is the equivalent of greenhouse gases emission (in `gCO2e`) of the page"
-          },
-          "water": {
-            "title": "Ecoindex Water equivalent",
-            "minimum": 0.0,
-            "type": "number",
-            "description": "Is the equivalent water consumption (in `cl`) of the page"
-          },
-          "date": {
-            "title": "Analysis datetime",
-            "type": "string",
-            "description": "Date of the analysis",
-            "format": "date-time"
-          },
-          "page_type": {
-            "title": "Page type",
-            "type": "string",
-            "description": "Is the type of the page, based ton the [opengraph type tag](https://ogp.me/#types)"
-          },
-          "id": {
-            "title": "Id",
-            "type": "string",
-            "description": "Analysis ID of type `UUID`",
-            "format": "uuid"
-          },
-          "host": {
-            "title": "Web page host",
-            "type": "string",
-            "description": "Host name of the web page"
-          },
-          "version": {
-            "title": "API version",
-            "type": "integer",
-            "description": "Version number of the API used to run the test",
-            "default": 1
-          },
-          "initial_ranking": {
-            "title": "Analysis rank",
-            "type": "integer",
-            "description": "This is the initial rank of the analysis. This is an indicator of the ranking at the time of the analysis for a given version."
-          },
-          "initial_total_results": {
-            "title": "Total number of analysis",
-            "type": "integer",
-            "description": "This is the initial total number of analysis. This is an indicator of the total number of analysis at the time of the analysis for a given version."
-          }
-        }
-      },
-      "ApiHealth": {
-        "title": "ApiHealth",
-        "required": [
-          "database"
-        ],
-        "type": "object",
-        "properties": {
-          "database": {
-            "title": "Status of database",
-            "type": "boolean"
-          }
-        }
-      },
-      "HTTPValidationError": {
-        "title": "HTTPValidationError",
-        "type": "object",
-        "properties": {
-          "detail": {
-            "title": "Detail",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ValidationError"
-            }
-          }
-        }
-      },
-      "PageApiEcoindexes": {
-        "title": "PageApiEcoindexes",
-        "required": [
-          "items",
-          "total",
-          "page",
-          "size"
-        ],
-        "type": "object",
-        "properties": {
-          "items": {
-            "title": "Items",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiEcoindex"
-            }
-          },
-          "total": {
-            "title": "Total",
-            "type": "integer"
-          },
-          "page": {
-            "title": "Page",
-            "type": "integer"
-          },
-          "size": {
-            "title": "Size",
-            "type": "integer"
-          }
-        }
-      },
-      "PageHosts": {
-        "title": "PageHosts",
-        "required": [
-          "items",
-          "total",
-          "page",
-          "size"
-        ],
-        "type": "object",
-        "properties": {
-          "items": {
-            "title": "Items",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "total": {
-            "title": "Total",
-            "type": "integer"
-          },
-          "page": {
-            "title": "Page",
-            "type": "integer"
-          },
-          "size": {
-            "title": "Size",
-            "type": "integer"
-          }
-        }
-      },
-      "ValidationError": {
-        "title": "ValidationError",
-        "required": [
-          "loc",
-          "msg",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "loc": {
-            "title": "Location",
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            }
-          },
-          "msg": {
-            "title": "Message",
-            "type": "string"
-          },
-          "type": {
-            "title": "Error Type",
-            "type": "string"
-          }
-        }
-      },
-      "Version": {
-        "title": "Version",
-        "enum": [
-          "v0",
-          "v1"
-        ],
-        "type": "string",
-        "description": "An enumeration."
-      },
-      "WebPage": {
-        "title": "WebPage",
-        "type": "object",
-        "properties": {
-          "width": {
-            "title": "Page Width",
-            "type": "integer",
-            "description": "Width of the simulated window in pixel"
-          },
-          "height": {
-            "title": "Page Height",
-            "type": "integer",
-            "description": "Height of the simulated window in pixel"
-          },
-          "url": {
-            "title": "Page url",
-            "maxLength": 2083,
-            "minLength": 1,
-            "type": "string",
-            "description": "Url of the analysed page",
-            "format": "uri"
-          }
-        }
+          "Host"
+        ]
       }
     }
   }
