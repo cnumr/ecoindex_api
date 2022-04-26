@@ -26,7 +26,7 @@ from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
 from fastapi.params import Body, Depends, Query
-from settings import DAILY_LIMIT_PER_HOST
+from settings import DAILY_LIMIT_PER_HOST, WAIT_AFTER_SCROLL, WAIT_BEFORE_SCROLL
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from ecoindex import get_page_analysis
@@ -79,8 +79,8 @@ async def add_ecoindex_analysis(
     web_page_result = await get_page_analysis(
         url=web_page.url,
         window_size=WindowSize(height=web_page.height, width=web_page.width),
-        wait_before_scroll=3,
-        wait_after_scroll=3,
+        wait_before_scroll=WAIT_BEFORE_SCROLL,
+        wait_after_scroll=WAIT_AFTER_SCROLL,
     )
 
     db_result = await save_ecoindex_result_db(
