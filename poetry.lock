@@ -151,7 +151,7 @@ test = ["pytest (>=6.2.0)", "pytest-benchmark", "pytest-cov", "pytest-subtests",
 
 [[package]]
 name = "ecoindex"
-version = "2.12.0b1"
+version = "2.12.0"
 description = "Ecoindex module provides a simple way to measure the Ecoindex score based on the 3 parameters: The DOM elements of the page, the size of the page and the number of external requests of the page"
 category = "main"
 optional = false
@@ -743,8 +743,8 @@ cryptography = [
     {file = "cryptography-37.0.0.tar.gz", hash = "sha256:5a761fc1ff0eae360a80656bea462c3163dfaa8093b2fa0f72af929217b14a97"},
 ]
 ecoindex = [
-    {file = "ecoindex-2.12.0b1-py3-none-any.whl", hash = "sha256:db54111195bf81b1e1fb77214f8fda7c7cef1c2473d1f1c12f364da8e2cc1adb"},
-    {file = "ecoindex-2.12.0b1.tar.gz", hash = "sha256:f55ceefd5504060a8096fe8c5b968e9cfd323b882ac30c137ae4bd1e84c766b0"},
+    {file = "ecoindex-2.12.0-py3-none-any.whl", hash = "sha256:380d395332dcb126693c7670995ca2ac3c4f05cc3e8fb3e520f29a072799f7a7"},
+    {file = "ecoindex-2.12.0.tar.gz", hash = "sha256:0eeecc4502c57d41305450a95f6af6825cc80180e9cf270bf5dcda527b60d38d"},
 ]
 faker = [
     {file = "Faker-13.4.0-py3-none-any.whl", hash = "sha256:2d4139254c1cc69f2b5203f4a9aaab33a9e65f7994059856300ef6e21ac93f39"},
