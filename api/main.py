@@ -17,6 +17,7 @@ from api.ecoindex.routers import ecoindex
 from api.helper import format_exception_response
 from api.host.routers import host
 from api.models.responses import ApiHealth
+from api.statistic.routers import statistic
 
 app = FastAPI(
     title="Ecoindex API",
@@ -34,6 +35,7 @@ app.add_middleware(
 
 app.include_router(router=ecoindex.router)
 app.include_router(router=host.router)
+app.include_router(router=statistic.router)
 
 
 @app.on_event("startup")
