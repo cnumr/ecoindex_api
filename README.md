@@ -19,20 +19,30 @@ The API specification can be found in the [documentation](docs/openapi.json). Yo
 - [Docker](https://www.docker.com/)
 - [Docker-compose](https://docs.docker.com/compose/)
 
-
 With this docker setup you get 2 services running that are enough to make it all work:
 
 - `db`: A MySQL instance
 - `api`: The API instance running FastAPI application with [undetected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver)
 
 ```bash
-cp docker-compose.yml.dist docker-compose.yml
+cp docker-compose.yml.dist docker-compose.yml && \
 docker-compose build && docker-compose up -d
 ```
 
-Then you can go to http://localhost:8001/docs to access to the swagger
+Then you can go to [http://localhost:8001/docs](http://localhost:8001/docs) to access to the swagger
 
 ## Configuration
+
+### Page wait
+
+You can define a wait time after the page is loaded (before we simulate a scroll to the bottom) and a wait time after the page is scrolled to the bottom.
+
+You have to set the environment variables `WAIT_BEFORE_SCROLL` and `WAIT_AFTER_SCROLL`. Default values are 3 seconds. For example:
+
+```env
+WAIT_BEFORE_SCROLL=1
+WAIT_AFTER_SCROLL=1
+```
 
 ### CORS
 
@@ -74,7 +84,7 @@ server: uvicorn
 In order to develop or test, you have to use [Poetry](https://python-poetry.org/), install the dependencies and execute a poetry shell:
 
 ```bash
-poetry install
+poetry install && \
 poetry shell
 ```
 
