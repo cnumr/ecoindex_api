@@ -5,7 +5,6 @@ from api.helper import get_status_code
 from api.host.db.host import get_count_hosts_db, get_host_list_db
 from api.host.models.host import PageHosts
 from api.models.enums import Version
-from api.models.examples import example_exception_response
 from db.engine import get_session
 from fastapi import Path, status
 from fastapi.param_functions import Query

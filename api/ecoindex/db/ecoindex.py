@@ -5,13 +5,13 @@ from uuid import UUID
 from api.ecoindex.models.responses import ApiEcoindex
 from api.helper import new_uuid
 from api.models.enums import Version
+from ecoindex_scraper.models import Result
 from sqlalchemy import func
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.sql.expression import asc
 from sqlmodel import select
 
 from db.helper import date_filter
-from ecoindex.models import Result
 
 
 async def save_ecoindex_result_db(

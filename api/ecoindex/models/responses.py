@@ -1,7 +1,7 @@
 from typing import List, Optional
 from uuid import UUID
 
-from ecoindex.models import Result
+from ecoindex_scraper.models import Result
 from pydantic import BaseModel
 from sqlmodel import Field
 

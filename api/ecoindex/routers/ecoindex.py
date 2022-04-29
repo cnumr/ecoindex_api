@@ -22,15 +22,14 @@ from api.models.examples import (
     example_exception_response,
 )
 from db.engine import get_session
+from ecoindex_scraper import get_page_analysis
+from ecoindex_scraper.models import WebPage, WindowSize
 from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
 from fastapi.params import Body, Depends, Query
 from settings import DAILY_LIMIT_PER_HOST, WAIT_AFTER_SCROLL, WAIT_BEFORE_SCROLL
 from sqlmodel.ext.asyncio.session import AsyncSession
-
-from ecoindex import get_page_analysis
-from ecoindex.models import WebPage, WindowSize
 
 router = APIRouter()
 
