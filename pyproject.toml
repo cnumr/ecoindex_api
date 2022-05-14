@@ -6,7 +6,7 @@ authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-fastapi = "^0.75.2"
+fastapi = "^0.77.1"
 python-environ = "^0.4.54"
 uvicorn = "^0.17.5"
 sqlmodel = "^0.0.6"
