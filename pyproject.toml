@@ -8,11 +8,12 @@ authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 python = "^3.8"
 fastapi = "^0.77.1"
 python-environ = "^0.4.54"
-uvicorn = "^0.17.5"
 sqlmodel = "^0.0.6"
 fastapi-health = "^0.4.0"
 typer = "^0.4.1"
 ecoindex-scraper = "^1.3.0"
+uvicorn = {extras = ["standard"], version = "^0.17.6"}
+gunicorn = "^20.1.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3"
