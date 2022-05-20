@@ -464,7 +464,7 @@
             "schema": {
               "default": 1,
               "description": "Page number",
-              "gte": 1,
+              "minimum": 1.0,
               "title": "Page",
               "type": "integer"
             }
@@ -477,8 +477,8 @@
             "schema": {
               "default": 50,
               "description": "Number of elements per page",
-              "gte": 1,
-              "lte": 100,
+              "maximum": 100.0,
+              "minimum": 1.0,
               "title": "Size",
               "type": "integer"
             }
@@ -663,7 +663,7 @@
             "schema": {
               "default": 1,
               "description": "Page number",
-              "gte": 1,
+              "minimum": 1.0,
               "title": "Page",
               "type": "integer"
             }
@@ -676,8 +676,8 @@
             "schema": {
               "default": 50,
               "description": "Number of elements per page",
-              "gte": 1,
-              "lte": 100,
+              "maximum": 100.0,
+              "minimum": 1.0,
               "title": "Size",
               "type": "integer"
             }

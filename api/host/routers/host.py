@@ -44,9 +44,9 @@ async def get_host_list(
         None, description="End date of the filter elements  (example: 2020-01-01)"
     ),
     q: str = Query(default=None, description="Filter by partial host name"),
-    page: Optional[int] = Query(1, description="Page number", gte=1),
+    page: Optional[int] = Query(1, description="Page number", ge=1),
     size: Optional[int] = Query(
-        50, description="Number of elements per page", gte=1, lte=100
+        50, description="Number of elements per page", ge=1, le=100
     ),
 ) -> PageHosts:
     hosts = await get_host_list_db(
