@@ -79,6 +79,17 @@ server: uvicorn
 
 > If the variable is set to 0, no limit is set.
 
+## Local development
+
+If you need to test the API locally, you can easily run it. You have to use [Poetry](https://python-poetry.org/) to install dependencies and run `uvicorn` server.
+
+```bash
+poetry install && \
+poetry run uvicorn api.main:app --reload --port 8001
+```
+
+> This way, you get a server running on [localhost:8001](http://localhost:8001/docs) with a local database saved in `./sql_app.dv`
+
 ## Testing
 
 In order to develop or test, you have to use [Poetry](https://python-poetry.org/), install the dependencies and execute a poetry shell:
