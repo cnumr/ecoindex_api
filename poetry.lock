@@ -162,7 +162,7 @@ sqlmodel = ">=0.0.4,<0.0.7"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "1.4.0"
+version = "1.5.0"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 category = "main"
 optional = false
@@ -689,7 +689,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "134ff22613af881107b82d8cfcc5653d72ef816e68db046daedc9f0f022a4b4e"
+content-hash = "07c7ccc0e7991a2c9a44bf9f1e3fcf6bb388a63733748d2616e41b21ccdb3ad3"
 
 [metadata.files]
 aiosqlite = [
@@ -834,8 +834,8 @@ ecoindex = [
     {file = "ecoindex-4.0.0.tar.gz", hash = "sha256:197aaddef85bce1b35ff1091d236f62d49d6bb6a49137cc118c8ccadf57ce5f6"},
 ]
 ecoindex-scraper = [
-    {file = "ecoindex_scraper-1.4.0-py3-none-any.whl", hash = "sha256:bd3e792fdc7950c426d5139c83dbecd00a658d32698276320f20bbc19f08bb5f"},
-    {file = "ecoindex_scraper-1.4.0.tar.gz", hash = "sha256:4f1c6c14b857e406bcc5f01f46c940b865e127b8bd2ab0b756583f57efea50a8"},
+    {file = "ecoindex_scraper-1.5.0-py3-none-any.whl", hash = "sha256:3cfc866f553bc67609097ed1f9ba56ae8358c4abc315fc8dc19b0f28afcf3249"},
+    {file = "ecoindex_scraper-1.5.0.tar.gz", hash = "sha256:2a46feae24c39e6db37f878020318e3dbc5c2171591f25ce6e7776b84bdbef25"},
 ]
 faker = [
     {file = "Faker-13.12.0-py3-none-any.whl", hash = "sha256:5cbb89fc6a16793b2bd98252c03a86098c7426beab0a20382709a815651b8804"},
