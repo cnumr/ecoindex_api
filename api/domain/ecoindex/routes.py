@@ -72,11 +72,9 @@ async def add_ecoindex_analysis(
         wait_after_scroll=WAIT_AFTER_SCROLL,
     )
 
-    db_result = await save_ecoindex_result_db(
+    return await save_ecoindex_result_db(
         session=session, ecoindex_result=web_page_result
     )
-
-    return db_result
 
 
 @router.get(
