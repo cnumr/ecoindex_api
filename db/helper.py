@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Optional
 
-from api.ecoindex.models.responses import ApiEcoindex
+from api.domain.ecoindex.models.responses import ApiEcoindex
 from sqlmodel.sql.expression import SelectOfScalar
 
 

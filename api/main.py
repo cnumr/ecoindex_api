@@ -13,9 +13,9 @@ from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-from api.ecoindex.routers import ecoindex
+from api.domain.ecoindex import routes as ecoindex_routes
+from api.domain.host import routes as host_routes
 from api.helper import format_exception_response
-from api.host.routers import host
 from api.models.responses import ApiHealth
 
 app = FastAPI(
@@ -32,8 +32,8 @@ app.add_middleware(
     allow_origins=CORS_ALLOWED_ORIGINS,
 )
 
-app.include_router(router=ecoindex.router)
-app.include_router(router=host.router)
+app.include_router(router=ecoindex_routes.router)
+app.include_router(router=host_routes.router)
 
 
 @app.on_event("startup")
@@ -59,7 +59,7 @@ async def handle_webdriver_exception(_: Request, exc: WebDriverException):
             },
         )
 
-    exception_response = format_exception_response(exception=exc)
+    exception_response = await format_exception_response(exception=exc)
     return JSONResponse(
         content={"detail": exception_response.dict()},
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -68,7 +68,7 @@ async def handle_webdriver_exception(_: Request, exc: WebDriverException):
 
 @app.exception_handler(Exception)
 async def validation_exception_handler(_: Request, exc: Exception):
-    exception_response = format_exception_response(exception=exc)
+    exception_response = await format_exception_response(exception=exc)
     return JSONResponse(
         content={"detail": exception_response.dict()},
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

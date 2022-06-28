@@ -2,19 +2,19 @@ from datetime import date
 from typing import Optional
 from uuid import UUID
 
-from api.ecoindex.db.ecoindex import (
+from api.domain.ecoindex.models.examples import (
+    example_daily_limit_response,
+    example_ecoindex_not_found,
+)
+from api.domain.ecoindex.models.responses import ApiEcoindex, PageApiEcoindexes
+from api.domain.ecoindex.repository import (
     get_count_analysis_db,
-    get_count_daily_request_per_host,
     get_ecoindex_result_by_id_db,
     get_ecoindex_result_list_db,
     save_ecoindex_result_db,
 )
-from api.ecoindex.models.examples import (
-    example_daily_limit_response,
-    example_ecoindex_not_found,
-)
-from api.ecoindex.models.responses import ApiEcoindex, PageApiEcoindexes
 from api.helper import get_status_code
+from api.middleware import validate_analysis_request
 from api.models.enums import Version
 from api.models.examples import (
     example_exception_ERR_CONNECTION_TIMED_OUT_response,
@@ -58,22 +58,12 @@ async def add_ecoindex_analysis(
         example=WebPage(url="http://www.ecoindex.fr", width=1920, height=1080),
     ),
 ) -> ApiEcoindex:
-    if DAILY_LIMIT_PER_HOST:
-        count_daily_request_per_host = await get_count_daily_request_per_host(
-            session=session, host=web_page.url.host
-        )
-        response.headers["X-Remaining-Daily-Requests"] = str(
-            DAILY_LIMIT_PER_HOST - count_daily_request_per_host - 1
-        )
-
-    if DAILY_LIMIT_PER_HOST and count_daily_request_per_host >= DAILY_LIMIT_PER_HOST:
-        raise HTTPException(
-            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            detail=(
-                f"You have already reached the daily limit of "
-                f"{DAILY_LIMIT_PER_HOST} requests for host {web_page.url.host} today"
-            ),
-        )
+    await validate_analysis_request(
+        response=response,
+        session=session,
+        web_page=web_page,
+        daily_limit_per_host=DAILY_LIMIT_PER_HOST,
+    )
 
     web_page_result = await get_page_analysis(
         url=web_page.url,
@@ -143,7 +133,7 @@ async def get_ecoindex_analysis_list(
         host=host,
     )
 
-    response.status_code = get_status_code(items=ecoindexes, total=total_results)
+    response.status_code = await get_status_code(items=ecoindexes, total=total_results)
 
     return PageApiEcoindexes(
         items=ecoindexes, total=total_results, page=page, size=size
