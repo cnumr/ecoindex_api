@@ -16,12 +16,11 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install black pytest-asyncio pytest-mock
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          python -m pip install poetry
+          poetry install
       - name: Lint with black
         run: |
-          black --check .
-      - name: Run tests
+          poetry run black --check .
+      - name: Run pytest
         run: |
-          pytest
+          poetry run pytest
