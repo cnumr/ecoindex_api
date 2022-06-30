@@ -32,7 +32,7 @@ class TestChromedriverHealth:
         mocker.patch(
             "ecoindex_scraper.get_page_analysis",
             side_effect=WebDriverException(
-                "This version of ChromeDriver only supports Chrome version"
+                "unknown error: cannot connect to chrome at 127.0.0.1:52327 from session not created: This version of ChromeDriver only supports Chrome version 103 Current browser version is 102.0.5005.61"
             ),
         )
 
