@@ -5,13 +5,12 @@ from uuid import UUID
 from api.domain.ecoindex.models.responses import ApiEcoindex
 from api.helper import new_uuid
 from api.models.enums import Version
+from db.helper import date_filter
 from ecoindex_scraper.models import Result
 from sqlalchemy import func
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.sql.expression import asc
 from sqlmodel import select
-
-from db.helper import date_filter
 
 
 async def save_ecoindex_result_db(
@@ -42,7 +41,7 @@ async def save_ecoindex_result_db(
         initial_ranking=ranking if ranking else total_results + 1,
         initial_total_results=total_results + 1,
     )
-    await session.add(db_ecoindex)
+    session.add(db_ecoindex)
     await session.commit()
     await session.refresh(db_ecoindex)
 
