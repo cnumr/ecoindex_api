@@ -6,7 +6,7 @@ from fastapi import status
 from api.models.responses import ExceptionResponse
 
 
-def format_exception_response(exception: Exception) -> ExceptionResponse:
+async def format_exception_response(exception: Exception) -> ExceptionResponse:
     return ExceptionResponse(
         exception=type(exception).__name__,
         args=[arg for arg in exception.args if arg] if exception.args else [],
@@ -14,14 +14,14 @@ def format_exception_response(exception: Exception) -> ExceptionResponse:
     )
 
 
-def new_uuid() -> UUID:
+async def new_uuid() -> UUID:
     val = uuid4()
     while val.hex[0] == "0":
         val = uuid4()
     return val
 
 
-def get_status_code(items: List, total: int) -> int:
+async def get_status_code(items: List, total: int) -> int:
     if not items:
         return status.HTTP_404_NOT_FOUND
 

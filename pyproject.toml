@@ -20,6 +20,8 @@ black = "^22.3"
 aiosqlite = "^0.17.0"
 Faker = "^13.14.0"
 faker-enum = "^0.0.2"
+pytest-asyncio = "^0.18.3"
+pytest-mock = "^3.7.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

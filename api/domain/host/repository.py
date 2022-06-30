@@ -1,7 +1,7 @@
 from datetime import date
 from typing import List, Optional
 
-from api.ecoindex.models.responses import ApiEcoindex
+from api.domain.ecoindex.models.responses import ApiEcoindex
 from api.models.enums import Version
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlmodel import select

@@ -2,7 +2,7 @@ from datetime import date
 from typing import List, Optional
 from uuid import UUID
 
-from api.ecoindex.models.responses import ApiEcoindex
+from api.domain.ecoindex.models.responses import ApiEcoindex
 from api.helper import new_uuid
 from api.models.enums import Version
 from ecoindex_scraper.models import Result
@@ -24,7 +24,7 @@ async def save_ecoindex_result_db(
     )
     total_results = await get_count_analysis_db(session=session, version=version)
     db_ecoindex = ApiEcoindex(
-        id=new_uuid(),
+        id=await new_uuid(),
         date=ecoindex_result.date,
         url=ecoindex_result.url,
         host=ecoindex_result.url.host,
@@ -42,7 +42,7 @@ async def save_ecoindex_result_db(
         initial_ranking=ranking if ranking else total_results + 1,
         initial_total_results=total_results + 1,
     )
-    session.add(db_ecoindex)
+    await session.add(db_ecoindex)
     await session.commit()
     await session.refresh(db_ecoindex)
 

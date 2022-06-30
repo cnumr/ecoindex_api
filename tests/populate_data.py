@@ -1,4 +1,4 @@
-from api.ecoindex.models.responses import ApiEcoindex
+from api.domain.ecoindex.models.responses import ApiEcoindex
 from api.helper import new_uuid
 from api.models.enums import Version
 from faker import Faker

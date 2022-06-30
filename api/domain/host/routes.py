@@ -2,8 +2,8 @@ from datetime import date
 from typing import Optional
 
 from api.helper import get_status_code
-from api.host.db.host import get_count_hosts_db, get_host_list_db
-from api.host.models.host import PageHosts
+from api.domain.host.models.host import PageHosts
+from api.domain.host.repository import get_count_hosts_db, get_host_list_db
 from api.models.enums import Version
 from db.engine import get_session
 from fastapi import Path, status
@@ -63,6 +63,6 @@ async def get_host_list(
         session=session, version=version, q=q, date_from=date_from, date_to=date_to
     )
 
-    response.status_code = get_status_code(items=hosts, total=total_hosts)
+    response.status_code = await get_status_code(items=hosts, total=total_hosts)
 
     return PageHosts(items=hosts, total=total_hosts, page=page, size=size)
