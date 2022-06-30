@@ -14,6 +14,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from api.domain.ecoindex import routes as ecoindex_routes
+from api.domain.health.chromedriver import is_chromedriver_healthy
 from api.domain.host import routes as host_routes
 from api.helper import format_exception_response
 from api.models.responses import ApiHealth
@@ -77,7 +78,7 @@ async def validation_exception_handler(_: Request, exc: Exception):
 
 app.add_api_route(
     path="/health",
-    endpoint=health([is_database_online]),
+    endpoint=health([is_database_online, is_chromedriver_healthy]),
     tags=["Infra"],
     name="Get healthcheck",
     description="Check health status of components of the API (database...)",
