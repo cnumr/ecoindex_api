@@ -115,13 +115,18 @@
       },
       "ApiHealth": {
         "properties": {
+          "chromedriver": {
+            "title": "Status of chromedriver",
+            "type": "boolean"
+          },
           "database": {
             "title": "Status of database",
             "type": "boolean"
           }
         },
         "required": [
-          "database"
+          "database",
+          "chromedriver"
         ],
         "title": "ApiHealth",
         "type": "object"
