@@ -1,12 +1,13 @@
-from api.domain.ecoindex.models.responses import ApiEcoindex
-from api.helper import new_uuid
-from api.models.enums import Version
 from faker import Faker
 from faker_enum import EnumProvider
 from settings import DATABASE_URL
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 from typer import progressbar
+
+from api.domain.ecoindex.models.responses import ApiEcoindex
+from api.helper import new_uuid
+from api.models.enums import Version
 
 
 async def create_data(count: int = 10):
@@ -18,7 +19,7 @@ async def create_data(count: int = 10):
     async with AsyncSession(engine) as session:
         with progressbar(range(count)) as progress:
             for _ in progress:
-                id = new_uuid()
+                id = await new_uuid()
                 base_url = faker.url()
                 url = f"{base_url}{id}"
                 initial_ranking = faker.pyint(min_value=0, max_value=100)
