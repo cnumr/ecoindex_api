@@ -193,7 +193,7 @@ faker = "*"
 
 [[package]]
 name = "fastapi"
-version = "0.79.0"
+version = "0.80.0"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 category = "main"
 optional = false
@@ -784,7 +784,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "78085a08e69150cb0cc6e495f024f24e78529fa0154fd1aa709cd37a866b5916"
+content-hash = "6333c448066600745a7e4316ea6838de15744050ea3abbf02a1f23b793c0c326"
 
 [metadata.files]
 aiosqlite = [
@@ -955,8 +955,8 @@ faker-enum = [
     {file = "faker_enum-0.0.2.tar.gz", hash = "sha256:cf1cf25678fa5f0e675ff51b7c1b558bd480d554ed487783bbca664c5042e261"},
 ]
 fastapi = [
-    {file = "fastapi-0.79.0-py3-none-any.whl", hash = "sha256:d337563424ceada23857f73d5abe8dae0c28e4cccb53b2af06e78b7bb4a1c7d7"},
-    {file = "fastapi-0.79.0.tar.gz", hash = "sha256:cf0ff6db25b91d321050c4112baab0908c90f19b40bf257f9591d2f9780d1f22"},
+    {file = "fastapi-0.80.0-py3-none-any.whl", hash = "sha256:5340f6016860baf94a52be5040c3a2e94c39ddc7ab4cc7548558182db742d9d6"},
+    {file = "fastapi-0.80.0.tar.gz", hash = "sha256:4e542f71b5b0f4f54a82449e8bd0244305de319186a31addab976bf672206420"},
 ]
 fastapi-health = [
     {file = "fastapi-health-0.4.0.tar.gz", hash = "sha256:a0781b2359732d50cddda1195784f78950265c6b3689d7a1e6e65a21aed4d6a5"},
