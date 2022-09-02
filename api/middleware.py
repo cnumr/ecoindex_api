@@ -29,7 +29,7 @@ async def validate_analysis_request(
                     "You have already reached the daily limit of "
                     f"{daily_limit_per_host} requests for host {web_page.url.host} today"
                 ),
-                "limit_per_host": daily_limit_per_host,
+                "daily_limit_per_host": daily_limit_per_host,
                 "host": web_page.url.host,
             },
         )

@@ -23,9 +23,11 @@ class TestMiddlewareApi:
             )
         assert exc.value.status_code == status.HTTP_429_TOO_MANY_REQUESTS
         assert (
-            exc.value.detail
+            exc.value.detail["message"]
             == "You have already reached the daily limit of 10 requests for host example.com today"
         )
+        assert exc.value.detail["daily_limit_per_host"] == 10
+        assert exc.value.detail["host"] == "example.com"
 
     async def test_validate_analysis_request_under_quota(self, mocker):
         mocker.patch(
