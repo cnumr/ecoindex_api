@@ -352,7 +352,11 @@
             "content": {
               "application/json": {
                 "example": {
-                  "detail": "You have already reached the daily limit of 5 requests for host www.ecoindex.fr today"
+                  "detail": {
+                    "host": "www.ecoindex.fr",
+                    "limit_per_host": 5,
+                    "message": "You have already reached the daily limit of 5 requests for host www.ecoindex.fr today"
+                  }
                 }
               }
             },
