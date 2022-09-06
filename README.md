@@ -79,6 +79,14 @@ server: uvicorn
 
 > If the variable is set to 0, no limit is set.
 
+### Screenshot
+
+It is possible to take a screenshot of the analyzed web page. To do this, you must set the `ENABLE_SCREENSHOT` environment variable to `True`. By default, screenshots are *disabled*.
+
+If screenshots are enabled, when analyzing the page the image will be generated in the `./screenshot` directory with the image name corresponding to the analysis ID and will be available on the path `/screenshot/{ID}.png`.
+
+> __ATTENTION:__ Enabling screenshot feature may lead to a high use of the filesystem.
+
 ## Local development
 
 If you need to test the API locally, you can easily run it. You have to use [Poetry](https://python-poetry.org/) to install dependencies and run `uvicorn` server.
