@@ -1,6 +1,7 @@
 from db.engine import create_db_and_tables, is_database_online
 from fastapi.applications import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from fastapi_health import health
 from selenium.common.exceptions import WebDriverException
 from settings import (
@@ -84,3 +85,5 @@ app.add_api_route(
     description="Check health status of components of the API (database...)",
     response_model=ApiHealth,
 )
+
+app.mount("/screenshots", StaticFiles(directory="screenshots"), name="screenshots")
