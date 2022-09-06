@@ -1,4 +1,5 @@
 from datetime import date
+from os import getcwd
 from typing import Optional
 from uuid import UUID
 
@@ -13,7 +14,7 @@ from api.domain.ecoindex.repository import (
     get_ecoindex_result_list_db,
     save_ecoindex_result_db,
 )
-from api.helper import get_status_code
+from api.helper import get_status_code, new_uuid
 from api.middleware import validate_analysis_request
 from api.models.enums import Version
 from api.models.examples import (
@@ -22,13 +23,18 @@ from api.models.examples import (
     example_exception_response,
 )
 from db.engine import get_session
-from ecoindex_scraper import get_page_analysis
-from ecoindex_scraper.models import WebPage, WindowSize
+from ecoindex_scraper import EcoindexScraper
+from ecoindex_scraper.models import ScreenShot, WebPage, WindowSize
 from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
 from fastapi.params import Body, Depends, Query
-from settings import DAILY_LIMIT_PER_HOST, WAIT_AFTER_SCROLL, WAIT_BEFORE_SCROLL
+from settings import (
+    DAILY_LIMIT_PER_HOST,
+    ENABLE_SCREENSHOT,
+    WAIT_AFTER_SCROLL,
+    WAIT_BEFORE_SCROLL,
+)
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 router = APIRouter()
@@ -65,15 +71,21 @@ async def add_ecoindex_analysis(
         daily_limit_per_host=DAILY_LIMIT_PER_HOST,
     )
 
-    web_page_result = await get_page_analysis(
+    id = await new_uuid()
+
+    scraper = EcoindexScraper(
         url=web_page.url,
         window_size=WindowSize(height=web_page.height, width=web_page.width),
-        wait_before_scroll=WAIT_BEFORE_SCROLL,
         wait_after_scroll=WAIT_AFTER_SCROLL,
+        wait_before_scroll=WAIT_BEFORE_SCROLL,
+        screenshot=ScreenShot(id=str(id), folder=f"{getcwd()}/screenshots")
+        if ENABLE_SCREENSHOT
+        else None,
     )
+    web_page_result = await scraper.get_page_analysis()
 
     return await save_ecoindex_result_db(
-        session=session, ecoindex_result=web_page_result
+        session=session, id=id, ecoindex_result=web_page_result
     )
 
 

@@ -132,7 +132,7 @@ sqlmodel = ">=0.0.4,<0.0.7"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "1.6.1"
+version = "2.0.0"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 category = "main"
 optional = false
@@ -426,11 +426,11 @@ six = ">=1.5"
 
 [[package]]
 name = "python-dotenv"
-version = "0.20.0"
+version = "0.21.0"
 description = "Read key-value pairs from a .env file and set them as environment variables"
 category = "main"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.7"
 
 [package.extras]
 cli = ["click (>=5.0)"]
@@ -738,7 +738,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "78085a08e69150cb0cc6e495f024f24e78529fa0154fd1aa709cd37a866b5916"
+content-hash = "4535f5108fa1694165a7c5f6858ef7744bab727fdc36cab13731327743a77346"
 
 [metadata.files]
 aiosqlite = [
@@ -838,10 +838,7 @@ ecoindex = [
     {file = "ecoindex-4.1.0-py3-none-any.whl", hash = "sha256:b775cf17d221b5fb4d26217115b59cfd54103d652cf7bb18f044828cb0d3ac20"},
     {file = "ecoindex-4.1.0.tar.gz", hash = "sha256:3d9aedcf74c95e4f62d9503b71909cf5e187e52fcab9713daa60d69ab66c49f8"},
 ]
-ecoindex-scraper = [
-    {file = "ecoindex_scraper-1.6.1-py3-none-any.whl", hash = "sha256:5954fbb85dbc8eaae346993f9111dc41293ddca0d4e849c86d96175c69ae4281"},
-    {file = "ecoindex_scraper-1.6.1.tar.gz", hash = "sha256:2b306b2717a6ca96bcabca799dd5c9d3962d7e975ff7bbe621643936a0f14b0a"},
-]
+ecoindex-scraper = []
 faker = []
 faker-enum = [
     {file = "faker_enum-0.0.2-py2.py3-none-any.whl", hash = "sha256:1af0b79c1c84b4df17854abf491a571281a1f931aa024bb27f9d8bef290ff362"},
@@ -951,10 +948,7 @@ python-dateutil = [
     {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
     {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
 ]
-python-dotenv = [
-    {file = "python-dotenv-0.20.0.tar.gz", hash = "sha256:b7e3b04a59693c42c36f9ab1cc2acc46fa5df8c78e178fc33a8d4cd05c8d498f"},
-    {file = "python_dotenv-0.20.0-py3-none-any.whl", hash = "sha256:d92a187be61fe482e4fd675b6d52200e7be63a12b724abbf931a40ce4fa92938"},
-]
+python-dotenv = []
 python-environ = [
     {file = "python-environ-0.4.54.tar.gz", hash = "sha256:6249a14057f95aba3b4906d73276f770e01e659f8098b3f3b34295feac42865b"},
 ]

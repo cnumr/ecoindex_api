@@ -3,7 +3,6 @@ from typing import List, Optional
 from uuid import UUID
 
 from api.domain.ecoindex.models.responses import ApiEcoindex
-from api.helper import new_uuid
 from api.models.enums import Version
 from db.helper import date_filter
 from ecoindex_scraper.models import Result
@@ -15,6 +14,7 @@ from sqlmodel import select
 
 async def save_ecoindex_result_db(
     session: AsyncSession,
+    id: UUID,
     ecoindex_result: Result,
     version: Optional[Version] = Version.v1,
 ) -> ApiEcoindex:
@@ -22,8 +22,9 @@ async def save_ecoindex_result_db(
         ecoindex=ecoindex_result, session=session, version=version
     )
     total_results = await get_count_analysis_db(session=session, version=version)
+    print(id)
     db_ecoindex = ApiEcoindex(
-        id=await new_uuid(),
+        id=id,
         date=ecoindex_result.date,
         url=ecoindex_result.url,
         host=ecoindex_result.url.host,
