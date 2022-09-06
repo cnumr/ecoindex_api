@@ -73,16 +73,19 @@ async def add_ecoindex_analysis(
 
     id = await new_uuid()
 
-    scraper = EcoindexScraper(
-        url=web_page.url,
-        window_size=WindowSize(height=web_page.height, width=web_page.width),
-        wait_after_scroll=WAIT_AFTER_SCROLL,
-        wait_before_scroll=WAIT_BEFORE_SCROLL,
-        screenshot=ScreenShot(id=str(id), folder=f"{getcwd()}/screenshots")
-        if ENABLE_SCREENSHOT
-        else None,
+    web_page_result = (
+        await EcoindexScraper(
+            url=web_page.url,
+            window_size=WindowSize(height=web_page.height, width=web_page.width),
+            wait_after_scroll=WAIT_AFTER_SCROLL,
+            wait_before_scroll=WAIT_BEFORE_SCROLL,
+            screenshot=ScreenShot(id=str(id), folder=f"{getcwd()}/screenshots")
+            if ENABLE_SCREENSHOT
+            else None,
+        )
+        .init_chromedriver()
+        .get_page_analysis()
     )
-    web_page_result = await scraper.get_page_analysis()
 
     return await save_ecoindex_result_db(
         session=session, id=id, ecoindex_result=web_page_result

@@ -11,7 +11,7 @@ python-environ = "^0.4.54"
 sqlmodel = "^0.0.6"
 fastapi-health = "^0.4.0"
 typer = "^0.6.1"
-ecoindex-scraper = "^2.0.0"
+ecoindex-scraper = "^2.1.0"
 uvicorn = {extras = ["standard"], version = "^0.18.2"}
 gunicorn = "^20.1.0"
 
