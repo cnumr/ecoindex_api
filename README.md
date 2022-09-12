@@ -19,10 +19,14 @@ The API specification can be found in the [documentation](docs/openapi.json). Yo
 - [Docker](https://www.docker.com/)
 - [Docker-compose](https://docs.docker.com/compose/)
 
+## Installation
+
 With this docker setup you get 2 services running that are enough to make it all work:
 
 - `db`: A MySQL instance
 - `api`: The API instance running FastAPI application with [undetected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver)
+
+### First start
 
 ```bash
 cp docker-compose.yml.dist docker-compose.yml && \
@@ -30,6 +34,23 @@ docker-compose build && docker-compose up -d
 ```
 
 Then you can go to [http://localhost:8001/docs](http://localhost:8001/docs) to access to the swagger
+
+### Upgrade
+
+To upgrade your server version, you have to:
+
+1. Checkout the source version you want to deploy
+2. Run the database migrations
+3. Re-build the server
+4. Re-start the server
+
+```bash
+git pull && \
+docker-compose exec api alembic upgrade head && \
+docker-compose build && docker-compose up -d
+```
+
+> We use [Alembic](https://pypi.org/project/alembic/) to handle database migrations
 
 ## Configuration
 
