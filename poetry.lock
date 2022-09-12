@@ -822,11 +822,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-<<<<<<< HEAD
-content-hash = "1aa5fc6c8716a5ba539ba9045d364c312180f610276ebdc20ff15ac72ef360da"
-=======
-content-hash = "b90ba79d8fb4ba9337ca199b70c9fba1d0eb4ae9e954f44b686353f2f73295e3"
->>>>>>> ⬆️ chore(deps): Update deps
+content-hash = "b094c629ac5b98ca41f27f999df019f8a088b7d4c9471ccba96a788d78678dd0"
 
 [metadata.files]
 aiosqlite = []
