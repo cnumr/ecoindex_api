@@ -9,6 +9,12 @@
             "title": "Analysis datetime",
             "type": "string"
           },
+          "ecoindex_version": {
+            "default": "5.0.0",
+            "description": "Is the version of the ecoindex used to compute the score",
+            "title": "Ecoindex version",
+            "type": "string"
+          },
           "ges": {
             "description": "Is the equivalent of greenhouse gases emission (in `gCO2e`) of the page",
             "minimum": 0.0,

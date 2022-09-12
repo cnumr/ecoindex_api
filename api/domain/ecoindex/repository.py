@@ -41,6 +41,7 @@ async def save_ecoindex_result_db(
         version=version.get_version_number(),
         initial_ranking=ranking if ranking else total_results + 1,
         initial_total_results=total_results + 1,
+        ecoindex_version=ecoindex_result.ecoindex_version,
     )
     session.add(db_ecoindex)
     await session.commit()
