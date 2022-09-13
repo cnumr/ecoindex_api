@@ -1,9 +1,9 @@
 from datetime import date
 from typing import Optional
 
-from api.helper import get_status_code
 from api.domain.host.models.host import PageHosts
 from api.domain.host.repository import get_count_hosts_db, get_host_list_db
+from api.helper import get_status_code
 from api.models.enums import Version
 from db.engine import get_session
 from fastapi import Path, status
@@ -35,7 +35,10 @@ async def get_host_list(
     response: Response,
     session: AsyncSession = Depends(get_session),
     version: Version = Path(
-        default=..., title="Engine version used to run the analysis"
+        default=...,
+        title="Engine version",
+        description="Engine version used to run the analysis (v0 or v1)",
+        example=Version.v1.value,
     ),
     date_from: Optional[date] = Query(
         None, description="Start date of the filter elements (example: 2020-01-01)"

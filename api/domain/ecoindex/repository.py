@@ -22,7 +22,6 @@ async def save_ecoindex_result_db(
         ecoindex=ecoindex_result, session=session, version=version
     )
     total_results = await get_count_analysis_db(session=session, version=version)
-    print(id)
     db_ecoindex = ApiEcoindex(
         id=id,
         date=ecoindex_result.date,

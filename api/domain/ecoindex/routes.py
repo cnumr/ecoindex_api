@@ -29,6 +29,7 @@ from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
 from fastapi.params import Body, Depends, Query
+from fastapi.responses import FileResponse
 from settings import (
     DAILY_LIMIT_PER_HOST,
     ENABLE_SCREENSHOT,
@@ -79,7 +80,7 @@ async def add_ecoindex_analysis(
             window_size=WindowSize(height=web_page.height, width=web_page.width),
             wait_after_scroll=WAIT_AFTER_SCROLL,
             wait_before_scroll=WAIT_BEFORE_SCROLL,
-            screenshot=ScreenShot(id=str(id), folder=f"{getcwd()}/screenshots")
+            screenshot=ScreenShot(id=str(id), folder=f"{getcwd()}/screenshots/v1")
             if ENABLE_SCREENSHOT
             else None,
         )
@@ -181,3 +182,26 @@ async def get_ecoindex_analysis_by_id(
             detail=f"Analysis {id} not found for version {version.value}",
         )
     return ecoindex
+
+
+@router.get(
+    name="Get screenshot",
+    path="/{version}/ecoindexes/{id}/screenshot",
+    tags=["Ecoindex"],
+    description="This returns the screenshot of the webpage analysis if it exists",
+    responses={status.HTTP_404_NOT_FOUND: {"model": PageApiEcoindexes}},
+)
+async def get_screenshot(
+    version: Version = Path(
+        default=...,
+        title="Engine version",
+        description="Engine version used to run the analysis (v0 or v1)",
+        example=Version.v1.value,
+    ),
+    id: UUID = Path(default=..., title="Unique identifier of the ecoindex analysis"),
+):
+    return FileResponse(
+        path=f"{getcwd()}/screenshots/{version}/{id}.png",
+        filename=f"{id}.png",
+        content_disposition_type="inline",
+    )
