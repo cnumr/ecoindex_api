@@ -21,6 +21,7 @@ from api.models.examples import (
     example_exception_ERR_CONNECTION_TIMED_OUT_response,
     example_exception_ERR_NAME_NOT_RESOLVED_response,
     example_exception_response,
+    example_file_not_found,
 )
 from db.engine import get_session
 from ecoindex_scraper import EcoindexScraper
@@ -189,7 +190,7 @@ async def get_ecoindex_analysis_by_id(
     path="/{version}/ecoindexes/{id}/screenshot",
     tags=["Ecoindex"],
     description="This returns the screenshot of the webpage analysis if it exists",
-    responses={status.HTTP_404_NOT_FOUND: {"model": PageApiEcoindexes}},
+    responses={status.HTTP_404_NOT_FOUND: example_file_not_found},
 )
 async def get_screenshot(
     version: Version = Path(

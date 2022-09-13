@@ -617,12 +617,14 @@
         ]
       }
     },
-    "/{version}/hosts": {
+    "/{version}/ecoindexes/{id}/screenshot": {
       "get": {
-        "description": "This returns a list of hosts that ran an ecoindex analysis order by most request made",
-        "operationId": "Get_host_list__version__hosts_get",
+        "description": "This returns the screenshot of the webpage analysis if it exists",
+        "operationId": "Get_screenshot__version__ecoindexes__id__screenshot_get",
         "parameters": [
           {
+            "description": "Engine version used to run the analysis (v0 or v1)",
+            "example": "v1",
             "in": "path",
             "name": "version",
             "required": true,
@@ -632,7 +634,76 @@
                   "$ref": "#/components/schemas/Version"
                 }
               ],
-              "title": "Engine version used to run the analysis"
+              "description": "Engine version used to run the analysis (v0 or v1)",
+              "title": "Engine version"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Unique identifier of the ecoindex analysis",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": "File at path screenshots/v0/550cdf8c-9c4c-4f8a-819d-cb69d0866fe1.png does not exist."
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Screenshot",
+        "tags": [
+          "Ecoindex"
+        ]
+      }
+    },
+    "/{version}/hosts": {
+      "get": {
+        "description": "This returns a list of hosts that ran an ecoindex analysis order by most request made",
+        "operationId": "Get_host_list__version__hosts_get",
+        "parameters": [
+          {
+            "description": "Engine version used to run the analysis (v0 or v1)",
+            "example": "v1",
+            "in": "path",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Version"
+                }
+              ],
+              "description": "Engine version used to run the analysis (v0 or v1)",
+              "title": "Engine version"
             }
           },
           {

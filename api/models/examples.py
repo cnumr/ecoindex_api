@@ -40,3 +40,15 @@ example_exception_ERR_CONNECTION_TIMED_OUT_response = {
         }
     },
 }
+
+
+example_file_not_found = {
+    "description": "Not found",
+    "content": {
+        "application/json": {
+            "example": {
+                "detail": "File at path screenshots/v0/550cdf8c-9c4c-4f8a-819d-cb69d0866fe1.png does not exist."
+            }
+        }
+    },
+}
