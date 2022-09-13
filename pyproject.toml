@@ -6,9 +6,9 @@ authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-fastapi = "^0.79.0"
+fastapi = "^0.83.0"
 python-environ = "^0.4.54"
-sqlmodel = "^0.0.6"
+sqlmodel = "^0.0.7"
 fastapi-health = "^0.4.0"
 typer = "^0.6.1"
 ecoindex-scraper = "^2.2.0"
