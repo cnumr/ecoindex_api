@@ -1,7 +1,9 @@
 from db.engine import create_db_and_tables, is_database_online
+from fastapi import status
 from fastapi.applications import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
+from fastapi.requests import Request
+from fastapi.responses import JSONResponse
 from fastapi_health import health
 from selenium.common.exceptions import WebDriverException
 from settings import (
@@ -10,9 +12,6 @@ from settings import (
     CORS_ALLOWED_METHODS,
     CORS_ALLOWED_ORIGINS,
 )
-from starlette import status
-from starlette.requests import Request
-from starlette.responses import JSONResponse
 
 from api.domain.ecoindex import routes as ecoindex_routes
 from api.domain.health.chromedriver import is_chromedriver_healthy
@@ -68,6 +67,14 @@ async def handle_webdriver_exception(_: Request, exc: WebDriverException):
     )
 
 
+@app.exception_handler(RuntimeError)
+async def handle_screenshot_not_found_exception(_: Request, exc: FileNotFoundError):
+    return JSONResponse(
+        content={"detail": str(exc)},
+        status_code=status.HTTP_404_NOT_FOUND,
+    )
+
+
 @app.exception_handler(Exception)
 async def validation_exception_handler(_: Request, exc: Exception):
     exception_response = await format_exception_response(exception=exc)
@@ -85,5 +92,3 @@ app.add_api_route(
     description="Check health status of components of the API (database...)",
     response_model=ApiHealth,
 )
-
-app.mount("/screenshots", StaticFiles(directory="screenshots"), name="screenshots")

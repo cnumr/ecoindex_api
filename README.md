@@ -104,7 +104,7 @@ server: uvicorn
 
 It is possible to take a screenshot of the analyzed web page. To do this, you must set the `ENABLE_SCREENSHOT` environment variable to `True`. By default, screenshots are *disabled*.
 
-If screenshots are enabled, when analyzing the page the image will be generated in the `./screenshot` directory with the image name corresponding to the analysis ID and will be available on the path `/screenshot/{ID}.png`.
+If screenshots are enabled, when analyzing the page the image will be generated in the `./screenshot` directory with the image name corresponding to the analysis ID and will be available on the path `/{version}/ecoindexes/{id}/screenshot`.
 
 > __ATTENTION:__ Enabling screenshot feature may lead to a high use of the filesystem.
 
