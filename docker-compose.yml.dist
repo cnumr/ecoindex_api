@@ -21,6 +21,7 @@ services:
     environment:
       DAILY_LIMIT_PER_HOST: 10 # If set to 0 => no LIMIT
       DATABASE_URL: mysql+aiomysql://ecoindex:ecoindex@db/ecoindex?charset=utf8mb4
+      TZ: Europe/Paris
     depends_on:
       - db
     volumes:
