@@ -13,6 +13,10 @@ services:
       MYSQL_ROOT_PASSWORD: ecoindex
     ports:
       - "3306:3306"
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      timeout: 20s
+      retries: 10
   api:
     build: .
     restart: always
