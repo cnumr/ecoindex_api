@@ -1,4 +1,3 @@
-
 {
     "categories": [
         {
@@ -23,6 +22,12 @@
             "title": "## 🧰 Chore",
             "labels": [
                 "chore"
+            ]
+        },
+        {
+            "title": "## ♻️ Refactor",
+            "labels": [
+                "refactor"
             ]
         }
     ],
