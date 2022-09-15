@@ -205,4 +205,5 @@ async def get_screenshot(
         path=f"{getcwd()}/screenshots/{version}/{id}.webp",
         filename=f"{id}.webp",
         content_disposition_type="inline",
+        media_type="image/webp",
     )
