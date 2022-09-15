@@ -4,4 +4,4 @@ __pycache__
 docker-compose.yml
 dbbackup
 *.log
-screenshots/*.png
+screenshots/**/*.webp
