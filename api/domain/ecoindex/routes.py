@@ -34,6 +34,8 @@ from fastapi.responses import FileResponse
 from settings import (
     DAILY_LIMIT_PER_HOST,
     ENABLE_SCREENSHOT,
+    SCREENSHOTS_GID,
+    SCREENSHOTS_UID,
     WAIT_AFTER_SCROLL,
     WAIT_BEFORE_SCROLL,
 )
@@ -84,6 +86,8 @@ async def add_ecoindex_analysis(
             screenshot=ScreenShot(id=str(id), folder=f"{getcwd()}/screenshots/v1")
             if ENABLE_SCREENSHOT
             else None,
+            screenshot_gid=SCREENSHOTS_GID,
+            screenshot_uid=SCREENSHOTS_UID,
         )
         .init_chromedriver()
         .get_page_analysis()
