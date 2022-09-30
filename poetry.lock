@@ -89,7 +89,7 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "certifi"
-version = "2022.9.14"
+version = "2022.9.24"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
@@ -149,7 +149,7 @@ sqlmodel = ">=0.0.4,<0.0.8"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "2.4.0"
+version = "2.4.1"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 category = "main"
 optional = false
@@ -161,12 +161,23 @@ Pillow = ">=9.2.0,<10.0.0"
 undetected-chromedriver = ">=3.1.5,<4.0.0"
 
 [[package]]
+name = "exceptiongroup"
+version = "1.0.0rc9"
+description = "Backport of PEP 654 (exception groups)"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+test = ["pytest (>=6)"]
+
+[[package]]
 name = "faker"
-version = "13.16.0"
+version = "15.0.0"
 description = "Faker is a Python package that generates fake data for you."
 category = "dev"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 
 [package.dependencies]
 python-dateutil = ">=2.4"
@@ -238,11 +249,11 @@ tornado = ["tornado (>=0.2)"]
 
 [[package]]
 name = "h11"
-version = "0.13.0"
+version = "0.14.0"
 description = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 
 [[package]]
 name = "httptools"
@@ -304,7 +315,7 @@ python-versions = "*"
 
 [[package]]
 name = "mako"
-version = "1.2.2"
+version = "1.2.3"
 description = "A super-fast templating language that borrows the best ideas from the existing templating languages."
 category = "main"
 optional = false
@@ -486,7 +497,7 @@ testing = ["coverage (>=6.2)", "hypothesis (>=5.7.1)", "flaky (>=3.5.0)", "mypy 
 
 [[package]]
 name = "pytest-mock"
-version = "3.8.2"
+version = "3.9.0"
 description = "Thin-wrapper around the mock package for easier use with pytest"
 category = "dev"
 optional = false
@@ -556,7 +567,7 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "selenium"
-version = "4.4.3"
+version = "4.5.0"
 description = ""
 category = "main"
 optional = false
@@ -673,7 +684,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "trio"
-version = "0.21.0"
+version = "0.22.0"
 description = "A friendly Python library for async concurrency and I/O"
 category = "main"
 optional = false
@@ -683,6 +694,7 @@ python-versions = ">=3.7"
 async-generator = ">=1.9"
 attrs = ">=19.2.0"
 cffi = {version = ">=1.14", markers = "os_name == \"nt\" and implementation_name != \"pypy\""}
+exceptiongroup = {version = ">=1.0.0rc9", markers = "python_version < \"3.11\""}
 idna = "*"
 outcome = "*"
 sniffio = "*"
@@ -835,7 +847,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "a269d2cc9019b0742c1d541d4023899984057c07629fdeba4a584ab553b86c02"
+content-hash = "1a87baa582bf9f524698d4207c74218fd3ea16fb15150cbe8cf2735026fbba86"
 
 [metadata.files]
 aiosqlite = []
@@ -851,6 +863,7 @@ click = []
 colorama = []
 ecoindex = []
 ecoindex-scraper = []
+exceptiongroup = []
 faker = []
 faker-enum = []
 fastapi = []
