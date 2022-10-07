@@ -17,7 +17,7 @@ gunicorn = "^20.1.0"
 alembic = "^1.8.1"
 
 [tool.poetry.dev-dependencies]
-black = "^22.3"
+black = "^22.10"
 aiosqlite = "^0.17.0"
 Faker = "^15.0.0"
 faker-enum = "^0.0.2"
