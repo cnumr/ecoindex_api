@@ -7,25 +7,25 @@ jobs:
   generate-openapi:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-    - name: Install dependencies
-      run: |
-        python -m pip install poetry
-        poetry install
-    - name: "Export openapi specs from app"
-      run: poetry run python openapi.py > docs/openapi.json
-    - name: Update PR with new openapi version
-      uses: gr2m/create-or-update-pull-request-action@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        title: "OpenAPI documentation update"
-        branch: "doc/openapi-spec"
-        path: "docs/"
-        commit-message: "doc(openapi): Update OpenAPI specs"
-        auto-merge: squash
-        body: "Update OpenAPI specifications based on auto-generated doc by fastapi"
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10
+      - name: Install dependencies
+        run: |
+          python -m pip install poetry
+          poetry install
+      - name: "Export openapi specs from app"
+        run: poetry run python openapi.py > docs/openapi.json
+      - name: Update PR with new openapi version
+        uses: gr2m/create-or-update-pull-request-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          title: "OpenAPI documentation update"
+          branch: "doc/openapi-spec"
+          path: "docs/"
+          commit-message: "doc(openapi): Update OpenAPI specs"
+          auto-merge: squash
+          body: "Update OpenAPI specifications based on auto-generated doc by fastapi"

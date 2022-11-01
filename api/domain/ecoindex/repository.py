@@ -1,5 +1,5 @@
 from datetime import date
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from api.domain.ecoindex.models.responses import ApiEcoindex
@@ -16,7 +16,7 @@ async def save_ecoindex_result_db(
     session: AsyncSession,
     id: UUID,
     ecoindex_result: Result,
-    version: Optional[Version] = Version.v1,
+    version: Version | None = Version.v1,
 ) -> ApiEcoindex:
     ranking = await get_rank_analysis_db(
         ecoindex=ecoindex_result, session=session, version=version
@@ -51,10 +51,10 @@ async def save_ecoindex_result_db(
 
 async def get_count_analysis_db(
     session: AsyncSession,
-    version: Optional[Version] = Version.v1,
-    host: Optional[str] = None,
-    date_from: Optional[date] = None,
-    date_to: Optional[date] = None,
+    version: Version | None = Version.v1,
+    host: str | None = None,
+    date_from: date | None = None,
+    date_to: date | None = None,
 ) -> int:
     statement = f"SELECT count(*) FROM apiecoindex WHERE version = {version.get_version_number()}"
 
@@ -73,8 +73,8 @@ async def get_count_analysis_db(
 
 
 async def get_rank_analysis_db(
-    ecoindex: Result, session: AsyncSession, version: Optional[Version] = Version.v1
-) -> Optional[int]:
+    ecoindex: Result, session: AsyncSession, version: Version | None = Version.v1
+) -> int | None:
     result = await session.execute(
         (
             "SELECT ranking FROM ("
@@ -92,12 +92,12 @@ async def get_rank_analysis_db(
 
 async def get_ecoindex_result_list_db(
     session: AsyncSession,
-    version: Optional[Version] = Version.v1,
-    host: Optional[str] = None,
-    date_from: Optional[date] = None,
-    date_to: Optional[date] = None,
-    page: Optional[int] = 1,
-    size: Optional[int] = 50,
+    version: Version | None = Version.v1,
+    host: str | None = None,
+    date_from: date | None = None,
+    date_to: date | None = None,
+    page: int | None = 1,
+    size: int | None = 50,
 ) -> List[ApiEcoindex]:
     statement = (
         select(ApiEcoindex)
@@ -116,7 +116,7 @@ async def get_ecoindex_result_list_db(
 
 
 async def get_ecoindex_result_by_id_db(
-    session: AsyncSession, id: UUID, version: Optional[Version] = Version.v1
+    session: AsyncSession, id: UUID, version: Version | None = Version.v1
 ) -> ApiEcoindex:
     statement = (
         select(ApiEcoindex)

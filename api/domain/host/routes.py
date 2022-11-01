@@ -1,5 +1,4 @@
 from datetime import date
-from typing import Optional
 
 from api.domain.host.models.host import PageHosts
 from api.domain.host.repository import get_count_hosts_db, get_host_list_db
@@ -40,17 +39,18 @@ async def get_host_list(
         description="Engine version used to run the analysis (v0 or v1)",
         example=Version.v1.value,
     ),
-    date_from: Optional[date] = Query(
+    date_from: date
+    | None = Query(
         None, description="Start date of the filter elements (example: 2020-01-01)"
     ),
-    date_to: Optional[date] = Query(
+    date_to: date
+    | None = Query(
         None, description="End date of the filter elements  (example: 2020-01-01)"
     ),
     q: str = Query(default=None, description="Filter by partial host name"),
-    page: Optional[int] = Query(1, description="Page number", ge=1),
-    size: Optional[int] = Query(
-        50, description="Number of elements per page", ge=1, le=100
-    ),
+    page: int | None = Query(1, description="Page number", ge=1),
+    size: int
+    | None = Query(50, description="Number of elements per page", ge=1, le=100),
 ) -> PageHosts:
     hosts = await get_host_list_db(
         session=session,

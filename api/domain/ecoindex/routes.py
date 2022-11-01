@@ -1,6 +1,5 @@
 from datetime import date
 from os import getcwd
-from typing import Optional
 from uuid import UUID
 
 from api.domain.ecoindex.models.examples import (
@@ -123,17 +122,18 @@ async def get_ecoindex_analysis_list(
         description="Engine version used to run the analysis (v0 or v1)",
         example=Version.v1.value,
     ),
-    date_from: Optional[date] = Query(
+    date_from: date
+    | None = Query(
         None, description="Start date of the filter elements (example: 2020-01-01)"
     ),
-    date_to: Optional[date] = Query(
+    date_to: date
+    | None = Query(
         None, description="End date of the filter elements  (example: 2020-01-01)"
     ),
-    host: Optional[str] = Query(None, description="Host name you want to filter"),
-    page: Optional[int] = Query(1, description="Page number", ge=1),
-    size: Optional[int] = Query(
-        50, description="Number of elements per page", ge=1, le=100
-    ),
+    host: str | None = Query(None, description="Host name you want to filter"),
+    page: int | None = Query(1, description="Page number", ge=1),
+    size: int
+    | None = Query(50, description="Number of elements per page", ge=1, le=100),
 ) -> PageApiEcoindexes:
     ecoindexes = await get_ecoindex_result_list_db(
         session=session,

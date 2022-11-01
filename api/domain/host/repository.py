@@ -1,22 +1,21 @@
 from datetime import date
-from typing import List, Optional
+from typing import List
 
 from api.domain.ecoindex.models.responses import ApiEcoindex
 from api.models.enums import Version
+from db.helper import date_filter
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlmodel import select
-
-from db.helper import date_filter
 
 
 async def get_host_list_db(
     session: AsyncSession,
-    version: Optional[Version] = Version.v1,
-    q: Optional[str] = None,
-    date_from: Optional[date] = None,
-    date_to: Optional[date] = None,
-    page: Optional[int] = 1,
-    size: Optional[int] = 50,
+    version: Version | None = Version.v1,
+    q: str | None = None,
+    date_from: date | None = None,
+    date_to: date | None = None,
+    page: int | None = 1,
+    size: int | None = 50,
 ) -> List[str]:
     statement = (
         select(ApiEcoindex.host)
@@ -39,10 +38,10 @@ async def get_host_list_db(
 
 async def get_count_hosts_db(
     session: AsyncSession,
-    version: Optional[Version] = Version.v1,
-    q: Optional[str] = None,
-    date_from: Optional[date] = None,
-    date_to: Optional[date] = None,
+    version: Version | None = Version.v1,
+    q: str | None = None,
+    date_from: date | None = None,
+    date_to: date | None = None,
 ) -> int:
     sub_statement = (
         f"SELECT host FROM apiecoindex WHERE version = {version.get_version_number()}"
