@@ -7,8 +7,8 @@ from sqlmodel.sql.expression import SelectOfScalar
 
 def date_filter(
     statement: SelectOfScalar,
-    date_from: Optional[date] = None,
-    date_to: Optional[date] = None,
+    date_from: date | None = None,
+    date_to: date | None = None,
 ) -> SelectOfScalar:
     if date_from:
         statement = statement.where(ApiEcoindex.date >= date_from)

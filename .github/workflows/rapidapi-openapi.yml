@@ -3,17 +3,16 @@ on:
   push:
     branches:
       - "main"
-    
 
 jobs:
   update-rapidapi-openapi:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: RapidAPI OpenAPI
-      uses: vvatelot/rapidapi-openapi-github-action@v1
-      with:
-        rapidapi-api-key: ${{ secrets.RAPIDAPI_API_KEY }}
-        rapidapi-api-id: ${{ secrets.RAPIDAPI_API_ID }}
-        default-server-url: ${{ secrets.PROD_DEFAULT_SERVER }}
-        openapi-file: "docs/openapi.json"
+      - uses: actions/checkout@v2
+      - name: RapidAPI OpenAPI
+        uses: vvatelot/rapidapi-openapi-github-action@v1
+        with:
+          rapidapi-api-key: ${{ secrets.RAPIDAPI_API_KEY }}
+          rapidapi-api-id: ${{ secrets.RAPIDAPI_API_ID }}
+          default-server-url: ${{ secrets.PROD_DEFAULT_SERVER }}
+          openapi-file: "docs/openapi.json"

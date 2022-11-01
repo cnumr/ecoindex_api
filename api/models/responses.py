@@ -1,4 +1,4 @@
-from typing import Any, List, Optional
+from typing import Any, List
 
 from pydantic import BaseModel
 from sqlmodel import Field, SQLModel
@@ -12,4 +12,4 @@ class ApiHealth(SQLModel):
 class ExceptionResponse(BaseModel):
     args: List[Any]
     exception: str
-    message: Optional[str]
+    message: str | None
