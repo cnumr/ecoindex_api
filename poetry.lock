@@ -173,7 +173,7 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "faker"
-version = "15.1.2"
+version = "15.1.3"
 description = "Faker is a Python package that generates fake data for you."
 category = "dev"
 optional = false
@@ -856,7 +856,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "88fb4db2693b302e0eba25a0679b961e67e190f2b1f3cfa6a3dd38bcc87f1d17"
+content-hash = "566eee814fa7458ae7b9b251b3f97e20b7cb16dd84cf9f62b61c3d0958635862"
 
 [metadata.files]
 aiosqlite = [
@@ -997,8 +997,8 @@ exceptiongroup = [
     {file = "exceptiongroup-1.0.0.tar.gz", hash = "sha256:affbabf13fb6e98988c38d9c5650e701569fe3c1de3233cfb61c5f33774690ad"},
 ]
 faker = [
-    {file = "Faker-15.1.2-py3-none-any.whl", hash = "sha256:37c8bfcbd9e0e99cebcd22e70dcf895ff92fb46aa8a32c7772df0c1f1f32ea48"},
-    {file = "Faker-15.1.2.tar.gz", hash = "sha256:39c4e7915813923829675488cafef07ddf11cf59ecbaac518f53dd8e7b0df5cf"},
+    {file = "Faker-15.1.3-py3-none-any.whl", hash = "sha256:bd922a6ad210bb96a5b31987e10918851131c9670429172d5bfb3a5ede238a79"},
+    {file = "Faker-15.1.3.tar.gz", hash = "sha256:1bfb1b447cd45169a74a09f821cee47f51548508b62a29f6dfdab1d001d448a4"},
 ]
 faker-enum = [
     {file = "faker_enum-0.0.2-py2.py3-none-any.whl", hash = "sha256:1af0b79c1c84b4df17854abf491a571281a1f931aa024bb27f9d8bef290ff362"},
