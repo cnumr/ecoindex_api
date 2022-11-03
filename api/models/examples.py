@@ -52,3 +52,31 @@ example_file_not_found = {
         }
     },
 }
+
+example_exception_HTTP_520_ECOINDEX_TYPE_ERROR_response = {
+    "description": "The mimetype of the analyzed resource is not 'text/html'",
+    "content": {
+        "application/json": {
+            "example": {
+                "detail": {
+                    "mimetype": "text/css",
+                    "message": "This resource is not a standard page with mimeType 'text/html'",
+                }
+            }
+        }
+    },
+}
+
+example_exception_HTTP_521_ECOINDEX_CONNECTION_ERROR_response = {
+    "description": "The analyzed webpage responded with an error status code",
+    "content": {
+        "application/json": {
+            "example": {
+                "detail": {
+                    "status": 401,
+                    "message": "This page can not be analyzed because the response status code is not 200",
+                }
+            }
+        }
+    },
+}
