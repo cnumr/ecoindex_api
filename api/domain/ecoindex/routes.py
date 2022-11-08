@@ -2,6 +2,11 @@ from datetime import date
 from os import getcwd
 from uuid import UUID
 
+from api.application.middleware.analysis import validate_analysis_request
+from api.application.status import (
+    HTTP_520_ECOINDEX_TYPE_ERROR,
+    HTTP_521_ECOINDEX_CONNECTION_ERROR,
+)
 from api.domain.ecoindex.models.examples import (
     example_daily_limit_response,
     example_ecoindex_not_found,
@@ -14,11 +19,12 @@ from api.domain.ecoindex.repository import (
     save_ecoindex_result_db,
 )
 from api.helper import get_status_code, new_uuid
-from api.middleware import validate_analysis_request
 from api.models.enums import Version
 from api.models.examples import (
     example_exception_ERR_CONNECTION_TIMED_OUT_response,
     example_exception_ERR_NAME_NOT_RESOLVED_response,
+    example_exception_HTTP_520_ECOINDEX_TYPE_ERROR_response,
+    example_exception_HTTP_521_ECOINDEX_CONNECTION_ERROR_response,
     example_exception_response,
     example_file_not_found,
 )
@@ -53,6 +59,8 @@ router = APIRouter()
         status.HTTP_500_INTERNAL_SERVER_ERROR: example_exception_response,
         status.HTTP_502_BAD_GATEWAY: example_exception_ERR_NAME_NOT_RESOLVED_response,
         status.HTTP_504_GATEWAY_TIMEOUT: example_exception_ERR_CONNECTION_TIMED_OUT_response,
+        HTTP_520_ECOINDEX_TYPE_ERROR: example_exception_HTTP_520_ECOINDEX_TYPE_ERROR_response,
+        HTTP_521_ECOINDEX_CONNECTION_ERROR: example_exception_HTTP_521_ECOINDEX_CONNECTION_ERROR_response,
     },
     tags=["Ecoindex"],
     description="This performs ecoindex analysis of a given webpage with a defined resolution",

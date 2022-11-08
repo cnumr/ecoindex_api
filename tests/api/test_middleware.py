@@ -3,7 +3,7 @@ from db.engine import get_session
 from ecoindex_scraper.models import WebPage
 from fastapi import HTTPException, Response, status
 
-from api.middleware import validate_analysis_request
+from api.application.middleware.analysis import validate_analysis_request
 
 
 @pytest.mark.asyncio
