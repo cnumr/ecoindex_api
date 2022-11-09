@@ -10,7 +10,7 @@
             "type": "string"
           },
           "ecoindex_version": {
-            "default": "5.0.0",
+            "default": "5.1.0",
             "description": "Is the version of the ecoindex used to compute the score",
             "title": "Ecoindex version",
             "type": "string"
@@ -117,24 +117,6 @@
           "initial_total_results"
         ],
         "title": "ApiEcoindex",
-        "type": "object"
-      },
-      "ApiHealth": {
-        "properties": {
-          "chromedriver": {
-            "title": "Status of chromedriver",
-            "type": "boolean"
-          },
-          "database": {
-            "title": "Status of database",
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "database",
-          "chromedriver"
-        ],
-        "title": "ApiHealth",
         "type": "object"
       },
       "HTTPValidationError": {
@@ -287,28 +269,6 @@
   },
   "openapi": "3.0.2",
   "paths": {
-    "/health": {
-      "get": {
-        "description": "Check health status of components of the API (database...)",
-        "operationId": "Get_healthcheck_health_get",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiHealth"
-                }
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "Get Healthcheck",
-        "tags": [
-          "Infra"
-        ]
-      }
-    },
     "/v1/ecoindexes": {
       "post": {
         "description": "This performs ecoindex analysis of a given webpage with a defined resolution",
@@ -407,6 +367,32 @@
               }
             },
             "description": "Timeout reached when requesting this url. This is probably a temporary issue. \ud83d\ude25"
+          },
+          "520": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": {
+                    "message": "This resource is not a standard page with mimeType 'text/html'",
+                    "mimetype": "text/css"
+                  }
+                }
+              }
+            },
+            "description": "The mimetype of the analyzed resource is not 'text/html'"
+          },
+          "521": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": {
+                    "message": "This page can not be analyzed because the response status code is not 200",
+                    "status": 401
+                  }
+                }
+              }
+            },
+            "description": "The analyzed webpage responded with an error status code"
           }
         },
         "summary": "New Ecoindex Analysis",
