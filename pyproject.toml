@@ -21,7 +21,7 @@ black = "^22.3"
 aiosqlite = "^0.17.0"
 Faker = "^15.3.1"
 faker-enum = "^0.0.2"
-pytest-asyncio = "^0.20.1"
+pytest-asyncio = "^0.20.2"
 pytest-mock = "^3.9.0"
 
 [build-system]
