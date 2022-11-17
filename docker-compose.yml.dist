@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   db:
     image: mysql
@@ -15,8 +13,9 @@ services:
       - "3306:3306"
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
-      timeout: 20s
+      timeout: 5s
       retries: 10
+      interval: 2s
   api:
     build: .
     restart: always
@@ -27,7 +26,8 @@ services:
       DATABASE_URL: mysql+aiomysql://ecoindex:ecoindex@db/ecoindex?charset=utf8mb4
       TZ: Europe/Paris
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - ./screenshots:/code/screenshots
   db-backup:
