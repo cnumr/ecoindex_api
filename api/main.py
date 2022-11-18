@@ -1,8 +1,8 @@
-from db.engine import create_db_and_tables
 from fastapi.applications import FastAPI
 
 from api.domain.ecoindex import routes as ecoindex_routes
 from api.domain.host import routes as host_routes
+from db.engine import create_db_and_tables
 
 app = FastAPI(
     title="Ecoindex API",
@@ -17,10 +17,11 @@ from api.application.exception_handler import handle_exceptions
 from api.application.middleware.cors import add_cors_middleware
 from api.domain.health.route import add_healthcheck_route
 
+add_healthcheck_route()
+
 
 @app.on_event("startup")
 async def on_startup():
     await create_db_and_tables()
     await handle_exceptions()
     await add_cors_middleware()
-    await add_healthcheck_route()

@@ -1,11 +1,12 @@
+from fastapi_health import health
+
 from api.domain.health.chromedriver import is_chromedriver_healthy
 from api.main import app
 from api.models.responses import ApiHealth
 from db.engine import is_database_online
-from fastapi_health import health
 
 
-async def add_healthcheck_route():
+def add_healthcheck_route():
     app.add_api_route(
         path="/health",
         endpoint=health([is_database_online, is_chromedriver_healthy]),
