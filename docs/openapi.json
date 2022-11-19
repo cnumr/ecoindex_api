@@ -119,6 +119,24 @@
         "title": "ApiEcoindex",
         "type": "object"
       },
+      "ApiHealth": {
+        "properties": {
+          "chromedriver": {
+            "title": "Status of chromedriver",
+            "type": "boolean"
+          },
+          "database": {
+            "title": "Status of database",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "database",
+          "chromedriver"
+        ],
+        "title": "ApiHealth",
+        "type": "object"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -269,6 +287,28 @@
   },
   "openapi": "3.0.2",
   "paths": {
+    "/health": {
+      "get": {
+        "description": "Check health status of components of the API (database...)",
+        "operationId": "Get_healthcheck_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiHealth"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Healthcheck",
+        "tags": [
+          "Infra"
+        ]
+      }
+    },
     "/v1/ecoindexes": {
       "post": {
         "description": "This performs ecoindex analysis of a given webpage with a defined resolution",
