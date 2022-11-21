@@ -1,6 +1,6 @@
 from random import choice
 
-from tasks import ecoindex
+from worker.tasks import ecoindex_task
 
 urls = [
     "https://www.decathlon.fr",
@@ -206,8 +206,8 @@ urls = [
 ]
 
 
-for i in range(0, 10):
+for i in range(0, 15):
     url = choice(urls)
 
-    result = ecoindex.delay(url, 1920, 1080)
+    result = ecoindex_task.delay(url, 1920, 1080)
     print(result.id, result.status)

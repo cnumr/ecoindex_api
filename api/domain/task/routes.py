@@ -11,7 +11,7 @@ from api.domain.task.models.examples import example_ecoindex_task_not_found
 from api.domain.task.models.response import QueueTask
 from db.engine import get_session
 from settings import DAILY_LIMIT_PER_HOST
-from tasks import app, ecoindex_task
+from worker.tasks import app, ecoindex_task
 
 router = APIRouter()
 
