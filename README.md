@@ -8,7 +8,7 @@ This tool provides an easy way to analyze websites with [Ecoindex](http://www.ec
 - Retrieve results
 - Limit the number of request per day for a given host
 
-This API is built on top of [ecoindex-python](https://pypi.org/project/ecoindex/) with [FastAPI](https://fastapi.tiangolo.com/)
+This API is built on top of [ecoindex-scraper](https://pypi.org/project/ecoindex-scraper/) with [FastAPI](https://fastapi.tiangolo.com/)
 
 ## OpenAPI specification
 
