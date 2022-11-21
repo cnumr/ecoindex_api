@@ -1,8 +1,9 @@
 from fastapi.param_functions import Depends
-from settings import DATABASE_URL
 from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlmodel import SQLModel
+from sqlmodel.ext.asyncio.session import AsyncSession
+
+from settings import DATABASE_URL
 
 engine = create_async_engine(DATABASE_URL, future=True, pool_pre_ping=True)
 

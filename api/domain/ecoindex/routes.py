@@ -2,6 +2,15 @@ from datetime import date
 from os import getcwd
 from uuid import UUID
 
+from ecoindex_scraper import EcoindexScraper
+from ecoindex_scraper.models import ScreenShot, WebPage, WindowSize
+from fastapi import APIRouter, Response, status
+from fastapi.exceptions import HTTPException
+from fastapi.param_functions import Path
+from fastapi.params import Body, Depends, Query
+from fastapi.responses import FileResponse
+from sqlmodel.ext.asyncio.session import AsyncSession
+
 from api.application.middleware.analysis import validate_analysis_request
 from api.application.status import (
     HTTP_520_ECOINDEX_TYPE_ERROR,
@@ -29,13 +38,6 @@ from api.models.examples import (
     example_file_not_found,
 )
 from db.engine import get_session
-from ecoindex_scraper import EcoindexScraper
-from ecoindex_scraper.models import ScreenShot, WebPage, WindowSize
-from fastapi import APIRouter, Response, status
-from fastapi.exceptions import HTTPException
-from fastapi.param_functions import Path
-from fastapi.params import Body, Depends, Query
-from fastapi.responses import FileResponse
 from settings import (
     DAILY_LIMIT_PER_HOST,
     ENABLE_SCREENSHOT,
@@ -44,7 +46,6 @@ from settings import (
     WAIT_AFTER_SCROLL,
     WAIT_BEFORE_SCROLL,
 )
-from sqlmodel.ext.asyncio.session import AsyncSession
 
 router = APIRouter()
 
