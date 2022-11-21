@@ -23,9 +23,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          title: "OpenAPI documentation update"
+          title: "📝 doc(openapi): Update OpenAPI specs"
           branch: "doc/openapi-spec"
           path: "docs/"
-          commit-message: "doc(openapi): Update OpenAPI specs"
+          commit-message: "📝 doc(openapi): Update OpenAPI specs"
           auto-merge: squash
           body: "Update OpenAPI specifications based on auto-generated doc by fastapi"
