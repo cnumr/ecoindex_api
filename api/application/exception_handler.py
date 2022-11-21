@@ -1,12 +1,13 @@
+from fastapi import Request, status
+from fastapi.responses import JSONResponse
+from selenium.common.exceptions import WebDriverException
+
 from api.application.status import (
     HTTP_520_ECOINDEX_TYPE_ERROR,
     HTTP_521_ECOINDEX_CONNECTION_ERROR,
 )
-from api.helper import format_exception_response
 from api.main import app
-from fastapi import Request, status
-from fastapi.responses import JSONResponse
-from selenium.common.exceptions import WebDriverException
+from common.helper import format_exception_response
 
 
 async def handle_exceptions():

@@ -1,12 +1,12 @@
 from typing import List
 from uuid import UUID
 
-from ecoindex_scraper.models import Result
+from ecoindex.models import Result
 from pydantic import BaseModel
-from sqlmodel import Field
+from sqlmodel import Field, SQLModel
 
 
-class ApiEcoindex(Result, table=True):
+class ApiEcoindex(SQLModel, Result, table=True):
     id: UUID | None = Field(
         default=None, description="Analysis ID of type `UUID`", primary_key=True
     )

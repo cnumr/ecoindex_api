@@ -2,6 +2,7 @@
 !.env
 !api
 !alembic.ini
+!common
 !db
 !docker
 !pyproject.toml

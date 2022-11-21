@@ -28,7 +28,7 @@ tz = ["python-dateutil"]
 name = "amqp"
 version = "5.1.1"
 description = "Low-level AMQP client for Python (fork of amqplib)."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -56,7 +56,7 @@ trio = ["trio (>=0.16,<0.22)"]
 name = "async-generator"
 version = "1.10"
 description = "Async generators and context managers for Python 3.5+"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.5"
 
@@ -64,7 +64,7 @@ python-versions = ">=3.5"
 name = "async-timeout"
 version = "4.0.2"
 description = "Timeout context manager for asyncio programs"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -72,7 +72,7 @@ python-versions = ">=3.6"
 name = "attrs"
 version = "22.1.0"
 description = "Classes Without Boilerplate"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.5"
 
@@ -86,7 +86,7 @@ tests-no-zope = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy 
 name = "billiard"
 version = "3.6.4.0"
 description = "Python multiprocessing fork with improvements and bugfixes"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -115,7 +115,7 @@ uvloop = ["uvloop (>=0.15.2)"]
 name = "celery"
 version = "5.2.7"
 description = "Distributed Task Queue."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -166,7 +166,7 @@ zstd = ["zstandard"]
 name = "certifi"
 version = "2022.9.24"
 description = "Python package for providing Mozilla's CA Bundle."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -174,7 +174,7 @@ python-versions = ">=3.6"
 name = "cffi"
 version = "1.15.1"
 description = "Foreign Function Interface for Python calling C code."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -185,7 +185,7 @@ pycparser = "*"
 name = "charset-normalizer"
 version = "2.1.1"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6.0"
 
@@ -196,7 +196,7 @@ unicode-backport = ["unicodedata2"]
 name = "click"
 version = "8.1.3"
 description = "Composable command line interface toolkit"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -207,7 +207,7 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 name = "click-didyoumean"
 version = "0.3.0"
 description = "Enables git-like *did-you-mean* feature in click"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6.2,<4.0.0"
 
@@ -218,7 +218,7 @@ click = ">=7"
 name = "click-plugins"
 version = "1.1.1"
 description = "An extension module for click to enable registering CLI commands via setuptools entry-points."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -232,7 +232,7 @@ dev = ["coveralls", "pytest (>=3.6)", "pytest-cov", "wheel"]
 name = "click-repl"
 version = "0.2.0"
 description = "REPL plugin for Click"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -245,7 +245,7 @@ six = "*"
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
 
@@ -253,7 +253,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7
 name = "deprecated"
 version = "1.2.13"
 description = "Python @deprecated decorator to deprecate old python classes, functions or methods."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -265,25 +265,25 @@ dev = ["PyTest", "PyTest (<5)", "PyTest-Cov", "PyTest-Cov (<2.6)", "bump2version
 
 [[package]]
 name = "ecoindex"
-version = "5.1.0"
+version = "5.2.0b1"
 description = "Ecoindex module provides a simple way to measure the Ecoindex score based on the 3 parameters: The DOM elements of the page, the size of the page and the number of external requests of the page"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.10,<4.0"
 
 [package.dependencies]
-sqlmodel = ">=0.0.4,<0.0.8"
+pydantic = ">=1.10.2,<2.0.0"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "2.7.0"
+version = "2.8.0b1"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.10,<4.0"
 
 [package.dependencies]
-ecoindex = ">=5.1.0,<6.0.0"
+ecoindex = ">=5.2.0b1,<6.0.0"
 Pillow = ">=9.2.0,<10.0.0"
 undetected-chromedriver = ">=3.1.6,<4.0.0"
 
@@ -291,7 +291,7 @@ undetected-chromedriver = ">=3.1.6,<4.0.0"
 name = "exceptiongroup"
 version = "1.0.4"
 description = "Backport of PEP 654 (exception groups)"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -397,7 +397,7 @@ tornado = ["tornado (>=0.2)"]
 name = "h11"
 version = "0.14.0"
 description = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -427,7 +427,7 @@ tests = ["freezegun", "pytest", "pytest-cov"]
 name = "idna"
 version = "3.4"
 description = "Internationalized Domain Names in Applications (IDNA)"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.5"
 
@@ -443,7 +443,7 @@ python-versions = "*"
 name = "kombu"
 version = "5.2.4"
 description = "Messaging library for Python."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -503,7 +503,7 @@ python-versions = "*"
 name = "outcome"
 version = "1.2.0"
 description = "Capture the outcome of Python function calls."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -514,7 +514,7 @@ attrs = ">=19.2.0"
 name = "packaging"
 version = "21.3"
 description = "Core utilities for Python packages"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -533,7 +533,7 @@ python-versions = ">=3.7"
 name = "pillow"
 version = "9.3.0"
 description = "Python Imaging Library (Fork)"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -580,7 +580,7 @@ twisted = ["twisted"]
 name = "prompt-toolkit"
 version = "3.0.32"
 description = "Library for building powerful interactive command lines in Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6.2"
 
@@ -591,7 +591,7 @@ wcwidth = "*"
 name = "pycparser"
 version = "2.21"
 description = "C parser in Python"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -614,7 +614,7 @@ email = ["email-validator (>=1.0.3)"]
 name = "pyparsing"
 version = "3.0.9"
 description = "pyparsing module - Classes and methods to define and execute parsing grammars"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6.8"
 
@@ -625,7 +625,7 @@ diagrams = ["jinja2", "railroad-diagrams"]
 name = "pysocks"
 version = "1.7.1"
 description = "A Python SOCKS client module. See https://github.com/Anorov/PySocks for more information."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
@@ -711,7 +711,7 @@ python-versions = "*"
 name = "pytz"
 version = "2022.6"
 description = "World timezone definitions, modern and historical"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -727,7 +727,7 @@ python-versions = ">=3.6"
 name = "redis"
 version = "4.3.4"
 description = "Python client for Redis database and key-value store"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -744,7 +744,7 @@ ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"
 name = "requests"
 version = "2.28.1"
 description = "Python HTTP for Humans."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7, <4"
 
@@ -762,7 +762,7 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 name = "selenium"
 version = "4.6.0"
 description = ""
-category = "dev"
+category = "main"
 optional = false
 python-versions = "~=3.7"
 
@@ -789,7 +789,7 @@ testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
@@ -797,7 +797,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 name = "sniffio"
 version = "1.3.0"
 description = "Sniff out which async library your code is running under"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -805,7 +805,7 @@ python-versions = ">=3.7"
 name = "sortedcontainers"
 version = "2.4.0"
 description = "Sorted Containers -- Sorted List, Sorted Dict, Sorted Set"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -899,7 +899,7 @@ python-versions = ">= 3.7"
 name = "trio"
 version = "0.22.0"
 description = "A friendly Python library for async concurrency and I/O"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -917,7 +917,7 @@ sortedcontainers = "*"
 name = "trio-websocket"
 version = "0.9.2"
 description = "WebSocket library for Trio"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.5"
 
@@ -955,7 +955,7 @@ python-versions = ">=3.7"
 name = "undetected-chromedriver"
 version = "3.1.6"
 description = "('Selenium.webdriver.Chrome replacement with compatiblity for Brave, and other Chromium based browsers.', 'Not triggered by CloudFlare/Imperva/hCaptcha and such.', 'NOTE: results may vary due to many factors. No guarantees are given, except for ongoing efforts in understanding detection algorithms.')"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -968,7 +968,7 @@ websockets = "*"
 name = "urllib3"
 version = "1.26.12"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, <4"
 
@@ -1019,7 +1019,7 @@ test = ["Cython (>=0.29.32,<0.30.0)", "aiohttp", "flake8 (>=3.9.2,<3.10.0)", "my
 name = "vine"
 version = "5.0.0"
 description = "Promises, promises, promises."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -1038,7 +1038,7 @@ anyio = ">=3.0.0"
 name = "wcwidth"
 version = "0.2.5"
 description = "Measures the displayed width of unicode strings in a terminal"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -1046,7 +1046,7 @@ python-versions = "*"
 name = "websockets"
 version = "10.4"
 description = "An implementation of the WebSocket Protocol (RFC 6455 & 7692)"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -1054,7 +1054,7 @@ python-versions = ">=3.7"
 name = "wrapt"
 version = "1.14.1"
 description = "Module for decorators, wrappers and monkey patching."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 
@@ -1062,7 +1062,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 name = "wsproto"
 version = "1.2.0"
 description = "WebSockets state-machine based protocol implementation"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7.0"
 
@@ -1072,7 +1072,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "c7f5858b806e2d0e25e30769b7003ee72929b6be580723a9554abf3608b0f279"
+content-hash = "f74b6463233f6b36ad6c07f28afa63ef23fccda4cc014031efebd1c5225af711"
 
 [metadata.files]
 aiosqlite = [
@@ -1233,12 +1233,12 @@ deprecated = [
     {file = "Deprecated-1.2.13.tar.gz", hash = "sha256:43ac5335da90c31c24ba028af536a91d41d53f9e6901ddb021bcc572ce44e38d"},
 ]
 ecoindex = [
-    {file = "ecoindex-5.1.0-py3-none-any.whl", hash = "sha256:3ba25165d7440e43961b9986a6ad4701767c9597e9547e6801debe0fdb270b3d"},
-    {file = "ecoindex-5.1.0.tar.gz", hash = "sha256:f8ce1ccb479165e9f9cffe239a1103d9e7c74f69da6064e7adea949652d20dab"},
+    {file = "ecoindex-5.2.0b1-py3-none-any.whl", hash = "sha256:4d4a596e7e23be9ec3832a37617434312ed220f3a5c290641d2ea4ab519c936e"},
+    {file = "ecoindex-5.2.0b1.tar.gz", hash = "sha256:3128fb6e6f51bdc0b0816640ff70889bd50a959308c88acf1df1861aa717a85b"},
 ]
 ecoindex-scraper = [
-    {file = "ecoindex_scraper-2.7.0-py3-none-any.whl", hash = "sha256:890dfeba66c710b17deb508e072dbc25fd1401460062085c2c86769b73c2ea73"},
-    {file = "ecoindex_scraper-2.7.0.tar.gz", hash = "sha256:b5005ca163284aef314b3faf2f57511a7a7e94443a3f0d655b50ce161aa4291e"},
+    {file = "ecoindex_scraper-2.8.0b1-py3-none-any.whl", hash = "sha256:739ddcba3906bce00c6f4e2ec0f228bb6807c4847e8a885cd68c19ce53abd220"},
+    {file = "ecoindex_scraper-2.8.0b1.tar.gz", hash = "sha256:17c05ed88b902c37e4e1150694285dafe2c42f70f3086bd717e8b39a92cd9133"},
 ]
 exceptiongroup = [
     {file = "exceptiongroup-1.0.4-py3-none-any.whl", hash = "sha256:542adf9dea4055530d6e1279602fa5cb11dab2395fa650b8674eaec35fc4a828"},
@@ -1302,6 +1302,7 @@ greenlet = [
     {file = "greenlet-2.0.1-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d5b0ff9878333823226d270417f24f4d06f235cb3e54d1103b71ea537a6a86ce"},
     {file = "greenlet-2.0.1-cp37-cp37m-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:be9e0fb2ada7e5124f5282d6381903183ecc73ea019568d6d63d33f25b2a9000"},
     {file = "greenlet-2.0.1-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0b493db84d124805865adc587532ebad30efa68f79ad68f11b336e0a51ec86c2"},
+    {file = "greenlet-2.0.1-cp37-cp37m-musllinux_1_1_aarch64.whl", hash = "sha256:0459d94f73265744fee4c2d5ec44c6f34aa8a31017e6e9de770f7bcf29710be9"},
     {file = "greenlet-2.0.1-cp37-cp37m-musllinux_1_1_x86_64.whl", hash = "sha256:a20d33124935d27b80e6fdacbd34205732660e0a1d35d8b10b3328179a2b51a1"},
     {file = "greenlet-2.0.1-cp37-cp37m-win32.whl", hash = "sha256:ea688d11707d30e212e0110a1aac7f7f3f542a259235d396f88be68b649e47d1"},
     {file = "greenlet-2.0.1-cp37-cp37m-win_amd64.whl", hash = "sha256:afe07421c969e259e9403c3bb658968702bc3b78ec0b6fde3ae1e73440529c23"},
@@ -1310,6 +1311,7 @@ greenlet = [
     {file = "greenlet-2.0.1-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:659f167f419a4609bc0516fb18ea69ed39dbb25594934bd2dd4d0401660e8a1e"},
     {file = "greenlet-2.0.1-cp38-cp38-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:356e4519d4dfa766d50ecc498544b44c0249b6de66426041d7f8b751de4d6b48"},
     {file = "greenlet-2.0.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:811e1d37d60b47cb8126e0a929b58c046251f28117cb16fcd371eed61f66b764"},
+    {file = "greenlet-2.0.1-cp38-cp38-musllinux_1_1_aarch64.whl", hash = "sha256:d38ffd0e81ba8ef347d2be0772e899c289b59ff150ebbbbe05dc61b1246eb4e0"},
     {file = "greenlet-2.0.1-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:0109af1138afbfb8ae647e31a2b1ab030f58b21dd8528c27beaeb0093b7938a9"},
     {file = "greenlet-2.0.1-cp38-cp38-win32.whl", hash = "sha256:88c8d517e78acdf7df8a2134a3c4b964415b575d2840a2746ddb1cc6175f8608"},
     {file = "greenlet-2.0.1-cp38-cp38-win_amd64.whl", hash = "sha256:d6ee1aa7ab36475035eb48c01efae87d37936a8173fc4d7b10bb02c2d75dd8f6"},
@@ -1318,6 +1320,7 @@ greenlet = [
     {file = "greenlet-2.0.1-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:505138d4fa69462447a562a7c2ef723c6025ba12ac04478bc1ce2fcc279a2db5"},
     {file = "greenlet-2.0.1-cp39-cp39-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:cce1e90dd302f45716a7715517c6aa0468af0bf38e814ad4eab58e88fc09f7f7"},
     {file = "greenlet-2.0.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9e9744c657d896c7b580455e739899e492a4a452e2dd4d2b3e459f6b244a638d"},
+    {file = "greenlet-2.0.1-cp39-cp39-musllinux_1_1_aarch64.whl", hash = "sha256:662e8f7cad915ba75d8017b3e601afc01ef20deeeabf281bd00369de196d7726"},
     {file = "greenlet-2.0.1-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:41b825d65f31e394b523c84db84f9383a2f7eefc13d987f308f4663794d2687e"},
     {file = "greenlet-2.0.1-cp39-cp39-win32.whl", hash = "sha256:db38f80540083ea33bdab614a9d28bcec4b54daa5aff1668d7827a9fc769ae0a"},
     {file = "greenlet-2.0.1-cp39-cp39-win_amd64.whl", hash = "sha256:b23d2a46d53210b498e5b701a1913697671988f4bf8e10f935433f6e7c332fb6"},

@@ -2,8 +2,8 @@ from datetime import date
 from os import getcwd
 from uuid import UUID
 
+from ecoindex.models import ScreenShot, WebPage, WindowSize
 from ecoindex_scraper import EcoindexScraper
-from ecoindex_scraper.models import ScreenShot, WebPage, WindowSize
 from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
@@ -66,6 +66,7 @@ router = APIRouter()
     tags=["Ecoindex"],
     description="This performs ecoindex analysis of a given webpage with a defined resolution",
     status_code=status.HTTP_201_CREATED,
+    deprecated=True,
 )
 async def add_ecoindex_analysis(
     response: Response,

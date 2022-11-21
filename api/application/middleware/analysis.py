@@ -1,7 +1,8 @@
-import api.domain.ecoindex.repository
-from ecoindex_scraper.models import WebPage
+from ecoindex.models import WebPage
 from fastapi import HTTPException, Response, status
 from sqlmodel.ext.asyncio.session import AsyncSession
+
+import api.domain.ecoindex.repository
 
 
 async def validate_analysis_request(

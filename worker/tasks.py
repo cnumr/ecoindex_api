@@ -2,10 +2,13 @@ from asyncio import run
 from os import getcwd
 
 from celery import Celery
+from ecoindex.models import ScreenShot, WindowSize
 from ecoindex_scraper import EcoindexScraper
-from ecoindex_scraper.models import ScreenShot, WindowSize
+from selenium.common.exceptions import WebDriverException
 
 from api.domain.ecoindex.repository import save_ecoindex_result_db
+from api.domain.task.models.response import QueueTaskError
+from common.helper import format_exception_response
 from db.engine import get_session
 from settings import (
     ENABLE_SCREENSHOT,
@@ -16,8 +19,15 @@ from settings import (
     WORKER_BACKEND_URL,
     WORKER_BROKER_URL,
 )
+from worker.exceptions import (
+    EcoindexContentTypeError,
+    EcoindexHostUnreachable,
+    EcoindexPageNotFound,
+    EcoindexStatusError,
+    EcoindexTimeout,
+)
 
-app = Celery(
+app: Celery = Celery(
     "tasks",
     broker=WORKER_BROKER_URL,
     backend=WORKER_BACKEND_URL,
@@ -31,29 +41,76 @@ async def session():
 @app.task(name="Make ecoindex analysis", bind=True)
 def ecoindex_task(self, url: str, width: int, height: int):
     sql_session = run(session())
-
-    ecoindex = run(
-        EcoindexScraper(
-            url=url,
-            window_size=WindowSize(height=height, width=width),
-            wait_after_scroll=WAIT_AFTER_SCROLL,
-            wait_before_scroll=WAIT_BEFORE_SCROLL,
-            screenshot=ScreenShot(id=str(id), folder=f"{getcwd()}/screenshots/v1")
-            if ENABLE_SCREENSHOT
-            else None,
-            screenshot_gid=SCREENSHOTS_GID,
-            screenshot_uid=SCREENSHOTS_UID,
+    try:
+        ecoindex = run(
+            EcoindexScraper(
+                url=url,
+                window_size=WindowSize(height=height, width=width),
+                wait_after_scroll=WAIT_AFTER_SCROLL,
+                wait_before_scroll=WAIT_BEFORE_SCROLL,
+                screenshot=ScreenShot(id=str(id), folder=f"{getcwd()}/screenshots/v1")
+                if ENABLE_SCREENSHOT
+                else None,
+                screenshot_gid=SCREENSHOTS_GID,
+                screenshot_uid=SCREENSHOTS_UID,
+            )
+            .init_chromedriver()
+            .get_page_analysis()
         )
-        .init_chromedriver()
-        .get_page_analysis()
-    )
 
-    db_result = run(
-        save_ecoindex_result_db(
-            session=sql_session,
-            id=self.request.id,
-            ecoindex_result=ecoindex,
+        db_result = run(
+            save_ecoindex_result_db(
+                session=sql_session,
+                id=self.request.id,
+                ecoindex_result=ecoindex,
+            )
         )
-    )
 
-    return db_result.json()
+        return db_result.json()
+
+    except WebDriverException as exc:
+        if "ERR_NAME_NOT_RESOLVED" in exc.msg:
+            return QueueTaskError(
+                exception=EcoindexHostUnreachable.__name__,
+                message="This host is unreachable (error 502). Are you really sure of this url? 🤔",
+                detail=None,
+            ).json()
+
+        if "ERR_CONNECTION_TIMED_OUT" in exc.msg:
+            return QueueTaskError(
+                exception=EcoindexTimeout.__name__,
+                message="Timeout reached when requesting this url (error 504). This is probably a temporary issue. 😥",
+                detail=None,
+            ).json()
+
+        exception_response = run(format_exception_response(exception=exc))
+        return QueueTaskError(
+            exception=type(exc).__name__,
+            message=exc.msg,
+            detail=exception_response,
+        ).json()
+
+    except RuntimeError as exc:
+        return QueueTaskError(
+            exception=EcoindexPageNotFound.__name__,
+            message="The webpage you requested cannot be found (error 404)",
+            detail=None,
+        ).json()
+
+    except TypeError as exc:
+        error = exc.args[0]
+
+        return QueueTaskError(
+            exception=EcoindexContentTypeError.__name__,
+            message=error["message"],
+            detail={"mimetype": error["mimetype"]},
+        ).json()
+
+    except ConnectionError as exc:
+        error = exc.args[0]
+
+        return QueueTaskError(
+            exception=EcoindexStatusError.__name__,
+            message=error["message"],
+            detail={"status": error["status"]},
+        ).json()

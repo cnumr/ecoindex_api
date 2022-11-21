@@ -1,5 +1,5 @@
+from ecoindex.models import WebPage, WindowSize
 from ecoindex_scraper import EcoindexScraper
-from ecoindex_scraper.models import WebPage, WindowSize
 from selenium.common.exceptions import WebDriverException
 
 

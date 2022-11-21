@@ -1,9 +1,9 @@
 import pytest
-from db.engine import get_session
-from ecoindex_scraper.models import WebPage
+from ecoindex.models import WebPage
 from fastapi import HTTPException, Response, status
 
 from api.application.middleware.analysis import validate_analysis_request
+from db.engine import get_session
 
 
 @pytest.mark.asyncio

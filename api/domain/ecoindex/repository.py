@@ -2,14 +2,15 @@ from datetime import date
 from typing import List
 from uuid import UUID
 
-from api.domain.ecoindex.models.responses import ApiEcoindex
-from api.models.enums import Version
-from db.helper import date_filter
-from ecoindex_scraper.models import Result
+from ecoindex.models import Result
 from sqlalchemy import func
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.sql.expression import asc
 from sqlmodel import select
+
+from api.domain.ecoindex.models.responses import ApiEcoindex
+from api.models.enums import Version
+from db.helper import date_filter
 
 
 async def save_ecoindex_result_db(
