@@ -1,6 +1,7 @@
 from fastapi_health import health
 
 from api.domain.health.chromedriver import is_chromedriver_healthy
+from api.domain.health.database import is_database_online
 from api.main import app
 from api.models.responses import ApiHealth
 from db.engine import is_database_online
