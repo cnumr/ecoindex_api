@@ -1,3 +1,4 @@
+from json import loads
 from uuid import UUID
 
 from celery.result import AsyncResult
@@ -7,7 +8,7 @@ from fastapi.params import Body, Depends
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from api.application.middleware.analysis import validate_analysis_request
-from api.domain.task.models.response import QueueTask
+from api.domain.task.models.response import QueueTaskApi, QueueTaskResult
 from db.engine import get_session
 from settings import DAILY_LIMIT_PER_HOST
 from worker.tasks import app, ecoindex_task
@@ -47,7 +48,7 @@ async def add_ecoindex_analysis_task(
 @router.get(
     name="Get ecoindex analysis task by id",
     path="/v1/tasks/ecoindexes/{id}",
-    response_model=QueueTask,
+    response_model=QueueTaskApi,
     response_description="Get one ecoindex task result by its id",
     tags=["Tasks"],
     description="This returns an ecoindex given by its unique identifier",
@@ -56,13 +57,19 @@ async def get_ecoindex_analysis_task_by_id(
     id: UUID = Path(
         default=..., title="Unique identifier of the ecoindex analysis task"
     ),
-) -> QueueTask:
+) -> QueueTaskApi:
     task_result = AsyncResult(id=str(id), app=app)
 
-    response = QueueTask(id=task_result.id, status=task_result.state)
+    response = QueueTaskApi(
+        id=task_result.id,
+        status=task_result.state,
+    )
+
+    if task_result.state == "SUCCESS":
+        response.ecoindex_result = QueueTaskResult(**loads(task_result.info))
 
     if task_result.state == "FAILURE":
-        response.error = str(task_result.info)
+        response.task_error = str(task_result.info)
 
     return response
 

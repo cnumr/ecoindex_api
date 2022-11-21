@@ -7,7 +7,7 @@ from ecoindex_scraper import EcoindexScraper
 from selenium.common.exceptions import WebDriverException
 
 from api.domain.ecoindex.repository import save_ecoindex_result_db
-from api.domain.task.models.response import QueueTaskError
+from api.domain.task.models.response import QueueTaskError, QueueTaskResult
 from common.helper import format_exception_response
 from db.engine import get_session
 from settings import (
@@ -66,51 +66,74 @@ def ecoindex_task(self, url: str, width: int, height: int):
             )
         )
 
-        return db_result.json()
+        return QueueTaskResult(status="SUCCESS", detail=db_result).json()
 
     except WebDriverException as exc:
         if "ERR_NAME_NOT_RESOLVED" in exc.msg:
-            return QueueTaskError(
-                exception=EcoindexHostUnreachable.__name__,
-                message="This host is unreachable (error 502). Are you really sure of this url? 🤔",
-                detail=None,
+            return QueueTaskResult(
+                status="FAILURE",
+                error=QueueTaskError(
+                    url=url,
+                    exception=EcoindexHostUnreachable.__name__,
+                    message="This host is unreachable (error 502). Are you really sure of this url? 🤔",
+                    detail=None,
+                ),
             ).json()
 
         if "ERR_CONNECTION_TIMED_OUT" in exc.msg:
-            return QueueTaskError(
-                exception=EcoindexTimeout.__name__,
-                message="Timeout reached when requesting this url (error 504). This is probably a temporary issue. 😥",
-                detail=None,
+            return QueueTaskResult(
+                status="FAILURE",
+                error=QueueTaskError(
+                    url=url,
+                    exception=EcoindexTimeout.__name__,
+                    message="Timeout reached when requesting this url (error 504). This is probably a temporary issue. 😥",
+                    detail=None,
+                ),
             ).json()
 
-        exception_response = run(format_exception_response(exception=exc))
-        return QueueTaskError(
-            exception=type(exc).__name__,
-            message=exc.msg,
-            detail=exception_response,
+        return QueueTaskResult(
+            status="FAILURE",
+            error=QueueTaskError(
+                url=url,
+                exception=type(exc).__name__,
+                message=exc.msg,
+                detail=run(format_exception_response(exception=exc)),
+            ),
         ).json()
 
     except RuntimeError as exc:
-        return QueueTaskError(
-            exception=EcoindexPageNotFound.__name__,
-            message="The webpage you requested cannot be found (error 404)",
-            detail=None,
+        return QueueTaskResult(
+            status="FAILURE",
+            error=QueueTaskError(
+                url=url,
+                exception=EcoindexPageNotFound.__name__,
+                message="The webpage you requested cannot be found (error 404)",
+                detail=None,
+            ),
         ).json()
 
     except TypeError as exc:
         error = exc.args[0]
 
-        return QueueTaskError(
-            exception=EcoindexContentTypeError.__name__,
-            message=error["message"],
-            detail={"mimetype": error["mimetype"]},
+        return QueueTaskResult(
+            status="FAILURE",
+            error=QueueTaskError(
+                url=url,
+                exception=EcoindexContentTypeError.__name__,
+                message=error["message"],
+                detail={"mimetype": error["mimetype"]},
+            ),
         ).json()
 
     except ConnectionError as exc:
         error = exc.args[0]
 
-        return QueueTaskError(
-            exception=EcoindexStatusError.__name__,
-            message=error["message"],
-            detail={"status": error["status"]},
+        return QueueTaskResult(
+            status="FAILURE",
+            error=QueueTaskError(
+                url=url,
+                exception=EcoindexStatusError.__name__,
+                message=error["message"],
+                detail={"status": error["status"]},
+            ),
         ).json()

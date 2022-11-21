@@ -1,9 +1,11 @@
 from typing import Any
 
-from pydantic import BaseModel, Field
+from ecoindex.models import Result
+from pydantic import BaseModel, Field, HttpUrl
 
 
 class QueueTaskError(BaseModel):
+    url: HttpUrl | None = Field(default=None, title="URL of the analyzed web page")
     exception: str = Field(default=..., title="Name of the exception that was raised")
     message: str = Field(default=..., title="Message of the exception")
     detail: Any | None = Field(
@@ -11,13 +13,34 @@ class QueueTaskError(BaseModel):
     )
 
 
-class QueueTask(BaseModel):
+class QueueTaskResult(BaseModel):
+    status: str | None = Field(
+        default=None,
+        title="Status of the ecoindex analysis.",
+        description="While the task is pending or the analysis is running, it is null. But once the analysis is complete, it should return SUCCESS or FAILURE.",
+    )
+    detail: Result | None = Field(
+        default=None,
+        title="Result of the ecoindex analysis once it was successfuly completed",
+    )
+    error: QueueTaskError | None = Field(
+        default=None, title="Detail of the ecoindex error if it is not successful"
+    )
+
+
+class QueueTaskApi(BaseModel):
     id: str = Field(
         default=...,
         title="Identifier of the current. This identifier will become the identifier of the analysis",
     )
     status: str = Field(
         default=...,
-        title="Status of the current task. Can be PENDING, SCHEDULED, ACTIVE, RESERVED, FAILURE",
+        title="Status of the current task. Can be PENDING, SCHEDULED, ACTIVE, RESERVED, FAILURE, SUCCESS",
     )
-    detail: QueueTaskError | None = Field(default=None, title="Detail of the analysis")
+    ecoindex_result: QueueTaskResult | None = Field(
+        default=None, title="Result of the Ecoindex analysis"
+    )
+    task_error: Any | None = Field(
+        default=None,
+        title="Detail of the error encountered by the task in case of Failure",
+    )
