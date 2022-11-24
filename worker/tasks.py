@@ -75,6 +75,7 @@ def ecoindex_task(self, url: str, width: int, height: int):
                 error=QueueTaskError(
                     url=url,
                     exception=EcoindexHostUnreachable.__name__,
+                    status_code=502,
                     message="This host is unreachable (error 502). Are you really sure of this url? 🤔",
                     detail=None,
                 ),
@@ -86,6 +87,7 @@ def ecoindex_task(self, url: str, width: int, height: int):
                 error=QueueTaskError(
                     url=url,
                     exception=EcoindexTimeout.__name__,
+                    status_code=504,
                     message="Timeout reached when requesting this url (error 504). This is probably a temporary issue. 😥",
                     detail=None,
                 ),
@@ -96,19 +98,9 @@ def ecoindex_task(self, url: str, width: int, height: int):
             error=QueueTaskError(
                 url=url,
                 exception=type(exc).__name__,
+                status_code=500,
                 message=exc.msg,
                 detail=run(format_exception_response(exception=exc)),
-            ),
-        ).json()
-
-    except RuntimeError as exc:
-        return QueueTaskResult(
-            status="FAILURE",
-            error=QueueTaskError(
-                url=url,
-                exception=EcoindexPageNotFound.__name__,
-                message="The webpage you requested cannot be found (error 404)",
-                detail=None,
             ),
         ).json()
 
@@ -120,6 +112,7 @@ def ecoindex_task(self, url: str, width: int, height: int):
             error=QueueTaskError(
                 url=url,
                 exception=EcoindexContentTypeError.__name__,
+                status_code=520,
                 message=error["message"],
                 detail={"mimetype": error["mimetype"]},
             ),
@@ -132,6 +125,7 @@ def ecoindex_task(self, url: str, width: int, height: int):
             status="FAILURE",
             error=QueueTaskError(
                 url=url,
+                status_code=521,
                 exception=EcoindexStatusError.__name__,
                 message=error["message"],
                 detail={"status": error["status"]},

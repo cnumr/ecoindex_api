@@ -5,12 +5,15 @@ from pydantic import BaseModel, Field, HttpUrl
 
 
 class QueueTaskError(BaseModel):
-    url: HttpUrl | None = Field(default=None, title="URL of the analyzed web page")
-    exception: str = Field(default=..., title="Name of the exception that was raised")
-    message: str = Field(default=..., title="Message of the exception")
     detail: Any | None = Field(
         default=None, title="Detail object of the raised exception"
     )
+    exception: str = Field(default=..., title="Name of the exception that was raised")
+    message: str = Field(default=..., title="Message of the exception")
+    status_code: int | None = Field(
+        default=None, title="Corresponding original HTTP status code sended by the API"
+    )
+    url: HttpUrl | None = Field(default=None, title="URL of the analyzed web page")
 
 
 class QueueTaskResult(BaseModel):
