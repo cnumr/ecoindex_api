@@ -65,13 +65,11 @@ async def get_ecoindex_analysis_task_by_id(
         status=t.state,
     )
 
-    task_result = QueueTaskResult(**loads(t.info))
+    if t.state == "SUCCESS":
+        response.ecoindex_result = QueueTaskResult(**loads(t.result))
 
-    if task_result.status == "SUCCESS":
-        response.ecoindex_result = task_result
-
-    if task_result.status == "FAILURE":
-        response.task_error = task_result
+    if t.state == "FAILURE":
+        response.task_error = t.info
 
     return response
 
