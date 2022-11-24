@@ -58,18 +58,20 @@ async def get_ecoindex_analysis_task_by_id(
         default=..., title="Unique identifier of the ecoindex analysis task"
     ),
 ) -> QueueTaskApi:
-    task_result = AsyncResult(id=str(id), app=app)
+    t = AsyncResult(id=str(id), app=app)
 
     response = QueueTaskApi(
-        id=task_result.id,
-        status=task_result.state,
+        id=t.id,
+        status=t.state,
     )
 
-    if task_result.state == "SUCCESS":
-        response.ecoindex_result = QueueTaskResult(**loads(task_result.info))
+    task_result = QueueTaskResult(**loads(t.info))
 
-    if task_result.state == "FAILURE":
-        response.task_error = str(task_result.info)
+    if task_result.status == "SUCCESS":
+        response.ecoindex_result = task_result
+
+    if task_result.status == "FAILURE":
+        response.task_error = task_result
 
     return response
 
