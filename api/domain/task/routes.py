@@ -52,7 +52,7 @@ async def add_ecoindex_analysis_task(
     path="/v1/tasks/ecoindexes/{id}",
     responses={
         status.HTTP_200_OK: {"model": QueueTaskApi},
-        status.HTTP_202_ACCEPTED: {"model": QueueTaskApi},
+        status.HTTP_425_TOO_EARLY: {"model": QueueTaskApi},
     },
     response_description="Get one ecoindex task result by its id",
     tags=["Tasks"],
