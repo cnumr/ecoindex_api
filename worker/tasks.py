@@ -22,7 +22,6 @@ from settings import (
 from worker.exceptions import (
     EcoindexContentTypeError,
     EcoindexHostUnreachable,
-    EcoindexPageNotFound,
     EcoindexStatusError,
     EcoindexTimeout,
 )

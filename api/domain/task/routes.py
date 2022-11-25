@@ -4,7 +4,9 @@ from uuid import UUID
 from celery.result import AsyncResult
 from ecoindex.models import WebPage
 from fastapi import APIRouter, Path, Response, status
+from fastapi.encoders import jsonable_encoder
 from fastapi.params import Body, Depends
+from fastapi.responses import JSONResponse
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from api.application.middleware.analysis import validate_analysis_request
@@ -48,7 +50,10 @@ async def add_ecoindex_analysis_task(
 @router.get(
     name="Get ecoindex analysis task by id",
     path="/v1/tasks/ecoindexes/{id}",
-    response_model=QueueTaskApi,
+    responses={
+        status.HTTP_200_OK: {"model": QueueTaskApi},
+        status.HTTP_202_ACCEPTED: {"model": QueueTaskApi},
+    },
     response_description="Get one ecoindex task result by its id",
     tags=["Tasks"],
     description="This returns an ecoindex given by its unique identifier",
@@ -65,13 +70,20 @@ async def get_ecoindex_analysis_task_by_id(
         status=t.state,
     )
 
+    if t.state == "PENDING":
+        return JSONResponse(
+            content=jsonable_encoder(response), status_code=status.HTTP_202_ACCEPTED
+        )
+
     if t.state == "SUCCESS":
         response.ecoindex_result = QueueTaskResult(**loads(t.result))
 
     if t.state == "FAILURE":
         response.task_error = t.info
 
-    return response
+    return JSONResponse(
+        content=jsonable_encoder(response), status_code=status.HTTP_200_OK
+    )
 
 
 @router.delete(

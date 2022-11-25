@@ -17,7 +17,7 @@ app.include_router(router=task_routes.router)
 
 from api.application.exception_handler import handle_exceptions
 from api.application.middleware.cors import add_cors_middleware
-from api.domain.health.route import add_healthcheck_route
+from api.domain.health.routes import add_healthcheck_route
 
 add_healthcheck_route()
 
