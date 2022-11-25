@@ -37,7 +37,13 @@ async def session():
     return await get_session().__anext__()
 
 
-@app.task(name="Make ecoindex analysis", bind=True)
+@app.task(
+    name="Make ecoindex analysis",
+    bind=True,
+    autoretry_for=(Exception,),
+    retry_backoff=5,
+    retry_kwargs={"max_retries": 5},
+)
 def ecoindex_task(self, url: str, width: int, height: int):
     sql_session = run(session())
     try:

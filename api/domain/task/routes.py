@@ -59,31 +59,33 @@ async def add_ecoindex_analysis_task(
     description="This returns an ecoindex given by its unique identifier",
 )
 async def get_ecoindex_analysis_task_by_id(
+    response: Response,
     id: UUID = Path(
         default=..., title="Unique identifier of the ecoindex analysis task"
     ),
 ) -> QueueTaskApi:
     t = AsyncResult(id=str(id), app=app)
 
-    response = QueueTaskApi(
+    task_response = QueueTaskApi(
         id=t.id,
         status=t.state,
     )
 
     if t.state == "PENDING":
-        return JSONResponse(
-            content=jsonable_encoder(response), status_code=status.HTTP_202_ACCEPTED
-        )
+        response.status_code = status.HTTP_425_TOO_EARLY
+        response.headers["Retry-After"] = "10"
+
+        return task_response
 
     if t.state == "SUCCESS":
-        response.ecoindex_result = QueueTaskResult(**loads(t.result))
+        task_response.ecoindex_result = QueueTaskResult(**loads(t.result))
 
     if t.state == "FAILURE":
-        response.task_error = t.info
+        task_response.task_error = t.info
 
-    return JSONResponse(
-        content=jsonable_encoder(response), status_code=status.HTTP_200_OK
-    )
+    response.status_code = status.HTTP_200_OK
+
+    return task_response
 
 
 @router.delete(
