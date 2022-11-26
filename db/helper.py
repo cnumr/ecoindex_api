@@ -4,6 +4,8 @@ from sqlmodel.sql.expression import SelectOfScalar
 
 from api.domain.ecoindex.models.responses import ApiEcoindex
 
+SelectOfScalar.inherit_cache = True  # type: ignore
+
 
 def date_filter(
     statement: SelectOfScalar,

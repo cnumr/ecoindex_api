@@ -1,11 +1,12 @@
 from datetime import date
 from typing import List
 
+from sqlalchemy.ext.asyncio.session import AsyncSession
+from sqlmodel import select
+
 from api.domain.ecoindex.models.responses import ApiEcoindex
 from api.models.enums import Version
 from db.helper import date_filter
-from sqlalchemy.ext.asyncio.session import AsyncSession
-from sqlmodel import select
 
 
 async def get_host_list_db(
@@ -33,6 +34,8 @@ async def get_host_list_db(
 
     hosts = await session.execute(statement)
 
+    await session.close()
+
     return hosts.scalars().all()
 
 
@@ -59,5 +62,7 @@ async def get_count_hosts_db(
 
     statement = f"SELECT count(*) FROM ({sub_statement}) t"
     result = await session.execute(statement=statement)
+
+    await session.close()
 
     return result.scalar()
