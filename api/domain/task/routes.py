@@ -4,9 +4,7 @@ from uuid import UUID
 from celery.result import AsyncResult
 from ecoindex.models import WebPage
 from fastapi import APIRouter, Path, Response, status
-from fastapi.encoders import jsonable_encoder
 from fastapi.params import Body, Depends
-from fastapi.responses import JSONResponse
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from api.application.middleware.analysis import validate_analysis_request
