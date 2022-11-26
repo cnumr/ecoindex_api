@@ -71,6 +71,8 @@ def ecoindex_task(self, url: str, width: int, height: int):
             )
         )
 
+        sql_session.close()
+
         return QueueTaskResult(status="SUCCESS", detail=db_result).json()
 
     except WebDriverException as exc:

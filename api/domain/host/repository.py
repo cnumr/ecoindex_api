@@ -34,8 +34,6 @@ async def get_host_list_db(
 
     hosts = await session.execute(statement)
 
-    await session.close()
-
     return hosts.scalars().all()
 
 
@@ -62,7 +60,5 @@ async def get_count_hosts_db(
 
     statement = f"SELECT count(*) FROM ({sub_statement}) t"
     result = await session.execute(statement=statement)
-
-    await session.close()
 
     return result.scalar()

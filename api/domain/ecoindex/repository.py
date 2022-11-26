@@ -46,7 +46,6 @@ async def save_ecoindex_result_db(
     session.add(db_ecoindex)
     await session.commit()
     await session.refresh(db_ecoindex)
-    await session.close()
 
     return db_ecoindex
 
@@ -71,8 +70,6 @@ async def get_count_analysis_db(
 
     result = await session.execute(statement=statement)
 
-    await session.close()
-
     return result.scalar()
 
 
@@ -90,8 +87,6 @@ async def get_rank_analysis_db(
             "LIMIT 1;"
         )
     )
-
-    await session.close()
 
     return result.scalar()
 
@@ -118,8 +113,6 @@ async def get_ecoindex_result_list_db(
 
     ecoindexes = await session.execute(statement.order_by(asc("date")))
 
-    await session.close()
-
     return ecoindexes.scalars().all()
 
 
@@ -133,8 +126,6 @@ async def get_ecoindex_result_by_id_db(
     )
     ecoindex = await session.execute(statement)
 
-    await session.close()
-
     return ecoindex.scalar_one_or_none()
 
 
@@ -143,7 +134,5 @@ async def get_count_daily_request_per_host(session: AsyncSession, host: str) -> 
         func.date(ApiEcoindex.date) == date.today(), ApiEcoindex.host == host
     )
     results = await session.execute(statement)
-
-    await session.close()
 
     return len(results.all())
