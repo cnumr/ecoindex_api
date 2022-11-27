@@ -6,11 +6,11 @@ from sqlmodel import select
 
 from api.domain.ecoindex.models.responses import ApiEcoindex
 from api.models.enums import Version
+from db.engine import engine
 from db.helper import date_filter
 
 
 async def get_host_list_db(
-    session: AsyncSession,
     version: Version | None = Version.v1,
     q: str | None = None,
     date_from: date | None = None,
@@ -32,13 +32,13 @@ async def get_host_list_db(
 
     statement = statement.group_by(ApiEcoindex.host).order_by(ApiEcoindex.host)
 
-    hosts = await session.execute(statement)
+    async with AsyncSession(engine) as session:
+        hosts = await session.execute(statement)
 
-    return hosts.scalars().all()
+        return hosts.scalars().all()
 
 
 async def get_count_hosts_db(
-    session: AsyncSession,
     version: Version | None = Version.v1,
     q: str | None = None,
     date_from: date | None = None,
@@ -59,6 +59,8 @@ async def get_count_hosts_db(
     sub_statement += " GROUP BY host"
 
     statement = f"SELECT count(*) FROM ({sub_statement}) t"
-    result = await session.execute(statement=statement)
 
-    return result.scalar()
+    async with AsyncSession(engine) as session:
+        result = await session.execute(statement=statement)
+
+        return result.scalar()

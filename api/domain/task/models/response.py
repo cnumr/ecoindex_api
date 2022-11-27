@@ -38,7 +38,7 @@ class QueueTaskApi(BaseModel):
     )
     status: str = Field(
         default=...,
-        title="Status of the current task. Can be PENDING, SCHEDULED, ACTIVE, RESERVED, FAILURE, SUCCESS",
+        title="Status of the current task. Can be PENDING, FAILURE, SUCCESS",
     )
     ecoindex_result: QueueTaskResult | None = Field(
         default=None, title="Result of the Ecoindex analysis"

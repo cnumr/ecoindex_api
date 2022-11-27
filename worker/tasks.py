@@ -6,10 +6,9 @@ from ecoindex.models import ScreenShot, WindowSize
 from ecoindex_scraper import EcoindexScraper
 from selenium.common.exceptions import WebDriverException
 
-from api.domain.ecoindex.repository import save_ecoindex_result_db
+from api.domain.task.models.enums import TaskStatus
 from api.domain.task.models.response import QueueTaskError, QueueTaskResult
 from common.helper import format_exception_response
-from db.engine import get_session
 from settings import (
     ENABLE_SCREENSHOT,
     SCREENSHOTS_GID,
@@ -25,16 +24,13 @@ from worker.exceptions import (
     EcoindexStatusError,
     EcoindexTimeout,
 )
+from worker.repository import save_ecoindex_result_db
 
 app: Celery = Celery(
     "tasks",
     broker=WORKER_BROKER_URL,
     backend=WORKER_BACKEND_URL,
 )
-
-
-async def session():
-    return await get_session().__anext__()
 
 
 @app.task(
@@ -45,7 +41,6 @@ async def session():
     retry_kwargs={"max_retries": 5},
 )
 def ecoindex_task(self, url: str, width: int, height: int):
-    sql_session = run(session())
     try:
         ecoindex = run(
             EcoindexScraper(
@@ -65,20 +60,17 @@ def ecoindex_task(self, url: str, width: int, height: int):
 
         db_result = run(
             save_ecoindex_result_db(
-                session=sql_session,
                 id=self.request.id,
                 ecoindex_result=ecoindex,
             )
         )
 
-        sql_session.close()
-
-        return QueueTaskResult(status="SUCCESS", detail=db_result).json()
+        return QueueTaskResult(status=TaskStatus.SUCCESS, detail=db_result).json()
 
     except WebDriverException as exc:
         if "ERR_NAME_NOT_RESOLVED" in exc.msg:
             return QueueTaskResult(
-                status="FAILURE",
+                status=TaskStatus.FAILURE,
                 error=QueueTaskError(
                     url=url,
                     exception=EcoindexHostUnreachable.__name__,
@@ -90,7 +82,7 @@ def ecoindex_task(self, url: str, width: int, height: int):
 
         if "ERR_CONNECTION_TIMED_OUT" in exc.msg:
             return QueueTaskResult(
-                status="FAILURE",
+                status=TaskStatus.FAILURE,
                 error=QueueTaskError(
                     url=url,
                     exception=EcoindexTimeout.__name__,
@@ -101,7 +93,7 @@ def ecoindex_task(self, url: str, width: int, height: int):
             ).json()
 
         return QueueTaskResult(
-            status="FAILURE",
+            status=TaskStatus.FAILURE,
             error=QueueTaskError(
                 url=url,
                 exception=type(exc).__name__,
@@ -115,7 +107,7 @@ def ecoindex_task(self, url: str, width: int, height: int):
         error = exc.args[0]
 
         return QueueTaskResult(
-            status="FAILURE",
+            status=TaskStatus.FAILURE,
             error=QueueTaskError(
                 url=url,
                 exception=EcoindexContentTypeError.__name__,
@@ -129,7 +121,7 @@ def ecoindex_task(self, url: str, width: int, height: int):
         error = exc.args[0]
 
         return QueueTaskResult(
-            status="FAILURE",
+            status=TaskStatus.FAILURE,
             error=QueueTaskError(
                 url=url,
                 status_code=521,

@@ -1,16 +1,14 @@
 from datetime import date
 
+from fastapi import Path, status
+from fastapi.param_functions import Query
+from fastapi.responses import Response
+from fastapi.routing import APIRouter
+
 from api.domain.host.models.host import PageHosts
 from api.domain.host.repository import get_count_hosts_db, get_host_list_db
 from api.helper import get_status_code
 from api.models.enums import Version
-from db.engine import get_session
-from fastapi import Path, status
-from fastapi.param_functions import Query
-from fastapi.params import Depends
-from fastapi.responses import Response
-from fastapi.routing import APIRouter
-from sqlmodel.ext.asyncio.session import AsyncSession
 
 router = APIRouter()
 
@@ -32,7 +30,6 @@ router = APIRouter()
 )
 async def get_host_list(
     response: Response,
-    session: AsyncSession = Depends(get_session),
     version: Version = Path(
         default=...,
         title="Engine version",
@@ -53,7 +50,6 @@ async def get_host_list(
     | None = Query(50, description="Number of elements per page", ge=1, le=100),
 ) -> PageHosts:
     hosts = await get_host_list_db(
-        session=session,
         date_from=date_from,
         date_to=date_to,
         q=q,
@@ -63,7 +59,7 @@ async def get_host_list(
     )
 
     total_hosts = await get_count_hosts_db(
-        session=session, version=version, q=q, date_from=date_from, date_to=date_to
+        version=version, q=q, date_from=date_from, date_to=date_to
     )
 
     response.status_code = await get_status_code(items=hosts, total=total_hosts)

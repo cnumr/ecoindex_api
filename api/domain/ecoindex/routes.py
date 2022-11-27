@@ -5,9 +5,8 @@ from uuid import UUID
 from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
-from fastapi.params import Depends, Query
+from fastapi.params import Query
 from fastapi.responses import FileResponse
-from sqlmodel.ext.asyncio.session import AsyncSession
 
 from api.domain.ecoindex.models.examples import example_ecoindex_not_found
 from api.domain.ecoindex.models.responses import ApiEcoindex, PageApiEcoindexes
@@ -19,7 +18,6 @@ from api.domain.ecoindex.repository import (
 from api.helper import get_status_code
 from api.models.enums import Version
 from api.models.examples import example_file_not_found
-from db.engine import get_session
 
 router = APIRouter()
 
@@ -42,7 +40,6 @@ router = APIRouter()
 )
 async def get_ecoindex_analysis_list(
     response: Response,
-    session: AsyncSession = Depends(get_session),
     version: Version = Path(
         default=...,
         title="Engine version",
@@ -63,7 +60,6 @@ async def get_ecoindex_analysis_list(
     | None = Query(50, description="Number of elements per page", ge=1, le=100),
 ) -> PageApiEcoindexes:
     ecoindexes = await get_ecoindex_result_list_db(
-        session=session,
         date_from=date_from,
         date_to=date_to,
         host=host,
@@ -72,7 +68,6 @@ async def get_ecoindex_analysis_list(
         size=size,
     )
     total_results = await get_count_analysis_db(
-        session=session,
         version=version,
         date_from=date_from,
         date_to=date_to,
@@ -96,7 +91,6 @@ async def get_ecoindex_analysis_list(
     description="This returns an ecoindex given by its unique identifier",
 )
 async def get_ecoindex_analysis_by_id(
-    session: AsyncSession = Depends(get_session),
     version: Version = Path(
         default=...,
         title="Engine version",
@@ -105,9 +99,8 @@ async def get_ecoindex_analysis_by_id(
     ),
     id: UUID = Path(default=..., title="Unique identifier of the ecoindex analysis"),
 ) -> ApiEcoindex:
-    ecoindex = await get_ecoindex_result_by_id_db(
-        session=session, id=id, version=version
-    )
+    ecoindex = await get_ecoindex_result_by_id_db(id=id, version=version)
+
     if not ecoindex:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

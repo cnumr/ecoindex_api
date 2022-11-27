@@ -4,12 +4,12 @@ from uuid import UUID
 from celery.result import AsyncResult
 from ecoindex.models import WebPage
 from fastapi import APIRouter, Path, Response, status
-from fastapi.params import Body, Depends
-from sqlmodel.ext.asyncio.session import AsyncSession
+from fastapi.params import Body
 
 from api.application.middleware.analysis import validate_analysis_request
+from api.domain.task.models.enums import TaskStatus
+from api.domain.task.models.examples import example_daily_limit_response
 from api.domain.task.models.response import QueueTaskApi, QueueTaskResult
-from db.engine import get_session
 from settings import DAILY_LIMIT_PER_HOST
 from worker.tasks import app, ecoindex_task
 
@@ -20,13 +20,16 @@ router = APIRouter()
     name="Add new ecoindex analysis task to the waiting queue",
     path="/v1/tasks/ecoindexes",
     response_description="Identifier of the task that has been created in queue",
+    responses={
+        status.HTTP_201_CREATED: {"model": str},
+        status.HTTP_429_TOO_MANY_REQUESTS: example_daily_limit_response,
+    },
     tags=["Tasks"],
     description="This submits a ecoindex analysis task to the engine",
     status_code=status.HTTP_201_CREATED,
 )
 async def add_ecoindex_analysis_task(
     response: Response,
-    session: AsyncSession = Depends(get_session),
     web_page: WebPage = Body(
         default=...,
         title="Web page to analyze defined by its url and its screen resolution",
@@ -35,7 +38,6 @@ async def add_ecoindex_analysis_task(
 ) -> str:
     await validate_analysis_request(
         response=response,
-        session=session,
         web_page=web_page,
         daily_limit_per_host=DAILY_LIMIT_PER_HOST,
     )
@@ -69,16 +71,16 @@ async def get_ecoindex_analysis_task_by_id(
         status=t.state,
     )
 
-    if t.state == "PENDING":
+    if t.state == TaskStatus.PENDING:
         response.status_code = status.HTTP_425_TOO_EARLY
         response.headers["Retry-After"] = "10"
 
         return task_response
 
-    if t.state == "SUCCESS":
+    if t.state == TaskStatus.SUCCESS:
         task_response.ecoindex_result = QueueTaskResult(**loads(t.result))
 
-    if t.state == "FAILURE":
+    if t.state == TaskStatus.FAILURE:
         task_response.task_error = t.info
 
     response.status_code = status.HTTP_200_OK
