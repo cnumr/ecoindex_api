@@ -41,5 +41,6 @@ async def save_ecoindex_result_db(
     async with AsyncSession(engine) as session:
         session.add(db_ecoindex)
         await session.commit()
+        await session.refresh(db_ecoindex)
 
         return db_ecoindex
