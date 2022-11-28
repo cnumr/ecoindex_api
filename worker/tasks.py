@@ -42,11 +42,15 @@ app: Celery = Celery(
     retry_backoff=5,
     retry_kwargs={"max_retries": 5},
 )
-def ecoindex_task(self, url: str, width: int, height: int):
-    return run(async_ecoindex_task(self, url, width, height))
+def ecoindex_task(self, url: str, width: int, height: int) -> str:
+    queue_task_result = run(async_ecoindex_task(self, url, width, height))
+
+    return queue_task_result.json()
 
 
-async def async_ecoindex_task(self, url: str, width: int, height: int) -> str:
+async def async_ecoindex_task(
+    self, url: str, width: int, height: int
+) -> QueueTaskResult:
     try:
         await check_quota(host=urlparse(url=url).netloc)
 
@@ -73,7 +77,7 @@ async def async_ecoindex_task(self, url: str, width: int, height: int) -> str:
             )
         )
 
-        return QueueTaskResult(status=TaskStatus.SUCCESS, detail=db_result).json()
+        return QueueTaskResult(status=TaskStatus.SUCCESS, detail=db_result)
 
     except QuotaExceededException as exc:
         return QueueTaskResult(
@@ -85,7 +89,7 @@ async def async_ecoindex_task(self, url: str, width: int, height: int) -> str:
                 message=exc.message,
                 detail={"host": exc.host, "limit": exc.limit},
             ),
-        ).json()
+        )
 
     except WebDriverException as exc:
         if "ERR_NAME_NOT_RESOLVED" in exc.msg:
@@ -98,7 +102,7 @@ async def async_ecoindex_task(self, url: str, width: int, height: int) -> str:
                     message="This host is unreachable (error 502). Are you really sure of this url? 🤔",
                     detail=None,
                 ),
-            ).json()
+            )
 
         if "ERR_CONNECTION_TIMED_OUT" in exc.msg:
             return QueueTaskResult(
@@ -110,7 +114,7 @@ async def async_ecoindex_task(self, url: str, width: int, height: int) -> str:
                     message="Timeout reached when requesting this url (error 504). This is probably a temporary issue. 😥",
                     detail=None,
                 ),
-            ).json()
+            )
 
         return QueueTaskResult(
             status=TaskStatus.FAILURE,
@@ -121,7 +125,7 @@ async def async_ecoindex_task(self, url: str, width: int, height: int) -> str:
                 message=exc.msg,
                 detail=await format_exception_response(exception=exc),
             ),
-        ).json()
+        )
 
     except TypeError as exc:
         error = exc.args[0]
@@ -135,7 +139,7 @@ async def async_ecoindex_task(self, url: str, width: int, height: int) -> str:
                 message=error["message"],
                 detail={"mimetype": error["mimetype"]},
             ),
-        ).json()
+        )
 
     except ConnectionError as exc:
         error = exc.args[0]
@@ -149,4 +153,4 @@ async def async_ecoindex_task(self, url: str, width: int, height: int) -> str:
                 message=error["message"],
                 detail={"status": error["status"]},
             ),
-        ).json()
+        )
