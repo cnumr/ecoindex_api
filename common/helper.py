@@ -16,7 +16,7 @@ async def check_quota(
     host: str,
 ) -> int | None:
     if not DAILY_LIMIT_PER_HOST:
-        pass
+        return
 
     count_daily_request_per_host = (
         await api.domain.ecoindex.repository.get_count_daily_request_per_host(host=host)

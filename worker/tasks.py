@@ -43,10 +43,14 @@ app: Celery = Celery(
     retry_kwargs={"max_retries": 5},
 )
 def ecoindex_task(self, url: str, width: int, height: int):
-    try:
-        run(check_quota(host=urlparse(url=url).netloc))
+    return run(async_ecoindex_task(self, url, width, height))
 
-        ecoindex = run(
+
+async def async_ecoindex_task(self, url: str, width: int, height: int) -> str:
+    try:
+        await check_quota(host=urlparse(url=url).netloc)
+
+        ecoindex = await (
             EcoindexScraper(
                 url=url,
                 window_size=WindowSize(height=height, width=width),
@@ -62,7 +66,7 @@ def ecoindex_task(self, url: str, width: int, height: int):
             .get_page_analysis()
         )
 
-        db_result = run(
+        db_result = await (
             save_ecoindex_result_db(
                 id=self.request.id,
                 ecoindex_result=ecoindex,
@@ -115,7 +119,7 @@ def ecoindex_task(self, url: str, width: int, height: int):
                 exception=type(exc).__name__,
                 status_code=500,
                 message=exc.msg,
-                detail=run(format_exception_response(exception=exc)),
+                detail=await format_exception_response(exception=exc),
             ),
         ).json()
 
