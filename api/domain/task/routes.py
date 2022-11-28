@@ -6,10 +6,10 @@ from ecoindex.models import WebPage
 from fastapi import APIRouter, Path, Response, status
 from fastapi.params import Body
 
-from api.application.middleware.analysis import validate_analysis_request
 from api.domain.task.models.enums import TaskStatus
 from api.domain.task.models.examples import example_daily_limit_response
 from api.domain.task.models.response import QueueTaskApi, QueueTaskResult
+from common.helper import check_quota
 from settings import DAILY_LIMIT_PER_HOST
 from worker.tasks import app, ecoindex_task
 
@@ -36,11 +36,9 @@ async def add_ecoindex_analysis_task(
         example=WebPage(url="http://www.ecoindex.fr", width=1920, height=1080),
     ),
 ) -> str:
-    await validate_analysis_request(
-        response=response,
-        web_page=web_page,
-        daily_limit_per_host=DAILY_LIMIT_PER_HOST,
-    )
+    if DAILY_LIMIT_PER_HOST:
+        remaining_quota = await check_quota(host=web_page.url.host)
+        response.headers["X-Remaining-Daily-Requests"] = str(remaining_quota - 1)
 
     task_result = ecoindex_task.delay(web_page.url, web_page.width, web_page.height)
 

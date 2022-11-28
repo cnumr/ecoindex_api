@@ -1,12 +1,12 @@
 from asyncio import run
 from logging.config import fileConfig
 
-from api.domain.ecoindex.models.responses import *
-from settings import DATABASE_URL
+from alembic import context
 from sqlmodel import SQLModel, create_engine
 from sqlmodel.ext.asyncio.session import AsyncEngine
 
-from alembic import context
+from api.domain.ecoindex.models.responses import *
+from settings import DATABASE_URL
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

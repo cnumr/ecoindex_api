@@ -1,5 +1,6 @@
 from asyncio import run
 from os import getcwd
+from urllib.parse import urlparse
 
 from celery import Celery
 from ecoindex.models import ScreenShot, WindowSize
@@ -8,7 +9,8 @@ from selenium.common.exceptions import WebDriverException
 
 from api.domain.task.models.enums import TaskStatus
 from api.domain.task.models.response import QueueTaskError, QueueTaskResult
-from common.helper import format_exception_response
+from common.exception import QuotaExceededException
+from common.helper import check_quota, format_exception_response
 from settings import (
     ENABLE_SCREENSHOT,
     SCREENSHOTS_GID,
@@ -42,6 +44,8 @@ app: Celery = Celery(
 )
 def ecoindex_task(self, url: str, width: int, height: int):
     try:
+        run(check_quota(host=urlparse(url=url).netloc))
+
         ecoindex = run(
             EcoindexScraper(
                 url=url,
@@ -66,6 +70,18 @@ def ecoindex_task(self, url: str, width: int, height: int):
         )
 
         return QueueTaskResult(status=TaskStatus.SUCCESS, detail=db_result).json()
+
+    except QuotaExceededException as exc:
+        return QueueTaskResult(
+            status=TaskStatus.FAILURE,
+            error=QueueTaskError(
+                url=url,
+                exception=QuotaExceededException.__name__,
+                status_code=429,
+                message=exc.message,
+                detail={"host": exc.host, "limit": exc.limit},
+            ),
+        ).json()
 
     except WebDriverException as exc:
         if "ERR_NAME_NOT_RESOLVED" in exc.msg:

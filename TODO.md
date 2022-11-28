@@ -1,4 +1,0 @@
-- Documentation update
-- Enregistrer le statut de la réponse Ecoindex / détail erreur dans la tache
-- Test health celery
-- Nombre de taches en pending

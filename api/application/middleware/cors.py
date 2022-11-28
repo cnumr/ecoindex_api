@@ -1,5 +1,6 @@
-from api.main import app
 from fastapi.middleware.cors import CORSMiddleware
+
+from api.main import app
 from settings import (
     CORS_ALLOWED_CREDENTIALS,
     CORS_ALLOWED_HEADERS,
