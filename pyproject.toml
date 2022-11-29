@@ -10,7 +10,7 @@ alembic = "^1.8.1"
 celery = "^5.2.7"
 ecoindex-scraper = {version = "^2.9.0", allow-prereleases = true}
 python-environ = "^0.4.54"
-sqlmodel = "^0.0.7"
+sqlmodel = "^0.0.8"
 redis = "^4.3.4"
 
 [tool.poetry.group.api.dependencies]
