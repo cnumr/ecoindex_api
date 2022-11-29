@@ -1,8 +1,10 @@
 from datetime import date
-from typing import Optional
+
+from sqlmodel.sql.expression import SelectOfScalar
 
 from api.domain.ecoindex.models.responses import ApiEcoindex
-from sqlmodel.sql.expression import SelectOfScalar
+
+SelectOfScalar.inherit_cache = True  # type: ignore
 
 
 def date_filter(

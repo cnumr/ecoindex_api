@@ -14,3 +14,9 @@ SCREENSHOTS_GID = env("SCREENSHOTS_GID", cast=int, default=None)
 SCREENSHOTS_UID = env("SCREENSHOTS_UID", cast=int, default=None)
 WAIT_BEFORE_SCROLL = env("WAIT_BEFORE_SCROLL", cast=int, default=3)
 WAIT_AFTER_SCROLL = env("WAIT_AFTER_SCROLL", cast=int, default=3)
+WORKER_BROKER_URL = env(
+    "WORKER_BROKER_URL", cast=str, default="redis://localhost:6379/0"
+)
+WORKER_BACKEND_URL = env(
+    "WORKER_BACKEND_URL", cast=str, default="redis://localhost:6379/1"
+)

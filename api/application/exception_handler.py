@@ -1,12 +1,15 @@
+from fastapi import Request, status
+from fastapi.responses import JSONResponse
+from selenium.common.exceptions import WebDriverException
+
 from api.application.status import (
     HTTP_520_ECOINDEX_TYPE_ERROR,
     HTTP_521_ECOINDEX_CONNECTION_ERROR,
 )
-from api.helper import format_exception_response
 from api.main import app
-from fastapi import Request, status
-from fastapi.responses import JSONResponse
-from selenium.common.exceptions import WebDriverException
+from common.exception import QuotaExceededException
+from common.helper import format_exception_response
+from settings import DAILY_LIMIT_PER_HOST
 
 
 async def handle_exceptions():
@@ -55,8 +58,21 @@ async def handle_exceptions():
             status_code=HTTP_521_ECOINDEX_CONNECTION_ERROR,
         )
 
+    @app.exception_handler(QuotaExceededException)
+    async def handle_quota_exceeded_exception(_: Request, exc: QuotaExceededException):
+        return JSONResponse(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            content={
+                "detail": {
+                    "message": exc.message,
+                    "daily_limit_per_host": DAILY_LIMIT_PER_HOST,
+                    "host": exc.host,
+                }
+            },
+        )
+
     @app.exception_handler(Exception)
-    async def validation_exception_handler(_: Request, exc: Exception):
+    async def handle_exception(_: Request, exc: Exception):
         exception_response = await format_exception_response(exception=exc)
         return JSONResponse(
             content={"detail": exception_response.dict()},

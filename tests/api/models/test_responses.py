@@ -1,11 +1,12 @@
-from api.models.responses import ApiHealth
 from pydantic import ValidationError
 from pytest import raises
 
+from api.models.responses import ApiHealth
+
 
 def test_model_apihealth_valid():
-    valid_health = ApiHealth(database=True, chromedriver=True)
-    assert valid_health.chromedriver == True
+    valid_health = ApiHealth(database=True, worker=True)
+    assert valid_health.worker == True
     assert valid_health.database == True
 
 
@@ -13,7 +14,7 @@ def test_model_apihealth_empty():
     expected_errors = [
         {"loc": ("database",), "msg": "field required", "type": "value_error.missing"},
         {
-            "loc": ("chromedriver",),
+            "loc": ("worker",),
             "msg": "field required",
             "type": "value_error.missing",
         },
@@ -31,11 +32,11 @@ def test_model_apihealth_invalid():
             "type": "type_error.bool",
         },
         {
-            "loc": ("chromedriver",),
+            "loc": ("worker",),
             "msg": "value could not be parsed to a boolean",
             "type": "type_error.bool",
         },
     ]
     with raises(ValidationError) as error:
-        ApiHealth(database="An error message", chromedriver=1.2)
+        ApiHealth(database="An error message", worker=1.2)
         assert error.errors == expected_errors
