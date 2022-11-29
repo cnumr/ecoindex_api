@@ -1,8 +1,8 @@
-from typing import Any, List
+from typing import Dict, List
 
 from sqlmodel import Field, SQLModel
 
 
 class ApiHealth(SQLModel):
     database: bool = Field(default=..., title="Status of database")
-    worker: List[Any] = Field(default=..., title="Status of the queue task broker")
+    workers: List[Dict] = Field(default=..., title="Status of the queue task broker")
