@@ -1,7 +1,7 @@
 from typing import Any
 
 from ecoindex.models import Result
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import AnyHttpUrl, BaseModel, Field
 
 
 class QueueTaskError(BaseModel):
@@ -13,7 +13,7 @@ class QueueTaskError(BaseModel):
     status_code: int | None = Field(
         default=None, title="Corresponding original HTTP status code sended by the API"
     )
-    url: HttpUrl | None = Field(default=None, title="URL of the analyzed web page")
+    url: AnyHttpUrl | None = Field(default=None, title="URL of the analyzed web page")
 
 
 class QueueTaskResult(BaseModel):

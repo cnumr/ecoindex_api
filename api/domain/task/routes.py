@@ -71,8 +71,6 @@ async def get_ecoindex_analysis_task_by_id(
 
     if t.state == TaskStatus.PENDING:
         response.status_code = status.HTTP_425_TOO_EARLY
-        response.headers["Retry-After"] = "100"
-        response.headers["Access-Control-Expose-Headers"] = "Retry-After"
 
         return task_response
 
