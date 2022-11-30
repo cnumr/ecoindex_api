@@ -10,7 +10,7 @@
             "type": "string"
           },
           "ecoindex_version": {
-            "default": "5.2.0b1",
+            "default": "5.3.0",
             "description": "Is the version of the ecoindex used to compute the score",
             "title": "Ecoindex version",
             "type": "string"
@@ -125,15 +125,17 @@
             "title": "Status of database",
             "type": "boolean"
           },
-          "worker": {
-            "items": {},
+          "workers": {
+            "items": {
+              "type": "object"
+            },
             "title": "Status of the queue task broker",
             "type": "array"
           }
         },
         "required": [
           "database",
-          "worker"
+          "workers"
         ],
         "title": "ApiHealth",
         "type": "object"
@@ -310,7 +312,7 @@
             "type": "string"
           },
           "ecoindex_version": {
-            "default": "5.2.0b1",
+            "default": "5.3.0",
             "description": "Is the version of the ecoindex used to compute the score",
             "title": "Ecoindex version",
             "type": "string"
