@@ -5,8 +5,14 @@ from api.models.responses import ApiHealth
 
 
 def test_model_apihealth_valid():
-    valid_health = ApiHealth(database=True, worker=True)
-    assert valid_health.worker == True
+    valid_health = ApiHealth(
+        database=True,
+        workers=[
+            {"celery@1b65f3fe0282": {"ok": "pong"}},
+            {"celery@eceffdacd662": {"ok": "pong"}},
+        ],
+    )
+    assert len(valid_health.workers) == 2
     assert valid_health.database == True
 
 
@@ -14,7 +20,7 @@ def test_model_apihealth_empty():
     expected_errors = [
         {"loc": ("database",), "msg": "field required", "type": "value_error.missing"},
         {
-            "loc": ("worker",),
+            "loc": ("workers",),
             "msg": "field required",
             "type": "value_error.missing",
         },
@@ -32,11 +38,11 @@ def test_model_apihealth_invalid():
             "type": "type_error.bool",
         },
         {
-            "loc": ("worker",),
+            "loc": ("workers",),
             "msg": "value could not be parsed to a boolean",
             "type": "type_error.bool",
         },
     ]
     with raises(ValidationError) as error:
-        ApiHealth(database="An error message", worker=1.2)
+        ApiHealth(database="An error message", workers=1.2)
         assert error.errors == expected_errors
