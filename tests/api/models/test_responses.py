@@ -1,18 +1,21 @@
 from pydantic import ValidationError
 from pytest import raises
 
-from api.models.responses import ApiHealth
+from api.models.responses import ApiHealth, WorkerHealth, WorkersHealth
 
 
 def test_model_apihealth_valid():
     valid_health = ApiHealth(
         database=True,
-        workers=[
-            {"celery@1b65f3fe0282": {"ok": "pong"}},
-            {"celery@eceffdacd662": {"ok": "pong"}},
-        ],
+        workers=WorkersHealth(
+            healthy=True,
+            workers=[
+                WorkerHealth(name="celery@1b65f3fe0282", healthy=True),
+                WorkerHealth(name="celery@eceffdacd662", healthy=True),
+            ],
+        ),
     )
-    assert len(valid_health.workers) == 2
+    assert valid_health.workers.healthy == True
     assert valid_health.database == True
 
 
