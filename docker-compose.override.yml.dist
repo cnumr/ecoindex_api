@@ -1,0 +1,11 @@
+services:
+  api:
+    entrypoint: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - "./:/code/"
+
+  worker:
+    entrypoint: |
+      bash -c  "pip install watchdog &&  watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- celery -A worker.tasks worker -P threads --loglevel=INFO"
+    volumes:
+      - "./:/code/"
