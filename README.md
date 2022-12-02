@@ -8,7 +8,7 @@ This tool provides an easy way to analyze websites with [Ecoindex](http://www.ec
 - Retrieve results
 - Limit the number of request per day for a given host
 
-This API is built on top of [ecoindex-scraper](https://pypi.org/project/ecoindex-scraper/) with [FastAPI](https://fastapi.tiangolo.com/)
+This API is built on top of [ecoindex-scraper](https://pypi.org/project/ecoindex-scraper/) with [FastAPI](https://fastapi.tiangolo.com/) and [Celery](https://docs.celeryq.dev/)
 
 ## OpenAPI specification
 
@@ -17,121 +17,102 @@ The API specification can be found in the [documentation](docs/openapi.json). Yo
 ## Requirements
 
 - [Docker](https://www.docker.com/)
-- [Docker-compose](https://docs.docker.com/compose/)
+- [Docker-compose v2](https://docs.docker.com/compose/compose-v2/)
 
 ## Installation
 
-With this docker setup you get 2 services running that are enough to make it all work:
+With this docker setup you get 6 services running that are enough to make it all work:
 
 - `db`: A MySQL instance
-- `api`: The API instance running FastAPI application with [undetected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver)
+- `api`: The API instance running FastAPI application
+- `worker`: The celery task worker that runs ecoindex analysis
+- `redis` (optional): The [redis](https://redis.io/) instance that is used by the Celery worker
+- `flower` (optional): The Celery [monitoring interface](https://flower.readthedocs.io/en/latest/)
+- `db-backup` (optional): A [useful utility](https://github.com/tiredofit/docker-db-backup) that can handle automaticaly database backup
 
 ### First start
 
 ```bash
 cp docker-compose.yml.dist docker-compose.yml && \
-docker-compose build && docker-compose up -d
+docker  compose up -d --build
 ```
 
-Then you can go to [http://localhost:8001/docs](http://localhost:8001/docs) to access to the swagger
+Then you can go to:
+
+- [http://localhost:8001/docs](http://localhost:8001/docs) to access to the swagger of the API
+- [http://localhost:5555](http://localhost:5555) to access the flower interface (Celery task queue UI)
 
 ### Upgrade
 
 To upgrade your server version, you have to:
 
 1. Checkout the source version you want to deploy
-2. Run the database migrations
-3. Re-build the server
-4. Re-start the server
+2. Re-build the server
+3. Re-start the server
 
 ```bash
 git pull && \
-docker-compose exec api alembic upgrade head && \
-docker-compose build && docker-compose up -d
+docker compose up -d --build
 ```
 
-> We use [Alembic](https://pypi.org/project/alembic/) to handle database migrations
+> We use [Alembic](https://pypi.org/project/alembic/) to handle database migrations. Migrations are automaticaly played at instance startup
 
 ## Configuration
 
-### Page wait
+Here are the environment variables you can configure:
 
-You can define a wait time after the page is loaded (before we simulate a scroll to the bottom) and a wait time after the page is scrolled to the bottom.
-
-You have to set the environment variables `WAIT_BEFORE_SCROLL` and `WAIT_AFTER_SCROLL`. Default values are 3 seconds. For example:
-
-```env
-WAIT_BEFORE_SCROLL=1
-WAIT_AFTER_SCROLL=1
-```
-
-### CORS
-
-You can configure CORS to secure your API server. By default, all methods, origins and headers are authorized.
-
-You have to set the environment variables `CORS_ALLOWED_HEADERS`, `CORS_ALLOWED_METHODS`, `CORS_ALLOWED_ORIGINS` and `CORS_ALLOWED_CREDENTIALS`. For example:
-
-```env
-CORS_ALLOWED_CREDENTIALS=True
-CORS_ALLOWED_HEADERS=my-custom-header,other-custom-header
-CORS_ALLOWED_METHODS=GET,POST,UPDATE
-CORS_ALLOWED_ORIGINS=my.host.com,backup-host.com
-```
-
-### Daily limit per day
-
-You can configure a daily limit per day for host by setting the environment variable `DAILY_LIMIT_PER_HOST`. When this variable is set, it won't be possible for a same host to make more request than defined in the same day to avoid overload.
-
-If the variable is set, you will get a header `x-remaining-daily-requests: 6`
-
-If you reach your authorized request quota for the day, the next requests will give you a response:
-
-```http
-HTTP/1.1 429 Too Many Requests
-content-length: 99
-content-type: application/json
-date: Tue, 31 Aug 2021 13:08:20 GMT
-server: uvicorn
-
-{
-    "detail": "You have already reached the daily limit of 10 requests for host www.ecoindex.fr today"
-}
-```
-
-> If the variable is set to 0, no limit is set.
-
-### Screenshot
-
-It is possible to take a screenshot of the analyzed web page. To do this, you must set the `ENABLE_SCREENSHOT` environment variable to `True`. By default, screenshots are *disabled*.
-
-If screenshots are enabled, when analyzing the page the image will be generated in the `./screenshot` directory with the image name corresponding to the analysis ID and will be available on the path `/{version}/ecoindexes/{id}/screenshot`.
-
-> __ATTENTION:__ Enabling screenshot feature may lead to a high use of the filesystem.
+| Service     | Variable Name              | Default value | Description                                                                                                                                                                                                                                                                                                                                                                                                                |
+|-------------|----------------------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| API         | `WAIT_BEFORE_SCROLL`       | 3             | You can configure the wait time of the scenario when a page is loaded before it scrolls down to the bottom of the page                                                                                                                                                                                                                                                                                                     |
+| API         | `WAIT_AFTER_SCROLL`        | 3             | You can configure the wait time of the scenario when a page is loaded after having scrolled down to the bottom of the page                                                                                                                                                                                                                                                                                                 |
+| API         | `CORS_ALLOWED_CREDENTIALS` | `True`        | See [MDN web doc](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)                                                                                                                                                                                                                                                                                                              |
+| API         | `CORS_ALLOWED_HEADERS`     | `*`           | See [MDN web doc](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers)                                                                                                                                                                                                                                                                                                                  |
+| API         | `CORS_ALLOWED_METHODS`     | `*`           | See [MDN web doc](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Methods)                                                                                                                                                                                                                                                                                                                  |
+| API         | `CORS_ALLOWED_ORIGINS`     | `*`           | See [MDN web doc](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)                                                                                                                                                                                                                                                                                                                   |
+| API, Worker | `DAILY_LIMIT_PER_HOST`     | 0             | When this variable is set, it won't be possible for a same host to make more request than defined in the same day to avoid overload. If the variable is set, you will get a header `x-remaining-daily-requests: 6` in your response. It is used for the POST methods. If you reach your authorized request quota for the day, the next requests will give you a 429 response. If the variable is set to 0, no limit is set |
+| API, Worker | `DATABASE_URL`             | `sqlite+aiosqlite:///./sql_app.db`      | If you run your mysql instance on a dedicated server, you can configure it with your credentials. By default, it uses an sqlite database when running in local |                                                                                                                               |
+| API, Worker | `WORKER_BROKER_URL` | `redis://localhost:6379/0` | The url of the redis broker used by Celery |
+| API, Worker | `WORKER_BACKEND_URL` | `redis://localhost:6379/1` | The url of the redis backend used by Celery |
+| Worker      | `ENABLE_SCREENSHOT`        | `False`       | If screenshots are enabled, when analyzing the page the image will be generated in the `./screenshot` directory with the image name corresponding to the analysis ID and will be available on the path `/{version}/ecoindexes/{id}/screenshot`                                                                                                                                                                             |
 
 ## Local development
 
-If you need to test the API locally, you can easily run it. You have to use [Poetry](https://python-poetry.org/) to install dependencies and run `uvicorn` server.
+If you need to test the API locally, you can easily run it. You have to use [Poetry](https://python-poetry.org/)
+
+### Run redis service
 
 ```bash
-poetry install && \
+docker run -d -p 6379:6379 redis:alpine
+```
+
+### Install dependencies
+
+```bash
+poetry install
+```
+
+> This will install all dependencies for API, Worker and development
+
+### Run API service
+
+```bash
 poetry run uvicorn api.main:app --reload --port 8001
 ```
 
 > This way, you get a server running on [localhost:8001](http://localhost:8001/docs) with a local database saved in `./sql_app.dv`
 
-## Testing
-
-In order to develop or test, you have to use [Poetry](https://python-poetry.org/), install the dependencies and execute a poetry shell:
+### Run worker service
 
 ```bash
-poetry install && \
-poetry shell
+poetry run celery -A worker.tasks worker -P threads --loglevel=INFO -E
 ```
+
+## Testing
 
 We use Pytest to run unit tests for this project. The test suite are in the `tests` folder. Just execute :
 
 ```Bash
-pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc tests
+poetry run pytest --cov-report term-missing:skip-covered --cov=. --cov-config=.coveragerc tests
 ```
 
 > This runs pytest and also generate a [coverage report](https://pytest-cov.readthedocs.io/en/latest/) (terminal and html)
