@@ -12,6 +12,7 @@ from api.domain.task.models.response import QueueTaskError, QueueTaskResult
 from common.exception import QuotaExceededException
 from common.helper import check_quota, format_exception_response
 from settings import (
+    CHROME_VERSION_MAIN,
     ENABLE_SCREENSHOT,
     SCREENSHOTS_GID,
     SCREENSHOTS_UID,
@@ -57,6 +58,7 @@ async def async_ecoindex_task(
         ecoindex = await (
             EcoindexScraper(
                 url=url,
+                chrome_version_main=CHROME_VERSION_MAIN,
                 window_size=WindowSize(height=height, width=width),
                 wait_after_scroll=WAIT_AFTER_SCROLL,
                 wait_before_scroll=WAIT_BEFORE_SCROLL,

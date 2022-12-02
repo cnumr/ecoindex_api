@@ -262,7 +262,7 @@ pydantic = ">=1.10.2,<2.0.0"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "2.9.0"
+version = "2.10.0"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 category = "main"
 optional = false
@@ -745,7 +745,7 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "selenium"
-version = "4.6.1"
+version = "4.7.0"
 description = ""
 category = "main"
 optional = false
@@ -1049,7 +1049,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "245d71931aac42bb2509d56b8ab3b8cdd432fb654354d531ddb10e7f3852c7c2"
+content-hash = "957fdaa5179b4acd3dc8a8a707b52cf2577dc212fa56ecdfe629ec67dd7dc220"
 
 [metadata.files]
 aiosqlite = [
@@ -1210,8 +1210,8 @@ ecoindex = [
     {file = "ecoindex-5.3.0.tar.gz", hash = "sha256:0df75a767dd6898b34fca7cdbf1548de98ebbe2e43be1d62b97b0009ea89ef71"},
 ]
 ecoindex-scraper = [
-    {file = "ecoindex_scraper-2.9.0-py3-none-any.whl", hash = "sha256:adf12e5be3e376bb7d5b56fffbc91138b4dff81f11a59e9a0850cfd47142b383"},
-    {file = "ecoindex_scraper-2.9.0.tar.gz", hash = "sha256:a014a8839758c58e748b06d66c2656b126f880fe0a4c3354f87c71732f80f2b3"},
+    {file = "ecoindex_scraper-2.10.0-py3-none-any.whl", hash = "sha256:a98e4f2fd6948af97cad5a9cc3ab8e06b90c39688c98ae924de8e4f7225ebb12"},
+    {file = "ecoindex_scraper-2.10.0.tar.gz", hash = "sha256:4684a18c07ddaaa86a6e1def10f831fd8f1e2607ff0de2441a517c52877204ab"},
 ]
 exceptiongroup = [
     {file = "exceptiongroup-1.0.4-py3-none-any.whl", hash = "sha256:542adf9dea4055530d6e1279602fa5cb11dab2395fa650b8674eaec35fc4a828"},
@@ -1636,7 +1636,7 @@ requests = [
     {file = "requests-2.28.1.tar.gz", hash = "sha256:7c5599b102feddaa661c826c56ab4fee28bfd17f5abca1ebbe3e7f19d7c97983"},
 ]
 selenium = [
-    {file = "selenium-4.6.1-py3-none-any.whl", hash = "sha256:2384829279d41c7f5b338ce87453cc4e120099b6c093318207376c19f5d2c254"},
+    {file = "selenium-4.7.0-py3-none-any.whl", hash = "sha256:771cb63b821a2aea01b0cdb623caa5b5c35b9a19f44d0d4f32a44b037a324b10"},
 ]
 setuptools = [
     {file = "setuptools-65.6.3-py3-none-any.whl", hash = "sha256:57f6f22bde4e042978bcd50176fdb381d7c21a9efa4041202288d3737a0c6a54"},

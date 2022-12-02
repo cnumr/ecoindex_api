@@ -74,6 +74,8 @@ Here are the environment variables you can configure:
 | API, Worker | `WORKER_BROKER_URL` | `redis://localhost:6379/0` | The url of the redis broker used by Celery |
 | API, Worker | `WORKER_BACKEND_URL` | `redis://localhost:6379/1` | The url of the redis backend used by Celery |
 | Worker      | `ENABLE_SCREENSHOT`        | `False`       | If screenshots are enabled, when analyzing the page the image will be generated in the `./screenshot` directory with the image name corresponding to the analysis ID and will be available on the path `/{version}/ecoindexes/{id}/screenshot`                                                                                                                                                                             |
+| Worker | `CHROME_VERSION` | `107.0.5304.121-1` | This is the version of chrome to download and run. Can be removed if you want to install latest version of chrome |
+| Worker | `CHROME_VERSION_MAIN` | `107` | This is the major version of chromethat is used for chromedriver. You have to set it accordingly to `CHROME_VERSION`. Be careful that if you remove `CHROME_VERSION` and `CHROME_VERSION_MAIN` or that they do not match, chromedriver will fail |
 
 ## Local development
 
