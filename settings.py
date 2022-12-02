@@ -3,6 +3,7 @@ from environ import Env
 env = Env()
 env.read_env()
 
+CHROME_VERSION_MAIN = env("CHROME_VERSION_MAIN", cast=int, default=None)
 CORS_ALLOWED_CREDENTIALS = env.bool("CORS_ALLOWED_CREDENTIALS", default=True)
 CORS_ALLOWED_HEADERS = env("CORS_ALLOWED_HEADERS", cast=list, default=["*"])
 CORS_ALLOWED_METHODS = env("CORS_ALLOWED_METHODS", cast=list, default=["*"])
