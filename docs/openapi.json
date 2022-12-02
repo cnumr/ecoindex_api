@@ -126,11 +126,12 @@
             "type": "boolean"
           },
           "workers": {
-            "items": {
-              "type": "object"
-            },
-            "title": "Status of the queue task broker",
-            "type": "array"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WorkersHealth"
+              }
+            ],
+            "title": "Status of the queue task broker"
           }
         },
         "required": [
@@ -455,6 +456,45 @@
           }
         },
         "title": "WebPage",
+        "type": "object"
+      },
+      "WorkerHealth": {
+        "properties": {
+          "healthy": {
+            "title": "Set to true if the worker is healthy, else false",
+            "type": "boolean"
+          },
+          "name": {
+            "title": "Name of the worker",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "healthy"
+        ],
+        "title": "WorkerHealth",
+        "type": "object"
+      },
+      "WorkersHealth": {
+        "properties": {
+          "healthy": {
+            "title": "Set to true if all workers are healthy, false if one of them is down",
+            "type": "boolean"
+          },
+          "workers": {
+            "items": {
+              "$ref": "#/components/schemas/WorkerHealth"
+            },
+            "title": "List of all current known workers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "healthy",
+          "workers"
+        ],
+        "title": "WorkersHealth",
         "type": "object"
       }
     }
