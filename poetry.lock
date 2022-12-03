@@ -251,7 +251,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7
 
 [[package]]
 name = "ecoindex"
-version = "5.3.0"
+version = "5.4.0"
 description = "Ecoindex module provides a simple way to measure the Ecoindex score based on the 3 parameters: The DOM elements of the page, the size of the page and the number of external requests of the page"
 category = "main"
 optional = false
@@ -262,14 +262,14 @@ pydantic = ">=1.10.2,<2.0.0"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "2.10.0"
+version = "2.11.0"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 category = "main"
 optional = false
 python-versions = ">=3.10,<4.0"
 
 [package.dependencies]
-ecoindex = ">=5.3.0,<6.0.0"
+ecoindex = ">=5.4.0,<6.0.0"
 Pillow = ">=9.2.0,<10.0.0"
 undetected-chromedriver = ">=3.1.6,<4.0.0"
 
@@ -745,7 +745,7 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
 name = "selenium"
-version = "4.7.0"
+version = "4.7.2"
 description = ""
 category = "main"
 optional = false
@@ -1049,7 +1049,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "957fdaa5179b4acd3dc8a8a707b52cf2577dc212fa56ecdfe629ec67dd7dc220"
+content-hash = "53501340e9f5785e901dbf21091ef93c2d7e9deb67a6e5a5e6505ee5da154413"
 
 [metadata.files]
 aiosqlite = [
@@ -1206,12 +1206,12 @@ colorama = [
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
 ecoindex = [
-    {file = "ecoindex-5.3.0-py3-none-any.whl", hash = "sha256:7d00a9298b21adfd54150533b69ceca94fd8f8e3a0d35d75864c31e1a4ddc984"},
-    {file = "ecoindex-5.3.0.tar.gz", hash = "sha256:0df75a767dd6898b34fca7cdbf1548de98ebbe2e43be1d62b97b0009ea89ef71"},
+    {file = "ecoindex-5.4.0-py3-none-any.whl", hash = "sha256:cc48bb64daea1603ff0e8366545248b3389fd9b09028a161b21155e6fc9320dd"},
+    {file = "ecoindex-5.4.0.tar.gz", hash = "sha256:20fac77459783227c02792b6feeca459eb3920eae58ecb12252537e3a0b08cdc"},
 ]
 ecoindex-scraper = [
-    {file = "ecoindex_scraper-2.10.0-py3-none-any.whl", hash = "sha256:a98e4f2fd6948af97cad5a9cc3ab8e06b90c39688c98ae924de8e4f7225ebb12"},
-    {file = "ecoindex_scraper-2.10.0.tar.gz", hash = "sha256:4684a18c07ddaaa86a6e1def10f831fd8f1e2607ff0de2441a517c52877204ab"},
+    {file = "ecoindex_scraper-2.11.0-py3-none-any.whl", hash = "sha256:9d97218005b0b6a335846c05e1c85211ee90712461d4f10b746e102abfb2a10a"},
+    {file = "ecoindex_scraper-2.11.0.tar.gz", hash = "sha256:3fecc210f1a742258bdd61f2453c5a547033787b3593b5d41ac88c4716253dcb"},
 ]
 exceptiongroup = [
     {file = "exceptiongroup-1.0.4-py3-none-any.whl", hash = "sha256:542adf9dea4055530d6e1279602fa5cb11dab2395fa650b8674eaec35fc4a828"},
@@ -1636,7 +1636,7 @@ requests = [
     {file = "requests-2.28.1.tar.gz", hash = "sha256:7c5599b102feddaa661c826c56ab4fee28bfd17f5abca1ebbe3e7f19d7c97983"},
 ]
 selenium = [
-    {file = "selenium-4.7.0-py3-none-any.whl", hash = "sha256:771cb63b821a2aea01b0cdb623caa5b5c35b9a19f44d0d4f32a44b037a324b10"},
+    {file = "selenium-4.7.2-py3-none-any.whl", hash = "sha256:06a1c7d9f313130b21c3218ddd8852070d0e7419afdd31f96160cd576555a5ce"},
 ]
 setuptools = [
     {file = "setuptools-65.6.3-py3-none-any.whl", hash = "sha256:57f6f22bde4e042978bcd50176fdb381d7c21a9efa4041202288d3737a0c6a54"},

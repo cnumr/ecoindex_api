@@ -10,7 +10,7 @@
             "type": "string"
           },
           "ecoindex_version": {
-            "default": "5.3.0",
+            "default": "5.4.0",
             "description": "Is the version of the ecoindex used to compute the score",
             "title": "Ecoindex version",
             "type": "string"
@@ -27,7 +27,10 @@
             "type": "string"
           },
           "height": {
+            "default": 1080,
             "description": "Height of the simulated window in pixel",
+            "exclusiveMaximum": 2160.0,
+            "minimum": 50.0,
             "title": "Page Height",
             "type": "integer"
           },
@@ -85,7 +88,7 @@
           "url": {
             "description": "Url of the analysed page",
             "format": "uri",
-            "maxLength": 2083,
+            "maxLength": 65536,
             "minLength": 1,
             "title": "Page url",
             "type": "string"
@@ -103,12 +106,16 @@
             "type": "number"
           },
           "width": {
+            "default": 1920,
             "description": "Width of the simulated window in pixel",
+            "exclusiveMaximum": 3840.0,
+            "minimum": 100.0,
             "title": "Page Width",
             "type": "integer"
           }
         },
         "required": [
+          "url",
           "size",
           "nodes",
           "requests",
@@ -313,7 +320,7 @@
             "type": "string"
           },
           "ecoindex_version": {
-            "default": "5.3.0",
+            "default": "5.4.0",
             "description": "Is the version of the ecoindex used to compute the score",
             "title": "Ecoindex version",
             "type": "string"
@@ -330,7 +337,10 @@
             "type": "string"
           },
           "height": {
+            "default": 1080,
             "description": "Height of the simulated window in pixel",
+            "exclusiveMaximum": 2160.0,
+            "minimum": 50.0,
             "title": "Page Height",
             "type": "integer"
           },
@@ -367,7 +377,7 @@
           "url": {
             "description": "Url of the analysed page",
             "format": "uri",
-            "maxLength": 2083,
+            "maxLength": 65536,
             "minLength": 1,
             "title": "Page url",
             "type": "string"
@@ -379,12 +389,16 @@
             "type": "number"
           },
           "width": {
+            "default": 1920,
             "description": "Width of the simulated window in pixel",
+            "exclusiveMaximum": 3840.0,
+            "minimum": 100.0,
             "title": "Page Width",
             "type": "integer"
           }
         },
         "required": [
+          "url",
           "size",
           "nodes",
           "requests"
@@ -437,24 +451,33 @@
       "WebPage": {
         "properties": {
           "height": {
+            "default": 1080,
             "description": "Height of the simulated window in pixel",
+            "exclusiveMaximum": 2160.0,
+            "minimum": 50.0,
             "title": "Page Height",
             "type": "integer"
           },
           "url": {
             "description": "Url of the analysed page",
             "format": "uri",
-            "maxLength": 2083,
+            "maxLength": 65536,
             "minLength": 1,
             "title": "Page url",
             "type": "string"
           },
           "width": {
+            "default": 1920,
             "description": "Width of the simulated window in pixel",
+            "exclusiveMaximum": 3840.0,
+            "minimum": 100.0,
             "title": "Page Width",
             "type": "integer"
           }
         },
+        "required": [
+          "url"
+        ],
         "title": "WebPage",
         "type": "object"
       },
