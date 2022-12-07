@@ -62,7 +62,9 @@ async def async_ecoindex_task(
                 window_size=WindowSize(height=height, width=width),
                 wait_after_scroll=WAIT_AFTER_SCROLL,
                 wait_before_scroll=WAIT_BEFORE_SCROLL,
-                screenshot=ScreenShot(id=str(self.request.id), folder=f"{getcwd()}/screenshots/v1")
+                screenshot=ScreenShot(
+                    id=str(self.request.id), folder=f"{getcwd()}/screenshots/v1"
+                )
                 if ENABLE_SCREENSHOT
                 else None,
                 screenshot_gid=SCREENSHOTS_GID,
