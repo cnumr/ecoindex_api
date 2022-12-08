@@ -1,10 +1,10 @@
-FROM python:3.10-slim as requirements-stage
+FROM python:3.11-slim as requirements-stage
 WORKDIR /tmp
 RUN pip install poetry
 COPY ./pyproject.toml ./poetry.lock /tmp/
 RUN poetry export --with=worker --output=requirements.txt --without-hashes
 
-FROM python:3.10-slim
+FROM python:3.11-slim
 ARG CHROME_VERSION
 ENV CHROME_VERSION=$CHROME_VERSION
 WORKDIR /code
