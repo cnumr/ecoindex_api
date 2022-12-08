@@ -15,7 +15,7 @@ from api.domain.ecoindex.repository import (
     get_ecoindex_result_by_id_db,
     get_ecoindex_result_list_db,
 )
-from api.helper import get_status_code
+from api.helper import get_sort_parameters, get_status_code
 from api.models.enums import Version
 from api.models.examples import example_file_not_found
 
@@ -58,6 +58,11 @@ async def get_ecoindex_analysis_list(
     page: int | None = Query(1, description="Page number", ge=1),
     size: int
     | None = Query(50, description="Number of elements per page", ge=1, le=100),
+    sort: list[str]
+    | None = Query(
+        ["date:desc"],
+        description="You can sort results using this param with the format `sort=param1:asc&sort=param2:desc`",
+    ),
 ) -> PageApiEcoindexes:
     ecoindexes = await get_ecoindex_result_list_db(
         date_from=date_from,
@@ -66,6 +71,7 @@ async def get_ecoindex_analysis_list(
         version=version,
         page=page,
         size=size,
+        sort_params=await get_sort_parameters(query_params=sort, model=ApiEcoindex),
     )
     total_results = await get_count_analysis_db(
         version=version,
