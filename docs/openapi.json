@@ -794,6 +794,23 @@
               "title": "Size",
               "type": "integer"
             }
+          },
+          {
+            "description": "You can sort results using this param with the format `sort=param1:asc&sort=param2:desc`",
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "default": [
+                "date:desc"
+              ],
+              "description": "You can sort results using this param with the format `sort=param1:asc&sort=param2:desc`",
+              "items": {
+                "type": "string"
+              },
+              "title": "Sort",
+              "type": "array"
+            }
           }
         ],
         "responses": {
