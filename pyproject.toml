@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ecoindex_api"
-version = "1.8.0"
+version = "2.1.0"
 description = "REST API to expose Ecoindex"
 authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 
