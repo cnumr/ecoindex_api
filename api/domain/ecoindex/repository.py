@@ -1,9 +1,8 @@
 from datetime import date
-from typing import List, Literal
+from typing import List
 from uuid import UUID
 
 from ecoindex.models import Result
-from pydantic import BaseModel
 from sqlalchemy import func
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.sql.expression import asc, desc
@@ -11,13 +10,9 @@ from sqlmodel import select
 
 from api.domain.ecoindex.models.responses import ApiEcoindex
 from api.models.enums import Version
+from api.models.sort import Sort
 from db.engine import engine
 from db.helper import date_filter
-
-
-class Sort(BaseModel):
-    clause: str
-    sort: Literal["asc", "desc"]
 
 
 async def get_count_analysis_db(
@@ -69,7 +64,7 @@ async def get_ecoindex_result_list_db(
     date_to: date | None = None,
     page: int | None = 1,
     size: int | None = 50,
-    sort_multiple: List[Sort] = [],
+    sort_params: List[Sort] = [],
 ) -> List[ApiEcoindex]:
     statement = (
         select(ApiEcoindex)
@@ -82,9 +77,7 @@ async def get_ecoindex_result_list_db(
         statement = statement.where(ApiEcoindex.host == host)
     statement = date_filter(statement=statement, date_from=date_from, date_to=date_to)
 
-    sort_multiple = [Sort(sort="desc", clause="score")]
-
-    for sort in sort_multiple:
+    for sort in sort_params:
         if sort.sort == "asc":
             sort_parameter = asc(sort.clause)
         elif sort.sort == "desc":
