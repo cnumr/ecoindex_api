@@ -10,9 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: RapidAPI OpenAPI
-        uses: vvatelot/rapidapi-openapi-github-action@v1.3.4
+        uses: vvatelot/rapidapi-openapi-github-action@v1.3.5
         with:
-          rapidapi-api-key: ${{ secrets.RAPIDAPI_API_KEY }}
-          rapidapi-api-id: ${{ secrets.RAPIDAPI_API_ID }}
-          default-server-url: ${{ secrets.PROD_DEFAULT_SERVER }}
-          openapi-file: "docs/openapi.json"
+          rapidapi_api_key: ${{ secrets.RAPIDAPI_API_KEY }}
+          rapidapi_api_id: ${{ secrets.RAPIDAPI_API_ID }}
+          default_server_url: ${{ secrets.PROD_DEFAULT_SERVER }}
+          openapi_file: "docs/openapi.json"
