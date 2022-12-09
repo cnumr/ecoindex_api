@@ -250,7 +250,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7
 
 [[package]]
 name = "ecoindex"
-version = "5.4.0"
+version = "5.4.1"
 description = "Ecoindex module provides a simple way to measure the Ecoindex score based on the 3 parameters: The DOM elements of the page, the size of the page and the number of external requests of the page"
 category = "main"
 optional = false
@@ -261,14 +261,14 @@ pydantic = ">=1.10.2,<2.0.0"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "2.11.0"
+version = "2.11.1"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 category = "main"
 optional = false
 python-versions = ">=3.10,<4.0"
 
 [package.dependencies]
-ecoindex = ">=5.4.0,<6.0.0"
+ecoindex = ">=5.4.1,<6.0.0"
 Pillow = ">=9.2.0,<10.0.0"
 undetected-chromedriver = ">=3.1.6,<4.0.0"
 
@@ -975,7 +975,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.11"
-content-hash = "1043a5a616b8293e8128e3a0943b9ab70c698e1fdb7937e0bdf8a3d99aca0070"
+content-hash = "661f1161f973dc67d02311950378568b65e710a1f3e5aedca49358a3092a34bd"
 
 [metadata.files]
 aiosqlite = [
@@ -1132,12 +1132,12 @@ colorama = [
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
 ecoindex = [
-    {file = "ecoindex-5.4.0-py3-none-any.whl", hash = "sha256:cc48bb64daea1603ff0e8366545248b3389fd9b09028a161b21155e6fc9320dd"},
-    {file = "ecoindex-5.4.0.tar.gz", hash = "sha256:20fac77459783227c02792b6feeca459eb3920eae58ecb12252537e3a0b08cdc"},
+    {file = "ecoindex-5.4.1-py3-none-any.whl", hash = "sha256:4247809f130be46f27535bab71cd199d2f1c26a170dca9a82f24613018d832b7"},
+    {file = "ecoindex-5.4.1.tar.gz", hash = "sha256:fb37608d0aa50328ce977cf40a97875c1a80c6922653a10256689ff1491aea2c"},
 ]
 ecoindex-scraper = [
-    {file = "ecoindex_scraper-2.11.0-py3-none-any.whl", hash = "sha256:9d97218005b0b6a335846c05e1c85211ee90712461d4f10b746e102abfb2a10a"},
-    {file = "ecoindex_scraper-2.11.0.tar.gz", hash = "sha256:3fecc210f1a742258bdd61f2453c5a547033787b3593b5d41ac88c4716253dcb"},
+    {file = "ecoindex_scraper-2.11.1-py3-none-any.whl", hash = "sha256:53eda6ff065241737f8c240ba07d112537e339f07cc7c9bfe52c9b11dae0f5b9"},
+    {file = "ecoindex_scraper-2.11.1.tar.gz", hash = "sha256:33f3c9267b8b7bfd622f59d89cfabf4693051e110e1bf82fd6b0350bf4daff8e"},
 ]
 faker = [
     {file = "Faker-15.3.4-py3-none-any.whl", hash = "sha256:c2a2ff9dd8dfd991109b517ab98d5cb465e857acb45f6b643a0e284a9eb2cc76"},

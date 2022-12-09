@@ -10,7 +10,7 @@
             "type": "string"
           },
           "ecoindex_version": {
-            "default": "5.4.0",
+            "default": "5.4.1",
             "description": "Is the version of the ecoindex used to compute the score",
             "title": "Ecoindex version",
             "type": "string"
@@ -29,7 +29,7 @@
           "height": {
             "default": 1080,
             "description": "Height of the simulated window in pixel",
-            "exclusiveMaximum": 2160.0,
+            "maximum": 2160.0,
             "minimum": 50.0,
             "title": "Page Height",
             "type": "integer"
@@ -108,7 +108,7 @@
           "width": {
             "default": 1920,
             "description": "Width of the simulated window in pixel",
-            "exclusiveMaximum": 3840.0,
+            "maximum": 3840.0,
             "minimum": 100.0,
             "title": "Page Width",
             "type": "integer"
@@ -320,7 +320,7 @@
             "type": "string"
           },
           "ecoindex_version": {
-            "default": "5.4.0",
+            "default": "5.4.1",
             "description": "Is the version of the ecoindex used to compute the score",
             "title": "Ecoindex version",
             "type": "string"
@@ -339,7 +339,7 @@
           "height": {
             "default": 1080,
             "description": "Height of the simulated window in pixel",
-            "exclusiveMaximum": 2160.0,
+            "maximum": 2160.0,
             "minimum": 50.0,
             "title": "Page Height",
             "type": "integer"
@@ -391,7 +391,7 @@
           "width": {
             "default": 1920,
             "description": "Width of the simulated window in pixel",
-            "exclusiveMaximum": 3840.0,
+            "maximum": 3840.0,
             "minimum": 100.0,
             "title": "Page Width",
             "type": "integer"
@@ -453,7 +453,7 @@
           "height": {
             "default": 1080,
             "description": "Height of the simulated window in pixel",
-            "exclusiveMaximum": 2160.0,
+            "maximum": 2160.0,
             "minimum": 50.0,
             "title": "Page Height",
             "type": "integer"
@@ -469,7 +469,7 @@
           "width": {
             "default": 1920,
             "description": "Width of the simulated window in pixel",
-            "exclusiveMaximum": 3840.0,
+            "maximum": 3840.0,
             "minimum": 100.0,
             "title": "Page Width",
             "type": "integer"
