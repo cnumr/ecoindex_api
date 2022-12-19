@@ -33,7 +33,7 @@ async def add_ecoindex_analysis_task(
     web_page: WebPage = Body(
         default=...,
         title="Web page to analyze defined by its url and its screen resolution",
-        example=WebPage(url="http://www.ecoindex.fr", width=1920, height=1080),
+        example=WebPage(url="https://www.ecoindex.fr", width=1920, height=1080),
     ),
 ) -> str:
     if DAILY_LIMIT_PER_HOST:

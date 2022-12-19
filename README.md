@@ -1,6 +1,6 @@
 # Ecoindex-Api
 
-This tool provides an easy way to analyze websites with [Ecoindex](http://www.ecoindex.fr) on a remote server. You have the ability to:
+This tool provides an easy way to analyze websites with [Ecoindex](https://www.ecoindex.fr) on a remote server. You have the ability to:
 
 - Make a page analysis
 - Define screen resolution
