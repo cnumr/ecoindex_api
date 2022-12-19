@@ -560,7 +560,7 @@
             "application/json": {
               "example": {
                 "height": 1080,
-                "url": "http://www.ecoindex.fr",
+                "url": "https://www.ecoindex.fr",
                 "width": 1920
               },
               "schema": {

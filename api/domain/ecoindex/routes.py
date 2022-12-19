@@ -132,7 +132,7 @@ async def get_screenshot(
     id: UUID = Path(default=..., title="Unique identifier of the ecoindex analysis"),
 ):
     return FileResponse(
-        path=f"{getcwd()}/screenshots/{version}/{id}.webp",
+        path=f"{getcwd()}/screenshots/{version.value}/{id}.webp",
         filename=f"{id}.webp",
         content_disposition_type="inline",
         media_type="image/webp",
