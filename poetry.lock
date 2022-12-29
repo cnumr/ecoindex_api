@@ -262,7 +262,7 @@ pydantic = ">=1.10.2,<2.0.0"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "2.11.1"
+version = "2.13.0"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 category = "main"
 optional = false
@@ -990,7 +990,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "5d7fe1d926e3663758466f95cfac3ecf0a5f677a9ae3ee789f5c469e7b4308b7"
+content-hash = "a3aa02c63bcabd7e0c5e1b9da9cf1874271a122762cf72df428446460a5e7c65"
 
 [metadata.files]
 aiosqlite = [
@@ -1151,8 +1151,8 @@ ecoindex = [
     {file = "ecoindex-5.4.1.tar.gz", hash = "sha256:fb37608d0aa50328ce977cf40a97875c1a80c6922653a10256689ff1491aea2c"},
 ]
 ecoindex-scraper = [
-    {file = "ecoindex_scraper-2.11.1-py3-none-any.whl", hash = "sha256:53eda6ff065241737f8c240ba07d112537e339f07cc7c9bfe52c9b11dae0f5b9"},
-    {file = "ecoindex_scraper-2.11.1.tar.gz", hash = "sha256:33f3c9267b8b7bfd622f59d89cfabf4693051e110e1bf82fd6b0350bf4daff8e"},
+    {file = "ecoindex_scraper-2.13.0-py3-none-any.whl", hash = "sha256:d40e8733e026fed9b2c2cdb72780010eff6808160d1d1a0d2ab9a4ce0f34b3d0"},
+    {file = "ecoindex_scraper-2.13.0.tar.gz", hash = "sha256:11ceec6aad1893c5d4921ee24c1acc1aeb34740e374d8f83db3ac70edcdf50e6"},
 ]
 exceptiongroup = [
     {file = "exceptiongroup-1.0.4-py3-none-any.whl", hash = "sha256:542adf9dea4055530d6e1279602fa5cb11dab2395fa650b8674eaec35fc4a828"},
