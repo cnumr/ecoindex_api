@@ -1,3 +1,5 @@
+from fastapi.encoders import jsonable_encoder
+
 import api
 from common.exception import QuotaExceededException
 from common.models import ExceptionResponse
@@ -26,8 +28,8 @@ async def check_quota(
         raise QuotaExceededException(
             limit=DAILY_LIMIT_PER_HOST,
             host=host,
-            latest_result=await api.domain.ecoindex.repository.get_latest_result(
-                host=host
+            latest_result=jsonable_encoder(
+                await api.domain.ecoindex.repository.get_latest_result(host=host)
             ),
         )
 

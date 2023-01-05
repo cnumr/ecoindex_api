@@ -1,8 +1,10 @@
 from api.domain.ecoindex.models.responses import ApiEcoindex
+from settings import DAILY_LIMIT_PER_HOST
 
 
 class QuotaExceededException(Exception):
     def __init__(self, limit: int, host: str, latest_result: ApiEcoindex) -> None:
+        self.daily_limit_per_host = DAILY_LIMIT_PER_HOST
         self.limit = limit
         self.host = host
         self.latest_result = latest_result
