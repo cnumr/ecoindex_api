@@ -2,10 +2,10 @@ from asyncio import run
 from logging.config import fileConfig
 
 from alembic import context
-from sqlmodel import SQLModel, create_engine
-from sqlmodel.ext.asyncio.session import AsyncEngine
+from sqlmodel import SQLModel
 
 from api.domain.ecoindex.models.responses import *
+from db.engine import engine
 from settings import DATABASE_URL
 
 # this is the Alembic Config object, which provides
@@ -70,10 +70,8 @@ async def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    connectable = AsyncEngine(create_engine(DATABASE_URL, echo=True, future=True))
-
-    async with connectable.connect() as connection:
-        await connection.run_sync(do_run_migrations)
+    async with engine.begin() as conn:
+        await conn.run_sync(do_run_migrations)
 
 
 if context.is_offline_mode():
