@@ -88,7 +88,22 @@ services:
       COMPRESSION: BZ
       MD5: TRUE
 
+  mercure:
+    image: dunglas/mercure
+    restart: unless-stopped
+    environment:
+      MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
+      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
 volumes:
   db:
   dbbackup:
   redis:
+  caddy_data:
+  caddy_config:
