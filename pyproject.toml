@@ -9,6 +9,7 @@ python = "^3.10"
 alembic = "^1.9.1"
 celery = "^5.2.7"
 ecoindex-scraper = {version = "^2.13.0", allow-prereleases = true}
+pymercure = "^0.0.1.0"
 python-environ = "^0.4.54"
 sqlmodel = "^0.0.8"
 redis = "^4.4.0"

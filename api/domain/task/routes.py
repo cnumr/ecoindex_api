@@ -10,6 +10,7 @@ from api.domain.task.models.enums import TaskStatus
 from api.domain.task.models.examples import example_daily_limit_response
 from api.domain.task.models.response import QueueTaskApi, QueueTaskResult
 from common.helper import check_quota
+from front.messaging import send_mercure_message
 from settings import DAILY_LIMIT_PER_HOST
 from worker.tasks import app, ecoindex_task
 
@@ -41,6 +42,8 @@ async def add_ecoindex_analysis_task(
         response.headers["X-Remaining-Daily-Requests"] = str(remaining_quota - 1)
 
     task_result = ecoindex_task.delay(web_page.url, web_page.width, web_page.height)
+
+    send_mercure_message(data=task_result)
 
     return task_result.id
 
