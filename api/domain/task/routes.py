@@ -43,7 +43,7 @@ async def add_ecoindex_analysis_task(
 
     task_result = ecoindex_task.delay(web_page.url, web_page.width, web_page.height)
 
-    send_mercure_message(data=task_result)
+    await send_mercure_message(data=task_result)
 
     return task_result.id
 

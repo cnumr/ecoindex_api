@@ -11,6 +11,7 @@ from api.domain.task.models.enums import TaskStatus
 from api.domain.task.models.response import QueueTaskError, QueueTaskResult
 from common.exception import QuotaExceededException
 from common.helper import check_quota, format_exception_response
+from front.messaging import send_mercure_message
 from settings import (
     CHROME_VERSION_MAIN,
     ENABLE_SCREENSHOT,
@@ -45,6 +46,8 @@ app: Celery = Celery(
 )
 def ecoindex_task(self, url: str, width: int, height: int) -> str:
     queue_task_result = run(async_ecoindex_task(self, url, width, height))
+
+    run(send_mercure_message(data=queue_task_result))
 
     return queue_task_result.json()
 
