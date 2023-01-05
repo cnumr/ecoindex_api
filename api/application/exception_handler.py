@@ -9,7 +9,6 @@ from api.application.status import (
 from api.main import app
 from common.exception import QuotaExceededException
 from common.helper import format_exception_response
-from settings import DAILY_LIMIT_PER_HOST
 
 
 async def handle_exceptions():
@@ -62,13 +61,7 @@ async def handle_exceptions():
     async def handle_quota_exceeded_exception(_: Request, exc: QuotaExceededException):
         return JSONResponse(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            content={
-                "detail": {
-                    "message": exc.message,
-                    "daily_limit_per_host": DAILY_LIMIT_PER_HOST,
-                    "host": exc.host,
-                }
-            },
+            content={"detail": exc.__dict__},
         )
 
     @app.exception_handler(Exception)

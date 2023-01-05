@@ -91,7 +91,7 @@ async def async_ecoindex_task(
                 exception=QuotaExceededException.__name__,
                 status_code=429,
                 message=exc.message,
-                detail={"host": exc.host, "limit": exc.limit},
+                detail=exc.__dict__,
             ),
         )
 

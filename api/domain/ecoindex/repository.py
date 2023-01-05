@@ -115,3 +115,17 @@ async def get_count_daily_request_per_host(host: str) -> int:
         results = await session.execute(statement)
 
         return len(results.all())
+
+
+async def get_latest_result(host: str) -> ApiEcoindex:
+    statement = (
+        select(ApiEcoindex)
+        .where(ApiEcoindex.host == host)
+        .order_by(desc(ApiEcoindex.date))
+        .limit(1)
+    )
+
+    async with AsyncSession(engine) as session:
+        result = await session.execute(statement)
+
+        return result.scalar_one_or_none()
