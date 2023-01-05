@@ -23,6 +23,12 @@ async def check_quota(
     )
 
     if count_daily_request_per_host >= DAILY_LIMIT_PER_HOST:
-        raise QuotaExceededException(limit=DAILY_LIMIT_PER_HOST, host=host)
+        raise QuotaExceededException(
+            limit=DAILY_LIMIT_PER_HOST,
+            host=host,
+            latest_result=await api.domain.ecoindex.repository.get_latest_result(
+                host=host
+            ),
+        )
 
     return DAILY_LIMIT_PER_HOST - count_daily_request_per_host

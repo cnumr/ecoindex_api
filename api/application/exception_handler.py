@@ -67,6 +67,7 @@ async def handle_exceptions():
                     "message": exc.message,
                     "daily_limit_per_host": DAILY_LIMIT_PER_HOST,
                     "host": exc.host,
+                    "latest_result": exc.latest_result.json(),
                 }
             },
         )
