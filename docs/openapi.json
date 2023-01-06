@@ -602,9 +602,29 @@
               "application/json": {
                 "example": {
                   "detail": {
-                    "daily_limit_per_host": 5,
+                    "daily_limit_per_host": 1,
                     "host": "www.ecoindex.fr",
-                    "message": "You have already reached the daily limit of 5 requests for host www.ecoindex.fr today"
+                    "latest_result": {
+                      "date": "2023-01-05T12:06:57",
+                      "ecoindex_version": "5.4.1",
+                      "ges": 1.26,
+                      "grade": "A",
+                      "height": 1080,
+                      "host": "www.ecoindex.fr",
+                      "id": "be8c3612-545f-4e72-8880-13b8db74ff6e",
+                      "initial_ranking": 1,
+                      "initial_total_results": 1,
+                      "nodes": 201,
+                      "requests": 6,
+                      "score": 87,
+                      "size": 107.178,
+                      "url": "https://www.ecoindex.fr",
+                      "version": 1,
+                      "water": 1.89,
+                      "width": 1920
+                    },
+                    "limit": 1,
+                    "message": "You have already reached the daily limit of 1 requests for host www.ecoindex.fr today"
                   }
                 }
               }
