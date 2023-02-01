@@ -6,12 +6,12 @@ authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-alembic = "^1.9.1"
+alembic = "^1.9.2"
 celery = "^5.2.7"
-ecoindex-scraper = {version = "^2.13.0", allow-prereleases = true}
+ecoindex-scraper = {version = "^2.13.1", allow-prereleases = true}
 python-environ = "^0.4.54"
 sqlmodel = "^0.0.8"
-redis = "^4.4.0"
+redis = "^4.4.2"
 
 [tool.poetry.group.api.dependencies]
 fastapi = "^0.87.0"
@@ -20,9 +20,9 @@ uvicorn = {extras = ["standard"], version = "^0.20.0"}
 gunicorn = "^20.1.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.10.0"
+black = "^22.12.0"
 aiosqlite = "^0.17.0"
-exceptiongroup = "^1.0.4"
+exceptiongroup = "^1.1.0"
 Faker = "^15.3.3"
 faker-enum = "^0.0.2"
 pytest-asyncio = "^0.20.2"
