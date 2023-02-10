@@ -39,10 +39,10 @@ services:
       context: ./
       dockerfile: ./docker/worker/dockerfile
       args:
-        CHROME_VERSION: 107.0.5304.121-1
+        CHROME_VERSION: 110.0.5481.77-1
     restart: always
     environment:
-      CHROME_VERSION_MAIN:  107
+      CHROME_VERSION_MAIN:  110
       DATABASE_URL: mysql+aiomysql://ecoindex:ecoindex@db/ecoindex?charset=utf8mb4
       WORKER_BROKER_URL: redis://redis/0
       WORKER_BACKEND_URL: redis://redis/1
