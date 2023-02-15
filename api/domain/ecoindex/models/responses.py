@@ -8,10 +8,16 @@ from sqlmodel import Field, SQLModel
 
 class ApiEcoindex(SQLModel, Result, table=True):
     id: UUID | None = Field(
-        default=None, description="Analysis ID of type `UUID`", primary_key=True
+        default=None,
+        description="Analysis ID of type `UUID`",
+        primary_key=True,
+        index=True,
     )
     host: str = Field(
-        default=..., title="Web page host", description="Host name of the web page"
+        default=...,
+        title="Web page host",
+        description="Host name of the web page",
+        index=True,
     )
     version: int = Field(
         default=1,
