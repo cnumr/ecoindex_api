@@ -14,7 +14,7 @@ sqlmodel = "^0.0.8"
 redis = "^4.5.1"
 
 [tool.poetry.group.api.dependencies]
-fastapi = "^0.87.0"
+fastapi = "^0.94.1"
 fastapi-health = "^0.4.0"
 uvicorn = {extras = ["standard"], version = "^0.20.0"}
 gunicorn = "^20.1.0"
