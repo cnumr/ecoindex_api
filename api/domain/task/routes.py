@@ -7,10 +7,13 @@ from fastapi import APIRouter, Path, Response, status
 from fastapi.params import Body
 
 from api.domain.task.models.enums import TaskStatus
-from api.domain.task.models.examples import example_daily_limit_response
+from api.domain.task.models.examples import (
+    example_blacklist_response,
+    example_daily_limit_response,
+)
 from api.domain.task.models.response import QueueTaskApi, QueueTaskResult
 from common.helper import check_quota
-from settings import DAILY_LIMIT_PER_HOST
+from settings import BLACKLIST_DOMAINS, BLACKLIST_MESSAGE, DAILY_LIMIT_PER_HOST
 from worker.tasks import app, ecoindex_task
 
 router = APIRouter()
@@ -22,6 +25,7 @@ router = APIRouter()
     response_description="Identifier of the task that has been created in queue",
     responses={
         status.HTTP_201_CREATED: {"model": str},
+        status.HTTP_403_FORBIDDEN: example_blacklist_response,
         status.HTTP_429_TOO_MANY_REQUESTS: example_daily_limit_response,
     },
     tags=["Tasks"],
@@ -36,6 +40,11 @@ async def add_ecoindex_analysis_task(
         example=WebPage(url="https://www.ecoindex.fr", width=1920, height=1080),
     ),
 ) -> str:
+    if web_page.url.host in BLACKLIST_DOMAINS:
+        response.status_code = status.HTTP_403_FORBIDDEN
+
+        return BLACKLIST_MESSAGE
+
     if DAILY_LIMIT_PER_HOST:
         remaining_quota = await check_quota(host=web_page.url.host)
         response.headers["X-Remaining-Daily-Requests"] = str(remaining_quota - 1)

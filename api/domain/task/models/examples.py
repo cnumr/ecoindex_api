@@ -33,3 +33,10 @@ example_daily_limit_response = {
         }
     },
 }
+
+example_blacklist_response = {
+    "description": "The domain is blacklisted",
+    "content": {
+        "application/json": {"example": {"detail": "This domain is blacklisted"}}
+    },
+}

@@ -3,6 +3,10 @@ from environ import Env
 env = Env()
 env.read_env()
 
+BLACKLIST_DOMAINS = env("BLACKLIST_DOMAINS", cast=list, default=[])
+BLACKLIST_MESSAGE = env(
+    "BLACKLIST_MESSAGE", cast=str, default="This domain is blacklisted"
+)
 CHROME_VERSION_MAIN = env("CHROME_VERSION_MAIN", cast=int, default=None)
 CORS_ALLOWED_CREDENTIALS = env.bool("CORS_ALLOWED_CREDENTIALS", default=True)
 CORS_ALLOWED_HEADERS = env("CORS_ALLOWED_HEADERS", cast=list, default=["*"])
