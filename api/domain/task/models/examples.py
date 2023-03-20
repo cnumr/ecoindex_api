@@ -33,3 +33,11 @@ example_daily_limit_response = {
         }
     },
 }
+
+example_task_already_in_queue = {
+    "description": "Task already in queue. It returns the id of the waiting task",
+    "model": str,
+    "content": {
+        "application/json": {"example": "be8c3612-545f-4e72-8880-13b8db74ff6e"}
+    },
+}
