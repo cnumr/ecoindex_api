@@ -9,7 +9,7 @@ from settings import (
 )
 
 
-async def add_cors_middleware():
+def add_cors_middleware():
     app.add_middleware(
         CORSMiddleware,
         allow_credentials=CORS_ALLOWED_CREDENTIALS,

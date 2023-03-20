@@ -20,10 +20,10 @@ from api.application.middleware.cors import add_cors_middleware
 from api.domain.health.routes import add_healthcheck_route
 
 add_healthcheck_route()
+add_cors_middleware()
 
 
 @app.on_event("startup")
 async def on_startup():
     await create_db_and_tables()
     await handle_exceptions()
-    await add_cors_middleware()

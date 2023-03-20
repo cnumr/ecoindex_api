@@ -74,11 +74,9 @@ async def async_ecoindex_task(
             .get_page_analysis()
         )
 
-        db_result = await (
-            save_ecoindex_result_db(
-                id=self.request.id,
-                ecoindex_result=ecoindex,
-            )
+        db_result = await save_ecoindex_result_db(
+            id=self.request.id,
+            ecoindex_result=ecoindex,
         )
 
         return QueueTaskResult(status=TaskStatus.SUCCESS, detail=db_result)
