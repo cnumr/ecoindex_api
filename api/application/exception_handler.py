@@ -11,7 +11,7 @@ from common.exception import QuotaExceededException
 from common.helper import format_exception_response
 
 
-async def handle_exceptions():
+def handle_exceptions():
     @app.exception_handler(WebDriverException)
     async def handle_webdriver_exception(_: Request, exc: WebDriverException):
         if "ERR_NAME_NOT_RESOLVED" in exc.msg:
