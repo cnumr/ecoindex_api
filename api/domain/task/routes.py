@@ -28,16 +28,6 @@ def get_clean_url(url: str) -> str:
     return f"{parsed_url.scheme}://{parsed_url.netloc}{parsed_url.path if parsed_url.path else ''}"
 
 
-def check_task_already_in_queue(url: str, active_tasks_workers: Dict) -> bool:
-    for _, active_tasks in active_tasks_workers.items():
-        for task in active_tasks:
-            if get_clean_url(task["args"][0]) == get_clean_url(url):
-                response.status_code = status.HTTP_409_CONFLICT
-                response.headers["X-Remaining-Url-Requests"] = str(0)
-
-                return task["id"]
-
-
 @router.post(
     name="Add new ecoindex analysis task to the waiting queue",
     path="/v1/tasks/ecoindexes",
