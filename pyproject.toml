@@ -8,7 +8,7 @@ authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 python = "^3.10"
 alembic = "^1.10.2"
 celery = "^5.2.7"
-ecoindex-scraper = {version = "^2.15.0", allow-prereleases = true}
+ecoindex-scraper = {version = "^2.16.0", allow-prereleases = true}
 python-environ = "^0.4.54"
 sqlmodel = "^0.0.8"
 redis = "^4.5.1"
