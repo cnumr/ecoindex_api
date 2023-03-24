@@ -79,34 +79,16 @@ Here are the environment variables you can configure:
 
 ## Local development
 
-If you need to test the API locally, you can easily run it. You have to use [Poetry](https://python-poetry.org/)
-
-### Run redis service
+You can use `docker-compose.override.yml` to override the default configuration of the docker-compose.yml file. For example, you can use it to mount your local code in the container and run the server in debug mode.
 
 ```bash
-docker run -d -p 6379:6379 redis:alpine
+cp docker-compose.override.yml.dist docker-compose.override.yml
 ```
 
-### Install dependencies
+Then you can run the server:
 
 ```bash
-poetry install
-```
-
-> This will install all dependencies for API, Worker and development
-
-### Run API service
-
-```bash
-poetry run uvicorn api.main:app --reload --port 8001
-```
-
-> This way, you get a server running on [localhost:8001](http://localhost:8001/docs) with a local database saved in `./sql_app.dv`
-
-### Run worker service
-
-```bash
-poetry run celery -A worker.tasks worker -P threads --loglevel=INFO -E
+docker-compose up -d --build
 ```
 
 ## Testing
