@@ -10,7 +10,7 @@
             "type": "string"
           },
           "ecoindex_version": {
-            "default": "5.4.1",
+            "default": "5.4.2",
             "description": "Is the version of the ecoindex used to compute the score",
             "title": "Ecoindex version",
             "type": "string"
@@ -320,7 +320,7 @@
             "type": "string"
           },
           "ecoindex_version": {
-            "default": "5.4.1",
+            "default": "5.4.2",
             "description": "Is the version of the ecoindex used to compute the score",
             "title": "Ecoindex version",
             "type": "string"
