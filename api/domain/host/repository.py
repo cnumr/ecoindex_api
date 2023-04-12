@@ -40,6 +40,7 @@ async def get_host_list_db(
 
 async def get_count_hosts_db(
     version: Version | None = Version.v1,
+    name: str | None = None,
     q: str | None = None,
     date_from: date | None = None,
     date_to: date | None = None,
@@ -47,6 +48,9 @@ async def get_count_hosts_db(
     sub_statement = (
         f"SELECT host FROM apiecoindex WHERE version = {version.get_version_number()}"
     )
+    if name:
+        sub_statement += f" AND host = '{name}'"
+
     if q:
         sub_statement += f" AND host LIKE '%{q}%'"
 
