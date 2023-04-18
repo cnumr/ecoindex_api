@@ -8,3 +8,9 @@ class PageHosts(BaseModel):
     total: int
     page: int
     size: int
+
+
+class Host(BaseModel):
+    name: str
+    total_count: int
+    remaining_daily_requests: int | None
