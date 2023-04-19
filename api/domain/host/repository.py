@@ -44,6 +44,7 @@ async def get_count_hosts_db(
     q: str | None = None,
     date_from: date | None = None,
     date_to: date | None = None,
+    group_by_host: bool = True,
 ) -> int:
     sub_statement = (
         f"SELECT host FROM apiecoindex WHERE version = {version.get_version_number()}"
@@ -60,7 +61,8 @@ async def get_count_hosts_db(
     if date_to:
         sub_statement += f" AND date <= '{date_to}'"
 
-    sub_statement += " GROUP BY host"
+    if group_by_host:
+        sub_statement += " GROUP BY host"
 
     statement = f"SELECT count(*) FROM ({sub_statement}) t"
 
