@@ -1,4 +1,4 @@
-from api.models.responses import WorkerHealth, WorkersHealth
+from api.domain.health.models.responses import WorkerHealth, WorkersHealth
 from worker.tasks import app
 
 
