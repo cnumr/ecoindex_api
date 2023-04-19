@@ -2,6 +2,8 @@ from datetime import date
 from os import getcwd
 from uuid import UUID
 
+from ecoindex import get_ecoindex
+from ecoindex.models import Ecoindex
 from fastapi import APIRouter, Response, status
 from fastapi.exceptions import HTTPException
 from fastapi.param_functions import Path
@@ -20,6 +22,26 @@ from api.models.enums import Version
 from api.models.examples import example_file_not_found
 
 router = APIRouter()
+
+
+@router.get(
+    name="Compute ecoindex",
+    path="/ecoindex",
+    tags=["Ecoindex"],
+    description="This returns the ecoindex computed based on the given parameters: DOM (number of DOM nodes), size (total size in Kb) and requests",
+)
+async def compute_ecoindex(
+    dom: int = Query(
+        default=..., description="Number of DOM nodes of the page", gt=0, example=204
+    ),
+    size: float = Query(
+        default=..., description="Total size of the page in Kb", gt=0, example=104
+    ),
+    requests: int = Query(
+        default=..., description="Number of requests of the page", gt=0, example=5
+    ),
+) -> Ecoindex:
+    return await get_ecoindex(dom=dom, size=size, requests=requests)
 
 
 @router.get(
@@ -103,7 +125,9 @@ async def get_ecoindex_analysis_by_id(
         description="Engine version used to run the analysis (v0 or v1)",
         example=Version.v1.value,
     ),
-    id: UUID = Path(default=..., title="Unique identifier of the ecoindex analysis"),
+    id: UUID = Path(
+        default=..., description="Unique identifier of the ecoindex analysis"
+    ),
 ) -> ApiEcoindex:
     ecoindex = await get_ecoindex_result_by_id_db(id=id, version=version)
 
@@ -129,7 +153,9 @@ async def get_screenshot(
         description="Engine version used to run the analysis (v0 or v1)",
         example=Version.v1.value,
     ),
-    id: UUID = Path(default=..., title="Unique identifier of the ecoindex analysis"),
+    id: UUID = Path(
+        default=..., description="Unique identifier of the ecoindex analysis"
+    ),
 ):
     return FileResponse(
         path=f"{getcwd()}/screenshots/{version.value}/{id}.webp",
