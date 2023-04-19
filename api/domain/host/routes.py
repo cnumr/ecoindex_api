@@ -101,5 +101,7 @@ async def get_daily_remaining(
     return Host(
         name=host,
         remaining_daily_requests=await check_quota(host=host),
-        total_count=await get_count_hosts_db(name=host, version=version),
+        total_count=await get_count_hosts_db(
+            name=host, version=version, group_by_host=False
+        ),
     )
