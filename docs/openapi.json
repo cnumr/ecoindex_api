@@ -161,6 +161,28 @@
         "title": "HTTPValidationError",
         "type": "object"
       },
+      "Host": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "remaining_daily_requests": {
+            "title": "Remaining Daily Requests",
+            "type": "integer"
+          },
+          "total_count": {
+            "title": "Total Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "total_count"
+        ],
+        "title": "Host",
+        "type": "object"
+      },
       "PageApiEcoindexes": {
         "properties": {
           "items": {
@@ -1146,6 +1168,112 @@
           }
         },
         "summary": "Get Host List",
+        "tags": [
+          "Host"
+        ]
+      }
+    },
+    "/{version}/hosts/{host}": {
+      "get": {
+        "description": "This returns the details of a host. If no no quota is set, remaining_daily_requests will be null",
+        "operationId": "Get_host_details__version__hosts__host__get",
+        "parameters": [
+          {
+            "description": "Engine version used to run the analysis (v0 or v1)",
+            "example": "v1",
+            "in": "path",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Version"
+                }
+              ],
+              "description": "Engine version used to run the analysis (v0 or v1)",
+              "title": "Engine version"
+            }
+          },
+          {
+            "description": "Host name used to run the analysis",
+            "example": "www.ecoindex.fr",
+            "in": "path",
+            "name": "host",
+            "required": true,
+            "schema": {
+              "description": "Host name used to run the analysis",
+              "title": "Host name",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Host"
+                }
+              }
+            },
+            "description": "Host details"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Host"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "example": {
+                  "detail": {
+                    "daily_limit_per_host": 1,
+                    "host": "www.ecoindex.fr",
+                    "latest_result": {
+                      "date": "2023-01-05T12:06:57",
+                      "ecoindex_version": "5.4.1",
+                      "ges": 1.26,
+                      "grade": "A",
+                      "height": 1080,
+                      "host": "www.ecoindex.fr",
+                      "id": "be8c3612-545f-4e72-8880-13b8db74ff6e",
+                      "initial_ranking": 1,
+                      "initial_total_results": 1,
+                      "nodes": 201,
+                      "requests": 6,
+                      "score": 87,
+                      "size": 107.178,
+                      "url": "https://www.ecoindex.fr",
+                      "version": 1,
+                      "water": 1.89,
+                      "width": 1920
+                    },
+                    "limit": 1,
+                    "message": "You have already reached the daily limit of 1 requests for host www.ecoindex.fr today"
+                  }
+                }
+              }
+            },
+            "description": "You have reached the daily limit"
+          }
+        },
+        "summary": "Get Host Details",
         "tags": [
           "Host"
         ]
