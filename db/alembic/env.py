@@ -6,13 +6,13 @@ from sqlmodel import SQLModel
 
 from api.domain.ecoindex.models.responses import *
 from db.engine import engine
-from settings import DATABASE_URL
+from settings import Settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
-config.set_main_option("sqlalchemy.url", DATABASE_URL)
+config.set_main_option("sqlalchemy.url", Settings().DATABASE_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -43,7 +43,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = DATABASE_URL
+    url = Settings().DATABASE_URL
     context.configure(
         url=url,
         target_metadata=target_metadata,

@@ -1,6 +1,5 @@
 from faker import Faker
 from faker_enum import EnumProvider
-from settings import DATABASE_URL
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 from typer import progressbar
@@ -8,10 +7,11 @@ from typer import progressbar
 from api.domain.ecoindex.models.responses import ApiEcoindex
 from api.helper import new_uuid
 from api.models.enums import Version
+from settings import Settings
 
 
 async def create_data(count: int = 10):
-    engine = create_async_engine(DATABASE_URL)
+    engine = create_async_engine(Settings().DATABASE_URL)
 
     faker = Faker()
     faker.add_provider(EnumProvider)

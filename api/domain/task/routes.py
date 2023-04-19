@@ -10,7 +10,7 @@ from api.domain.task.models.enums import TaskStatus
 from api.domain.task.models.examples import example_daily_limit_response
 from api.domain.task.models.response import QueueTaskApi, QueueTaskResult
 from common.helper import check_quota
-from settings import DAILY_LIMIT_PER_HOST
+from settings import Settings
 from worker.tasks import app, ecoindex_task
 
 router = APIRouter()
@@ -36,7 +36,7 @@ async def add_ecoindex_analysis_task(
         example=WebPage(url="https://www.ecoindex.fr", width=1920, height=1080),
     ),
 ) -> str:
-    if DAILY_LIMIT_PER_HOST:
+    if Settings().DAILY_LIMIT_PER_HOST:
         remaining_quota = await check_quota(host=web_page.url.host)
         response.headers["X-Remaining-Daily-Requests"] = str(remaining_quota - 1)
 
