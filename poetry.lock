@@ -579,6 +579,7 @@ optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
+python-dotenv = {version = ">=0.10.4", optional = true, markers = "extra == \"dotenv\""}
 typing-extensions = ">=4.2.0"
 
 [package.extras]
@@ -656,7 +657,7 @@ six = ">=1.5"
 name = "python-dotenv"
 version = "1.0.0"
 description = "Read key-value pairs from a .env file and set them as environment variables"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.8"
 
@@ -1010,7 +1011,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "1248ea477291c159557436f509aa2e8c5109257b4e2d5c498221d162291d65b8"
+content-hash = "54fc503db59f9be6fdabe16be0b6d020fc836e3e7dac997363ca855dc5043d07"
 
 [metadata.files]
 aiofile = [
