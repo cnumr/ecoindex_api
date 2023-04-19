@@ -3,7 +3,7 @@ from json import loads
 import api
 from common.exception import QuotaExceededException
 from common.models import ExceptionResponse
-from settings import DAILY_LIMIT_PER_HOST
+from settings import Settings
 
 
 async def format_exception_response(exception: Exception) -> ExceptionResponse:
@@ -17,21 +17,21 @@ async def format_exception_response(exception: Exception) -> ExceptionResponse:
 async def check_quota(
     host: str,
 ) -> int | None:
-    if not DAILY_LIMIT_PER_HOST:
+    if not Settings().DAILY_LIMIT_PER_HOST:
         return
 
     count_daily_request_per_host = (
         await api.domain.ecoindex.repository.get_count_daily_request_per_host(host=host)
     )
 
-    if count_daily_request_per_host >= DAILY_LIMIT_PER_HOST:
+    if count_daily_request_per_host >= Settings().DAILY_LIMIT_PER_HOST:
         latest_result = await api.domain.ecoindex.repository.get_latest_result(
             host=host
         )
         raise QuotaExceededException(
-            limit=DAILY_LIMIT_PER_HOST,
+            limit=Settings().DAILY_LIMIT_PER_HOST,
             host=host,
             latest_result=loads(latest_result.json()),
         )
 
-    return DAILY_LIMIT_PER_HOST - count_daily_request_per_host
+    return Settings().DAILY_LIMIT_PER_HOST - count_daily_request_per_host

@@ -11,16 +11,7 @@ from api.domain.task.models.enums import TaskStatus
 from api.domain.task.models.response import QueueTaskError, QueueTaskResult
 from common.exception import QuotaExceededException
 from common.helper import check_quota, format_exception_response
-from settings import (
-    CHROME_VERSION_MAIN,
-    ENABLE_SCREENSHOT,
-    SCREENSHOTS_GID,
-    SCREENSHOTS_UID,
-    WAIT_AFTER_SCROLL,
-    WAIT_BEFORE_SCROLL,
-    WORKER_BACKEND_URL,
-    WORKER_BROKER_URL,
-)
+from settings import Settings
 from worker.exceptions import (
     EcoindexContentTypeError,
     EcoindexHostUnreachable,
@@ -31,8 +22,8 @@ from worker.repository import save_ecoindex_result_db
 
 app: Celery = Celery(
     "tasks",
-    broker=WORKER_BROKER_URL,
-    backend=WORKER_BACKEND_URL,
+    broker=Settings().WORKER_BROKER_URL,
+    backend=Settings().WORKER_BACKEND_URL,
 )
 
 
@@ -58,17 +49,17 @@ async def async_ecoindex_task(
         ecoindex = await (
             EcoindexScraper(
                 url=url,
-                chrome_version_main=CHROME_VERSION_MAIN,
+                chrome_version_main=Settings().CHROME_VERSION_MAIN,
                 window_size=WindowSize(height=height, width=width),
-                wait_after_scroll=WAIT_AFTER_SCROLL,
-                wait_before_scroll=WAIT_BEFORE_SCROLL,
+                wait_after_scroll=Settings().WAIT_AFTER_SCROLL,
+                wait_before_scroll=Settings().WAIT_BEFORE_SCROLL,
                 screenshot=ScreenShot(
                     id=str(self.request.id), folder=f"{getcwd()}/screenshots/v1"
                 )
-                if ENABLE_SCREENSHOT
+                if Settings().ENABLE_SCREENSHOT
                 else None,
-                screenshot_gid=SCREENSHOTS_GID,
-                screenshot_uid=SCREENSHOTS_UID,
+                screenshot_gid=Settings().SCREENSHOTS_GID,
+                screenshot_uid=Settings().SCREENSHOTS_UID,
                 driver_executable_path="/usr/bin/chromedriver",
             )
             .init_chromedriver()
