@@ -1,9 +1,9 @@
 from fastapi_health import health
 
 from api.domain.health.database import is_database_online
+from api.domain.health.models.responses import ApiHealth
 from api.domain.health.worker import is_worker_healthy
 from api.main import app
-from api.models.responses import ApiHealth
 
 
 def add_healthcheck_route():

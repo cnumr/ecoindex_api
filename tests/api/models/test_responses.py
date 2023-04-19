@@ -1,7 +1,7 @@
 from pydantic import ValidationError
 from pytest import raises
 
-from api.models.responses import ApiHealth, WorkerHealth, WorkersHealth
+from api.domain.health.models.responses import ApiHealth, WorkerHealth, WorkersHealth
 
 
 def test_model_apihealth_valid():
