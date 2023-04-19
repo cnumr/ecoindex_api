@@ -148,6 +148,42 @@
         "title": "ApiHealth",
         "type": "object"
       },
+      "Ecoindex": {
+        "properties": {
+          "ecoindex_version": {
+            "default": "5.4.2",
+            "description": "Is the version of the ecoindex used to compute the score",
+            "title": "Ecoindex version",
+            "type": "string"
+          },
+          "ges": {
+            "description": "Is the equivalent of greenhouse gases emission (in `gCO2e`) of the page",
+            "minimum": 0.0,
+            "title": "Ecoindex GES equivalent",
+            "type": "number"
+          },
+          "grade": {
+            "description": "Is the corresponding ecoindex grade of the page (from A to G)",
+            "title": "Ecoindex grade",
+            "type": "string"
+          },
+          "score": {
+            "description": "Is the corresponding ecoindex score of the page (0 to 100)",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Ecoindex score",
+            "type": "number"
+          },
+          "water": {
+            "description": "Is the equivalent water consumption (in `cl`) of the page",
+            "minimum": 0.0,
+            "title": "Ecoindex Water equivalent",
+            "type": "number"
+          }
+        },
+        "title": "Ecoindex",
+        "type": "object"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -551,6 +587,79 @@
   },
   "openapi": "3.0.2",
   "paths": {
+    "/ecoindex": {
+      "get": {
+        "description": "This returns the ecoindex computed based on the given parameters: DOM (number of DOM nodes), size (total size in Kb) and requests",
+        "operationId": "Compute_ecoindex_ecoindex_get",
+        "parameters": [
+          {
+            "description": "Number of DOM nodes of the page",
+            "example": 204,
+            "in": "query",
+            "name": "dom",
+            "required": true,
+            "schema": {
+              "description": "Number of DOM nodes of the page",
+              "exclusiveMinimum": 0.0,
+              "title": "Dom",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Total size of the page in Kb",
+            "example": 109,
+            "in": "query",
+            "name": "size",
+            "required": true,
+            "schema": {
+              "description": "Total size of the page in Kb",
+              "exclusiveMinimum": 0.0,
+              "title": "Size",
+              "type": "number"
+            }
+          },
+          {
+            "description": "Number of requests of the page",
+            "example": 5,
+            "in": "query",
+            "name": "requests",
+            "required": true,
+            "schema": {
+              "description": "Number of requests of the page",
+              "exclusiveMinimum": 0.0,
+              "title": "Requests",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ecoindex"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Compute Ecoindex",
+        "tags": [
+          "Ecoindex"
+        ]
+      }
+    },
     "/health": {
       "get": {
         "description": "Check health status of components of the API (database...)",
@@ -666,12 +775,14 @@
         "operationId": "Abort_ecoindex_analysis_by_id_v1_tasks_ecoindexes__id__delete",
         "parameters": [
           {
+            "description": "Unique identifier of the ecoindex analysis task",
             "in": "path",
             "name": "id",
             "required": true,
             "schema": {
+              "description": "Unique identifier of the ecoindex analysis task",
               "format": "uuid",
-              "title": "Unique identifier of the ecoindex analysis task",
+              "title": "Id",
               "type": "string"
             }
           }
@@ -706,12 +817,14 @@
         "operationId": "Get_ecoindex_analysis_task_by_id_v1_tasks_ecoindexes__id__get",
         "parameters": [
           {
+            "description": "Unique identifier of the ecoindex analysis task",
             "in": "path",
             "name": "id",
             "required": true,
             "schema": {
+              "description": "Unique identifier of the ecoindex analysis task",
               "format": "uuid",
-              "title": "Unique identifier of the ecoindex analysis task",
+              "title": "Id",
               "type": "string"
             }
           }
@@ -925,12 +1038,14 @@
             }
           },
           {
+            "description": "Unique identifier of the ecoindex analysis",
             "in": "path",
             "name": "id",
             "required": true,
             "schema": {
+              "description": "Unique identifier of the ecoindex analysis",
               "format": "uuid",
-              "title": "Unique identifier of the ecoindex analysis",
+              "title": "Id",
               "type": "string"
             }
           }
@@ -995,12 +1110,14 @@
             }
           },
           {
+            "description": "Unique identifier of the ecoindex analysis",
             "in": "path",
             "name": "id",
             "required": true,
             "schema": {
+              "description": "Unique identifier of the ecoindex analysis",
               "format": "uuid",
-              "title": "Unique identifier of the ecoindex analysis",
+              "title": "Id",
               "type": "string"
             }
           }
