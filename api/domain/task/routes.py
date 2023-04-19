@@ -59,7 +59,7 @@ async def add_ecoindex_analysis_task(
 async def get_ecoindex_analysis_task_by_id(
     response: Response,
     id: UUID = Path(
-        default=..., title="Unique identifier of the ecoindex analysis task"
+        default=..., description="Unique identifier of the ecoindex analysis task"
     ),
 ) -> QueueTaskApi:
     t = AsyncResult(id=str(id), app=app)
@@ -94,7 +94,7 @@ async def get_ecoindex_analysis_task_by_id(
 )
 async def get_ecoindex_analysis_task_by_id(
     id: UUID = Path(
-        default=..., title="Unique identifier of the ecoindex analysis task"
+        default=..., description="Unique identifier of the ecoindex analysis task"
     ),
 ) -> None:
     res = app.control.revoke(id, terminate=True, signal="SIGKILL")
