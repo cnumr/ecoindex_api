@@ -8,7 +8,7 @@ authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 python = "^3.10"
 alembic = "^1.10.3"
 celery = "^5.2.7"
-ecoindex-scraper = {version = "^2.17.0", allow-prereleases = true}
+ecoindex-scraper = {version = "^2.18.0", allow-prereleases = true}
 sqlmodel = "^0.0.8"
 redis = "^4.5.4"
 pydantic = {extras = ["dotenv"], version = "^1.10.7"}
