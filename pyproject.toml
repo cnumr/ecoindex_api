@@ -10,7 +10,7 @@ alembic = "^1.10.4"
 celery = "^5.2.7"
 ecoindex-scraper = {version = "^2.18.0", allow-prereleases = true}
 sqlmodel = "^0.0.8"
-redis = "^4.5.4"
+redis = "^4.5.5"
 pydantic = {extras = ["dotenv"], version = "^1.10.7"}
 
 [tool.poetry.group.api.dependencies]
