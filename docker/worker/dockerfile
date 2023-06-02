@@ -11,7 +11,7 @@ RUN pip install poetry
 
 # Build requirements.txt file
 COPY ./pyproject.toml ./poetry.lock /tmp/
-RUN poetry export --with=worker --output=requirements.txt --without-hashes
+RUN poetry export --output=requirements.txt --without-hashes
 
 # Download chromedriver and chrome
 RUN wget "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION_MAIN}" -O /tmp/chrome_version
