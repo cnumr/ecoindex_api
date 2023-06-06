@@ -7,7 +7,7 @@ authors = ["Vincent Vatelot <vincent.vatelot@ik.me>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 alembic = "^1.10.4"
-celery = "^5.2.7"
+celery = "^5.3.0"
 ecoindex-scraper = {version = "^2.18.0", allow-prereleases = true}
 sqlmodel = "^0.0.8"
 redis = "^4.5.5"
