@@ -18,7 +18,10 @@ def handle_exceptions():
             return JSONResponse(
                 status_code=status.HTTP_502_BAD_GATEWAY,
                 content={
-                    "detail": "This host is unreachable. Are you really sure of this url? 🤔"
+                    "detail": (
+                        "This host is unreachable. "
+                        "Are you really sure of this url? 🤔"
+                    )
                 },
             )
 
@@ -26,7 +29,10 @@ def handle_exceptions():
             return JSONResponse(
                 status_code=status.HTTP_504_GATEWAY_TIMEOUT,
                 content={
-                    "detail": "Timeout reached when requesting this url. This is probably a temporary issue. 😥"
+                    "detail": (
+                        "Timeout reached when requesting this url. "
+                        "This is probably a temporary issue. 😥"
+                    )
                 },
             )
 

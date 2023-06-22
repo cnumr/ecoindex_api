@@ -27,7 +27,10 @@ example_daily_limit_response = {
                         "host": "www.ecoindex.fr",
                         "initial_total_results": 1,
                     },
-                    "message": "You have already reached the daily limit of 1 requests for host www.ecoindex.fr today",
+                    "message": (
+                        "You have already reached the daily limit of 1 "
+                        "requests for host www.ecoindex.fr today"
+                    ),
                 }
             }
         }

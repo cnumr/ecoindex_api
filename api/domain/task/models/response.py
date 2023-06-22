@@ -20,7 +20,10 @@ class QueueTaskResult(BaseModel):
     status: str | None = Field(
         default=None,
         title="Status of the ecoindex analysis.",
-        description="While the task is pending or the analysis is running, it is null. But once the analysis is complete, it should return SUCCESS or FAILURE.",
+        description=(
+            "While the task is pending or the analysis is running, it is null."
+            " But once the analysis is complete, it should return SUCCESS or FAILURE."
+        ),
     )
     detail: Result | None = Field(
         default=None,
@@ -34,7 +37,10 @@ class QueueTaskResult(BaseModel):
 class QueueTaskApi(BaseModel):
     id: str = Field(
         default=...,
-        title="Identifier of the current. This identifier will become the identifier of the analysis",
+        title=(
+            "Identifier of the current. "
+            "This identifier will become the identifier of the analysis"
+        ),
     )
     status: str = Field(
         default=...,

@@ -21,7 +21,10 @@ async def get_count_analysis_db(
     date_from: date | None = None,
     date_to: date | None = None,
 ) -> int:
-    statement = f"SELECT count(*) FROM apiecoindex WHERE version = {version.get_version_number()}"
+    statement = (
+        "SELECT count(*) FROM apiecoindex "
+        f"WHERE version = {version.get_version_number()}"
+    )
 
     if host:
         statement += f" AND host = '{host}'"

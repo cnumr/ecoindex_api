@@ -2,7 +2,7 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    CHROME_VERSION_MAIN: int | None
+    CHROME_VERSION_MAIN: int | None = None
     CORS_ALLOWED_CREDENTIALS: bool = True
     CORS_ALLOWED_HEADERS: list = ["*"]
     CORS_ALLOWED_METHODS: list = ["*"]

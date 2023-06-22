@@ -8,7 +8,9 @@ from db.engine import create_db_and_tables
 app = FastAPI(
     title="Ecoindex API",
     version="1.0.0",
-    description="Ecoindex API enables you to perform ecoindex analysis of given web pages",
+    description=(
+        "Ecoindex API enables you to perform ecoindex analysis of given web pages"
+    ),
 )
 
 app.include_router(router=ecoindex_routes.router)

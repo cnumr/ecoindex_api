@@ -29,7 +29,8 @@ class ApiEcoindex(SQLModel, Result, table=True):
         title="Analysis rank",
         description=(
             "This is the initial rank of the analysis. "
-            "This is an indicator of the ranking at the time of the analysis for a given version."
+            "This is an indicator of the ranking at the "
+            "time of the analysis for a given version."
         ),
     )
     initial_total_results: int | None = Field(
@@ -37,7 +38,8 @@ class ApiEcoindex(SQLModel, Result, table=True):
         title="Total number of analysis",
         description=(
             "This is the initial total number of analysis. "
-            "This is an indicator of the total number of analysis at the time of the analysis for a given version."
+            "This is an indicator of the total number of analysis "
+            "at the time of the analysis for a given version."
         ),
     )
 

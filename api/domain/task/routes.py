@@ -92,7 +92,7 @@ async def get_ecoindex_analysis_task_by_id(
     tags=["Tasks"],
     description="This aborts one ecoindex task by its id if it is still waiting",
 )
-async def get_ecoindex_analysis_task_by_id(
+async def delete_ecoindex_analysis_task_by_id(
     id: UUID = Path(
         default=..., description="Unique identifier of the ecoindex analysis task"
     ),

@@ -4,7 +4,7 @@ from logging.config import fileConfig
 from alembic import context
 from sqlmodel import SQLModel
 
-from api.domain.ecoindex.models.responses import *
+from api.domain.ecoindex.models.responses import *  # noqa: F403
 from db.engine import engine
 from settings import Settings
 
