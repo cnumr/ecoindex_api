@@ -8,6 +8,9 @@ class QuotaExceededException(Exception):
         self.limit = limit
         self.host = host
         self.latest_result = latest_result
-        self.message = f"You have already reached the daily limit of {limit} requests for host {host} today"
+        self.message = (
+            "You have already reached the daily limit "
+            f"of {limit} requests for host {host} today"
+        )
 
         super().__init__(self.message)

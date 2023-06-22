@@ -15,8 +15,8 @@ def test_model_apihealth_valid():
             ],
         ),
     )
-    assert valid_health.workers.healthy == True
-    assert valid_health.database == True
+    assert valid_health.workers.healthy is True
+    assert valid_health.database is True
 
 
 def test_model_apihealth_empty():

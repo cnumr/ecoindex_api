@@ -93,7 +93,10 @@ async def async_ecoindex_task(
                     url=url,
                     exception=EcoindexHostUnreachable.__name__,
                     status_code=502,
-                    message="This host is unreachable (error 502). Are you really sure of this url? 🤔",
+                    message=(
+                        "This host is unreachable (error 502). "
+                        "Are you really sure of this url? 🤔"
+                    ),
                     detail=None,
                 ),
             )
@@ -105,7 +108,10 @@ async def async_ecoindex_task(
                     url=url,
                     exception=EcoindexTimeout.__name__,
                     status_code=504,
-                    message="Timeout reached when requesting this url (error 504). This is probably a temporary issue. 😥",
+                    message=(
+                        "Timeout reached when requesting this url (error 504). "
+                        "This is probably a temporary issue. 😥"
+                    ),
                     detail=None,
                 ),
             )
