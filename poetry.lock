@@ -536,20 +536,20 @@ requests = ">=2.28.2,<3.0.0"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "3.1.0"
+version = "3.2.0"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ecoindex_scraper-3.1.0-py3-none-any.whl", hash = "sha256:b0f3b7f7c518fc6a38adadecbd0d5faf26dc140b92adfa90d30ceb3f310dce02"},
-    {file = "ecoindex_scraper-3.1.0.tar.gz", hash = "sha256:081461c29c19846618f083224d6800c5c696e905a67bb38a7607f77e305f1008"},
+    {file = "ecoindex_scraper-3.2.0-py3-none-any.whl", hash = "sha256:33042dcfd08f43ba47438ad4ab37429e70b432f077481adae3d4491fd6c1a959"},
+    {file = "ecoindex_scraper-3.2.0.tar.gz", hash = "sha256:423f865049f6a95efbe12fc7143db5d66f66eea3eaf5de846fcffa6feda62d13"},
 ]
 
 [package.dependencies]
 ecoindex = ">=5.4.2,<6.0.0"
 Pillow = ">=9.2.0,<10.0.0"
 selenium = "4.9"
-undetected-chromedriver = "3.4.7"
+undetected-chromedriver = "3.5.0"
 
 [[package]]
 name = "exceptiongroup"
@@ -1639,17 +1639,17 @@ files = [
 
 [[package]]
 name = "undetected-chromedriver"
-version = "3.4.7"
+version = "3.5.0"
 description = "('Selenium.webdriver.Chrome replacement with compatiblity for Brave, and other Chromium based browsers.', 'Not triggered by CloudFlare/Imperva/hCaptcha and such.', 'NOTE: results may vary due to many factors. No guarantees are given, except for ongoing efforts in understanding detection algorithms.')"
 optional = false
 python-versions = "*"
 files = [
-    {file = "undetected-chromedriver-3.4.7.tar.gz", hash = "sha256:84aed43e12e99437cc3a6f0a284cefdac8724c85f526a950c4f650515dfc4b66"},
+    {file = "undetected-chromedriver-3.5.0.tar.gz", hash = "sha256:355bfc5bc78800795a9a49ef2a1199402d461483f6c0efd7bd7a85809464df6c"},
 ]
 
 [package.dependencies]
 requests = "*"
-selenium = ">=4.0.0"
+selenium = ">=4.9.0"
 websockets = "*"
 
 [[package]]
@@ -1892,4 +1892,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "f1d24647d313ed021460ccc11c77edf68ecdbaecdb9f5a52b3773d75c793cd45"
+content-hash = "e647afb1d0581f19a81242997958cbca822b30311ec45d1a6864e702081bc83a"
