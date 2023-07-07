@@ -24,6 +24,9 @@ app: Celery = Celery(
     "tasks",
     broker=Settings().WORKER_BROKER_URL,
     backend=Settings().WORKER_BACKEND_URL,
+    broker_connection_retry=False,
+    broker_connection_retry_on_startup=True,
+    broker_connection_max_retries=10,
 )
 
 
@@ -86,7 +89,7 @@ async def async_ecoindex_task(
         )
 
     except WebDriverException as exc:
-        if "ERR_NAME_NOT_RESOLVED" in exc.msg:
+        if exc.msg and "ERR_NAME_NOT_RESOLVED" in exc.msg:
             return QueueTaskResult(
                 status=TaskStatus.FAILURE,
                 error=QueueTaskError(
@@ -101,7 +104,7 @@ async def async_ecoindex_task(
                 ),
             )
 
-        if "ERR_CONNECTION_TIMED_OUT" in exc.msg:
+        if exc.msg and "ERR_CONNECTION_TIMED_OUT" in exc.msg:
             return QueueTaskResult(
                 status=TaskStatus.FAILURE,
                 error=QueueTaskError(
@@ -122,7 +125,7 @@ async def async_ecoindex_task(
                 url=url,
                 exception=type(exc).__name__,
                 status_code=500,
-                message=exc.msg,
+                message=str(exc.msg) if exc.msg else "",
                 detail=await format_exception_response(exception=exc),
             ),
         )
