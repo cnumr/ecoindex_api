@@ -29,7 +29,7 @@ pytest-asyncio = "^0.21.0"
 pytest-mock = "^3.9.0"
 tomli = "^2.0.1"
 typer = "^0.9.0"
-ruff = "^0.0.277"
+ruff = "^0.0.285"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
