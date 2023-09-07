@@ -517,13 +517,13 @@ requests = ">=2.28.2,<3.0.0"
 
 [[package]]
 name = "ecoindex-scraper"
-version = "3.4.0"
+version = "3.5.0"
 description = "Ecoindex_scraper module provides a way to scrape data from given website while simulating a real web browser"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ecoindex_scraper-3.4.0-py3-none-any.whl", hash = "sha256:3395a32e701f7d9ac4e6a73ef1621b581d738415149dda23e3ed6c784bf8ad90"},
-    {file = "ecoindex_scraper-3.4.0.tar.gz", hash = "sha256:eab738b17b23792974d1720ab28a12627c6308654a6c634ea15265438c1777ff"},
+    {file = "ecoindex_scraper-3.5.0-py3-none-any.whl", hash = "sha256:4705b9f46277dfa61810b65a97ee40787601973caa9af2cca12b44ef97233d3c"},
+    {file = "ecoindex_scraper-3.5.0.tar.gz", hash = "sha256:c0d47ef60d3a262f30276bb71905f1a1115ef30e8c243ea29b04f11875288fdb"},
 ]
 
 [package.dependencies]
@@ -1846,4 +1846,4 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "d91c25cc611a1500f3fe74c40d0aecdc88346a4a087679c8bba11ecd205f3941"
+content-hash = "99565a3513ab3693a674f3c7c64403cfd02c49d2234b18119df9993a2000c99b"
