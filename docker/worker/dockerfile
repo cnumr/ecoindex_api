@@ -1,13 +1,13 @@
+# Build image
 FROM python:3.11-slim AS requirements-stage
 
-ARG CHROME_VERSION_MAIN=107
+ARG CHROME_VERSION_MAIN=108
 ENV CHROME_VERSION_MAIN=${CHROME_VERSION_MAIN}
-ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
 WORKDIR /tmp
 
 # Install required deps
-RUN apt update && apt install -y unzip
+RUN apt-get update && apt-get install -y unzip
 RUN pip install poetry tqdm requests pydantic
 
 # Build requirements.txt file
@@ -29,6 +29,7 @@ ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
 WORKDIR /code
 ENV PYTHONPATH "/code"
+ENV CHROME_EXECUTABLE_PATH "/opt/chrome/chrome"
 
 RUN apt update && apt install -y ca-certificates fonts-liberation \
     libappindicator3-1 libasound2 libatk-bridge2.0-0 \
@@ -53,7 +54,7 @@ RUN pip install --no-cache-dir --upgrade -r /tmp/requirements.txt
 RUN pip install aiomysql
 
 # Clean up
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN rm -rf /tmp/dist /var/lib/{apt,dpkg,cache,log}/
 
 # Copy the rest of the code
 COPY ./ /code/
