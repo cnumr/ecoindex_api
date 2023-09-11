@@ -12,7 +12,7 @@ ecoindex-scraper = "3.6.0"
 sqlmodel = "^0.0.8"
 redis = "^5.0.0"
 pydantic = {extras = ["dotenv"], version = "^1.10.11"}
-setuptools = "^68.1.2"
+setuptools = "^68.2.1"
 
 [tool.poetry.group.api.dependencies]
 fastapi = "^0.103.1"
