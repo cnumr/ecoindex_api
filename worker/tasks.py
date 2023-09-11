@@ -64,6 +64,7 @@ async def async_ecoindex_task(
                 screenshot_gid=Settings().SCREENSHOTS_GID,
                 screenshot_uid=Settings().SCREENSHOTS_UID,
                 driver_executable_path="/usr/bin/chromedriver",
+                chrome_executable_path="/opt/chrome/chrome",
             )
             .init_chromedriver()
             .get_page_analysis()
