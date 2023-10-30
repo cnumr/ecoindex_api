@@ -15,7 +15,7 @@ pydantic = {extras = ["dotenv"], version = "^1.10.11"}
 setuptools = "^68.1.2"
 
 [tool.poetry.group.api.dependencies]
-fastapi = "^0.103.1"
+fastapi = "^0.104.1"
 fastapi-health = "^0.4.0"
 uvicorn = {extras = ["standard"], version = "^0.23.2"}
 gunicorn = "^21.2.0"
