@@ -17,7 +17,7 @@ setuptools = "^68.1.2"
 [tool.poetry.group.api.dependencies]
 fastapi = "^0.103.1"
 fastapi-health = "^0.4.0"
-uvicorn = {extras = ["standard"], version = "^0.23.2"}
+uvicorn = {extras = ["standard"], version = "^0.24.0"}
 gunicorn = "^21.2.0"
 
 [tool.poetry.group.dev.dependencies]
